@@ -30,6 +30,9 @@ jobs:
         allowed_ips: ${{ secrets.ALLOWED_IPS }}
         private_key: ${{ secrets.PRIVATE_KEY }}
 
+    - name: Checkout Files
+      uses: actions/checkout@v4
+
     - name: Setup SSH
       run: |
         mkdir -p ~/.ssh
