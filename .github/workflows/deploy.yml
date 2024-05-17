@@ -1,0 +1,48 @@
+name: Deploy to NAS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install Ansible
+      run: |
+        python -m pip install --upgrade pip
+        pip install ansible
+
+    - name: Set up WireGuard
+      uses: egor-tensin/setup-wireguard@v1
+      with:
+        endpoint: ${{ secrets.ENDPOINT }}
+        endpoint_public_key: ${{ secrets.ENDPOINT_PUBLIC_KEY }}
+        ips: ${{ secrets.WG_IP }}
+        allowed_ips: ${{ secrets.ALLOWED_IPS }}
+        private_key: ${{ secrets.PRIVATE_KEY }}
+
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.NAS_IP }} >> ~/.ssh/known_hosts
+
+    - name: Run Ansible Playbook
+      run: |
+        ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+      env:
+        ANSIBLE_HOST_KEY_CHECKING: 'False'
+        ANSIBLE_PRIVATE_KEY_FILE: ~/.ssh/id_rsa
+        ANSIBLE_INVENTORY: |
+          [nas]
+          ${{ secrets.NAS_IP }} ansible_user=${{ secrets.NAS_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa

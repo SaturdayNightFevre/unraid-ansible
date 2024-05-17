@@ -1,0 +1,9 @@
+---
+- name: Configure home NAS with Docker containers
+  hosts: johnflix
+  become: no
+
+  roles:
+    - common
+    - docker
+    #- containers
