@@ -32,7 +32,7 @@ jobs:
 
     - name: Checkout Files"${{ secrets.PRIVATE_KEY }}"
       uses: actions/checkout@v4
-      
+
     - name: Setup SSH
       env:
         KEY: ${{ secrets.PRIVATE_KEY }}
@@ -44,11 +44,10 @@ jobs:
         chmod 600 /home/runner/.ssh/github_actions
         rm -rf /home/runner/.ssh/known_hosts
 
-        # Add the remote host to known_hosts
-        ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
-
-        eval `ssh-agent -s`
-        ssh-add /home/runner/.ssh/github_actions
+ #       Add the remote host to known_hosts
+#       ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
+        #eval `ssh-agent -s`
+        #ssh-add /home/runner/.ssh/github_actions
 
     - name: Run Ansible Playbook
       run: |
