@@ -29,31 +29,36 @@ jobs:
         ips: ${{ secrets.WG_IP }}
         allowed_ips: ${{ secrets.ALLOWED_IPS }}
         private_key: ${{ secrets.PRIVATE_KEY }}
+      
+    - name: Test Wireguard
       run: |
+        ip addr
+        ip route
+        wg show
         ping -c 1 ${{ secrets.NAS_IP }}
-#
-    #- name: Checkout Files
-      #uses: actions/checkout@v4
-#
-    #- name: Setup SSH
-      #env:
-        #KEY: ${{ secrets.PRIVATE_KEY }}
-        #SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      #run: |
-        #mkdir  /home/runner/.ssh
-        #echo $KEY >> /home/runner/.ssh/github_actions
-        #chmod 600 /home/runner/.ssh/github_actions
-        #ping -c 1 ${{ secrets.NAS_IP }}
-      ##ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
-      ##  eval `ssh-agent -s`
-      ## ssh-add /home/runner/.ssh/github_actions
-#
-    #- name: Run Ansible Playbook
-      #run: |
-        #ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
-      #env:
-        #ANSIBLE_HOST_KEY_CHECKING: 'False'
-        #ANSIBLE_PRIVATE_KEY_FILE: ~/.ssh/id_rsa
-        #ANSIBLE_INVENTORY: |
-          #[nas]
-          #${{ secrets.NAS_IP }} ansible_user=${{ secrets.NAS_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa
+        
+    - name: Checkout Files
+      uses: actions/checkout@v4
+
+    - name: Setup SSH
+      env:
+        KEY: ${{ secrets.PRIVATE_KEY }}
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+        mkdir  /home/runner/.ssh
+        echo $KEY >> /home/runner/.ssh/github_actions
+        chmod 600 /home/runner/.ssh/github_actions
+        ping -c 1 ${{ secrets.NAS_IP }}
+      #ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
+      #  eval `ssh-agent -s`
+      # ssh-add /home/runner/.ssh/github_actions
+
+    - name: Run Ansible Playbook
+      run: |
+        ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+      env:
+        ANSIBLE_HOST_KEY_CHECKING: 'False'
+        ANSIBLE_PRIVATE_KEY_FILE: ~/.ssh/id_rsa
+        ANSIBLE_INVENTORY: |
+          [nas]
+          ${{ secrets.NAS_IP }} ansible_user=${{ secrets.NAS_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa
