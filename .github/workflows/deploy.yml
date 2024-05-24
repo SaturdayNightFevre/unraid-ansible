@@ -42,7 +42,7 @@ jobs:
         echo $KEY >> /home/runner/.ssh/github_actions
         chmod 600 /home/runner/.ssh/github_actions
         ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
-        eval `ssh-agent -s`
+      #  eval `ssh-agent -s`
       # ssh-add /home/runner/.ssh/github_actions
 
     - name: Run Ansible Playbook
