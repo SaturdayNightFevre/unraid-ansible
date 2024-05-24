@@ -47,13 +47,13 @@ jobs:
       ##ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
       ##  eval `ssh-agent -s`
       ## ssh-add /home/runner/.ssh/github_actions
-
-    - name: Run Ansible Playbook
-      run: |
-        ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
-      env:
-        ANSIBLE_HOST_KEY_CHECKING: 'False'
-        ANSIBLE_PRIVATE_KEY_FILE: ~/.ssh/id_rsa
-        ANSIBLE_INVENTORY: |
-          [nas]
-          ${{ secrets.NAS_IP }} ansible_user=${{ secrets.NAS_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa
+#
+    #- name: Run Ansible Playbook
+      #run: |
+        #ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+      #env:
+        #ANSIBLE_HOST_KEY_CHECKING: 'False'
+        #ANSIBLE_PRIVATE_KEY_FILE: ~/.ssh/id_rsa
+        #ANSIBLE_INVENTORY: |
+          #[nas]
+          #${{ secrets.NAS_IP }} ansible_user=${{ secrets.NAS_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa
