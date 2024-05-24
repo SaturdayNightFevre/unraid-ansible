@@ -30,7 +30,7 @@ jobs:
         allowed_ips: ${{ secrets.ALLOWED_IPS }}
         private_key: ${{ secrets.PRIVATE_KEY }}
 
-    - name: Checkout Files"${{ secrets.PRIVATE_KEY }}"
+    - name: Checkout Files
       uses: actions/checkout@v4
 
     - name: Setup SSH
@@ -41,8 +41,8 @@ jobs:
         mkdir  /home/runner/.ssh
         echo $KEY >> /home/runner/.ssh/github_actions
         chmod 600 /home/runner/.ssh/github_actions
-      # ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
-      # eval `ssh-agent -s`
+        ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
+        eval `ssh-agent -s`
       # ssh-add /home/runner/.ssh/github_actions
 
     - name: Run Ansible Playbook
