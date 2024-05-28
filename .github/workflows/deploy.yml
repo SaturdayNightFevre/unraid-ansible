@@ -56,12 +56,13 @@ jobs:
         eval `ssh-agent -s`
         ssh-add /home/runner/.ssh/github_actions
 
+    - name: Define Ansible Inventory
+      run: echo "[johnflix]\n${{ secrets.NAS_IP }}" > /tmp/inventory.ini
+
     - name: Run Ansible Playbook
       run: |
-        ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+        ansible-playbook -i /tmp/inventory.ini ansible/playbook.yml
       env:
         ANSIBLE_HOST_KEY_CHECKING: 'False'
-        ANSIBLE_PRIVATE_KEY_FILE: ~/.ssh/id_rsa
-        ANSIBLE_INVENTORY: |
-          [johnflix]
-          ${{ secrets.NAS_IP }} ansible_user=${{ secrets.NAS_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa
+        ANSIBLE_PRIVATE_KEY_FILE: /home/runner/.ssh/github_actions
+
