@@ -39,11 +39,12 @@ jobs:
 
     - name: Setup SSH
       env:
+        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
         rm -rf /home/runner/.ssh/
         mkdir  /home/runner/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" >> /home/runner/.ssh/github_actions
+        echo $KEY >> /home/runner/.ssh/github_actions
         chmod 600 /home/runner/.ssh/github_actions
         ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
         eval `ssh-agent -s`
