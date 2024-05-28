@@ -2,8 +2,7 @@ name: Deploy to NAS
 
 on:
   push:
-    branches:
-      main
+    branches: main
   workflow_dispatch:
 
 jobs:
@@ -11,61 +10,57 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
 
-    - name: Install Ansible
-      run: |
-        python -m pip install --upgrade pip
-        pip install ansible
+      - name: Install Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
 
-    - name: Set up WireGuard
-      uses: egor-tensin/setup-wireguard@v1
-      with:
-        endpoint: ${{ secrets.ENDPOINT }}
-        endpoint_public_key: ${{ secrets.ENDPOINT_PUBLIC_KEY }}
-        ips: ${{ secrets.WG_IP }}
-        allowed_ips: ${{ secrets.ALLOWED_IPS }}
-        private_key: ${{ secrets.PRIVATE_KEY }}
-        preshared_key: '${{ secrets.PRESHARED }}'
+      - name: Set up WireGuard
+        uses: egor-tensin/setup-wireguard@v1
+        with:
+          endpoint: ${{ secrets.ENDPOINT }}
+          endpoint_public_key: ${{ secrets.ENDPOINT_PUBLIC_KEY }}
+          ips: ${{ secrets.WG_IP }}
+          allowed_ips: ${{ secrets.ALLOWED_IPS }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+          preshared_key: "${{ secrets.PRESHARED }}"
 
-    #- name: Test Wireguard
+      #- name: Test Wireguard
       #run: |
-        #ip addr
-        #ip route
-        
+      #ip addr
+      #ip route
 
+      - name: Setup SSH
+        env:
+          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          rm -rf /home/runner/.ssh/
+          mkdir  /home/runner/.ssh
+          echo "$KEY" >> /home/runner/.ssh/github_actions
+          chmod 600 /home/runner/.ssh/github_actions
+          ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
+          head -c 100 /home/runner/.ssh/known_hosts
+          eval `ssh-agent -s`
+          ssh-add /home/runner/.ssh/github_actions
 
-
-    - name: Setup SSH
-      env:
-        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      run: |
-        rm -rf /home/runner/.ssh/
-        mkdir  /home/runner/.ssh
-        echo "$KEY" >> /home/runner/.ssh/github_actions
-        chmod 600 /home/runner/.ssh/github_actions
-        ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
-        head -c 100 /home/runner/.ssh/known_hosts
-        eval `ssh-agent -s`
-        ssh-add /home/runner/.ssh/github_actions
-
-    - name: Define Ansible Inventory
-      run: |
+      - name: Define Ansible Inventory
+        run: |
           echo "[johnflix]" > /tmp/inventory.ini
-          echo "${{ secrets.NAS_IP }}" >> /tmp/inventory.ini
+          echo "${{ secrets.NAS_IP }} ansible_user=${{ secrets.NAS_USER}}" >> /tmp/inventory.ini
 
-    - name: Run Ansible Playbook
-      run: |
-        ping -c 1 ${{ secrets.NAS_IP }}
-        ansible-playbook -i /tmp/inventory.ini ansible/playbook.yml
-      env:
-        ANSIBLE_HOST_KEY_CHECKING: 'False'
-        ANSIBLE_PRIVATE_KEY_FILE: /home/runner/.ssh/github_actions
-
+      - name: Run Ansible Playbook
+        run: |
+          ping -c 1 ${{ secrets.NAS_IP }}
+          ansible-playbook -i /tmp/inventory.ini ansible/playbook.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
+          ANSIBLE_PRIVATE_KEY_FILE: /home/runner/.ssh/github_actions
