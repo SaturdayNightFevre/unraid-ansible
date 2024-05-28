@@ -11,25 +11,25 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
-    - name: Install Ansible
-      run: |
-        python -m pip install --upgrade pip
-        pip install ansible
-
-    - name: Set up WireGuard
-      uses: egor-tensin/setup-wireguard@v1
-      with:
-        endpoint: ${{ secrets.ENDPOINT }}
-        endpoint_public_key: ${{ secrets.ENDPOINT_PUBLIC_KEY }}
-        ips: ${{ secrets.WG_IP }}
-        allowed_ips: ${{ secrets.ALLOWED_IPS }}
-        private_key: ${{ secrets.PRIVATE_KEY }}
-        preshared_key: '${{ secrets.PRESHARED }}'
+    #- name: Set up Python
+      #uses: actions/setup-python@v2
+      #with:
+        #python-version: '3.x'
+#
+    #- name: Install Ansible
+      #run: |
+        #python -m pip install --upgrade pip
+        #pip install ansible
+#
+    #- name: Set up WireGuard
+      #uses: egor-tensin/setup-wireguard@v1
+      #with:
+        #endpoint: ${{ secrets.ENDPOINT }}
+        #endpoint_public_key: ${{ secrets.ENDPOINT_PUBLIC_KEY }}
+        #ips: ${{ secrets.WG_IP }}
+        #allowed_ips: ${{ secrets.ALLOWED_IPS }}
+        #private_key: ${{ secrets.PRIVATE_KEY }}
+        #preshared_key: '${{ secrets.PRESHARED }}'
 
     #- name: Test Wireguard
       #run: |
@@ -37,11 +37,7 @@ jobs:
         #ip route
         #ping -c 1 ${{ secrets.NAS_IP }}
 
-    - name: Debug SSH Key
-      env:
-        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: |
-        echo "${KEY:0:100}"
+
 
     - name: Setup SSH
       env:
@@ -51,6 +47,7 @@ jobs:
         rm -rf /home/runner/.ssh/
         mkdir  /home/runner/.ssh
         echo $KEY >> /home/runner/.ssh/github_actions
+        head -c 100 /home/runner/.ssh/github_actions
         chmod 600 /home/runner/.ssh/github_actions
         ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
         eval `ssh-agent -s`
