@@ -63,5 +63,5 @@ jobs:
         ANSIBLE_HOST_KEY_CHECKING: 'False'
         ANSIBLE_PRIVATE_KEY_FILE: ~/.ssh/id_rsa
         ANSIBLE_INVENTORY: |
-          [nas]
+          [johnflix]
           ${{ secrets.NAS_IP }} ansible_user=${{ secrets.NAS_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa
