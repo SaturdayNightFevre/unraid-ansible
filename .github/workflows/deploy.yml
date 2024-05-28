@@ -37,16 +37,12 @@ jobs:
         #ip route
         #ping -c 1 ${{ secrets.NAS_IP }}
 
-    - name: Checkout Files
-      uses: actions/checkout@v4
-
     - name: Setup SSH
       env:
-        KEY: ${{ secrets.PRIVATE_KEY }}
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
         mkdir  /home/runner/.ssh
-        echo $KEY >> /home/runner/.ssh/github_actions
+        echo ${{ secrets.PRIVATE_KEY }} >> /home/runner/.ssh/github_actions
         chmod 600 /home/runner/.ssh/github_actions
         ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
         eval `ssh-agent -s`
