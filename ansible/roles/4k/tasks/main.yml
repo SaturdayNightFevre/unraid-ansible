@@ -1,5 +1,12 @@
 ---
-- name: Start 4k-films container
+---
+- name: Deploy Docker Containers
+  hosts: johnflix
+  become: no
+  tasks:
+
+
+    - name: Start 4k-films container
       docker_container:
         name: 4k-films
         image: linuxserver/radarr:5.0.3
@@ -31,7 +38,7 @@
           - /mnt/user/media/4k-movies:/movies
           - /mnt/user/media/old-4k:/old-4k
 
-- name: Start 4k-tv container
+    - name: Start 4k-tv container
       docker_container:
         name: 4k-tv
         image: linuxserver/sonarr:3.0.10
