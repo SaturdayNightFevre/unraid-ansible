@@ -50,7 +50,6 @@ jobs:
         rm -rf /home/runner/.ssh/
         mkdir  /home/runner/.ssh
         echo $KEY >> /home/runner/.ssh/github_actions
-        head -c 100 /home/runner/.ssh/github_actions
         chmod 600 /home/runner/.ssh/github_actions
         ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
         head -c 100 /home/runner/.ssh/known_hosts
