@@ -37,6 +37,12 @@ jobs:
         #ip route
         #ping -c 1 ${{ secrets.NAS_IP }}
 
+    - name: Debug SSH Key
+      env:
+        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        echo "${KEY:0:100}"
+
     - name: Setup SSH
       env:
         KEY: ${{ secrets.SSH_PRIVATE_KEY }}
