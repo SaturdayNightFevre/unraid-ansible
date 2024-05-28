@@ -11,15 +11,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
-    - name: Install Ansible
-      run: |
-        python -m pip install --upgrade pip
-        pip install ansible
+    #- name: Set up Python
+      #uses: actions/setup-python@v2
+      #with:
+        #python-version: '3.x'
+#
+    #- name: Install Ansible
+      #run: |
+        #python -m pip install --upgrade pip
+        #pip install ansible
 
     - name: Set up WireGuard
       uses: egor-tensin/setup-wireguard@v1
@@ -30,12 +30,11 @@ jobs:
         allowed_ips: ${{ secrets.ALLOWED_IPS }}
         private_key: ${{ secrets.PRIVATE_KEY }}
       
-    #- name: Test Wireguard
-      #run: |
-        #ip addr
-        #ip route
-        #wg show
-        #ping -c 1 ${{ secrets.NAS_IP }}
+    - name: Test Wireguard
+      run: |
+        ip addr
+        ip route
+        ping -c 1 ${{ secrets.NAS_IP }}
 
     - name: Checkout Files
       uses: actions/checkout@v4
