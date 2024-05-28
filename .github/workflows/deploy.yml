@@ -57,10 +57,9 @@ jobs:
         ssh-add /home/runner/.ssh/github_actions
 
     - name: Define Ansible Inventory
-      run: echo "[johnflix]\n${{ secrets.NAS_IP }}" > /tmp/inventory.ini
-
-    - name: Validate Ansible Inventory
-      run: cat /tmp/inventory.ini
+      run: |
+          echo "[johnflix]" > /tmp/inventory.ini
+          echo "${{ secrets.NAS_IP }}" >> /tmp/inventory.ini
 
     - name: Run Ansible Playbook
       run: |
