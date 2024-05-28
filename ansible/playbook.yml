@@ -1,9 +1,10 @@
 ---
-- name: Configure home NAS with Docker containers
+- name: Configure Johnflix with Docker containers
   hosts: johnflix
   become: no
 
   roles:
     - common
     - docker
+    - 4k
     #- containers
