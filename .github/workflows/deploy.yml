@@ -29,7 +29,8 @@ jobs:
         ips: ${{ secrets.WG_IP }}
         allowed_ips: ${{ secrets.ALLOWED_IPS }}
         private_key: ${{ secrets.PRIVATE_KEY }}
-      
+        preshared_key: '${{ secrets.PRESHARED }}'
+
     - name: Test Wireguard
       run: |
         ip addr
