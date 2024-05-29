@@ -7,7 +7,8 @@
 - name: Fail if Docker is not installed
   ansible.builtin.fail:
     msg: "Docker is not installed. Please install Docker before running this playbook."
-  when: docker_check.rc != 0 and docker_check|failed
+  when: docker_check.rc != 0 and docker_check.changed
+
 
 
 - name: Check if directory /mnt/user/appdata/ exists
