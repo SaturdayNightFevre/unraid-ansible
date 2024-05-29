@@ -1,4 +1,17 @@
 ---
+- name: Ensure pip is installed
+  ansible.builtin.shell: python -m ensurepip --default-pip
+  changed_when: false
+  ignore_errors: true
+
+- name: Upgrade pip
+  ansible.builtin.shell: pip install --upgrade pip
+  changed_when: false
+
+- name: Install requests library
+  ansible.builtin.shell: pip install requests
+  changed_when: false
+  
 - name: Check if Docker is installed
   ansible.builtin.command: docker --version
   register: docker_check
@@ -19,10 +32,6 @@
     msg: "Directory /mnt/user/appdata/ does not exist. Please create it before continuing."
   when: not appdata_dir_check.stat.exists
 
-- name: Install requests library
-  ansible.builtin.pip:
-    name: requests
-    state: present
 
 - name: Check if Docker network "web" exists
   community.docker.docker_network_info:
