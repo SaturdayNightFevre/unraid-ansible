@@ -4,14 +4,14 @@
     name: docker
     state: present
 
-- name: Create the requirements file
-  copy:
-    content: |
-      ---
-      collections:
-        - name: community.docker
-    dest: /tmp/requirements.yml
-
-- name: Install collections from requirements file
-  command: ansible-galaxy collection install -r /tmp/requirements.yml
-  changed_when: false
+#- name: Create the requirements file
+  #copy:
+    #content: |
+      #---
+      #collections:
+        #- name: community.docker
+    #dest: /tmp/requirements.yml
+#
+#- name: Install collections from requirements file
+  #command: ansible-galaxy collection install -r /tmp/requirements.yml
+  #changed_when: false
