@@ -3,3 +3,22 @@
   ansible.builtin.pip:
     name: docker
     state: present
+- name: Ensure the requirements file is present
+  copy:
+    content: |
+      ---
+      collections:
+        - name: community.docker
+    dest: ansible/requirements.yml
+
+- name: Install collections from requirements file
+  command: ansible-galaxy collection install -r ansible/requirements.yml
+  changed_when: false---
+collections:
+  - name: community.docker
+---
+collections:
+  - name: community.docker
+---
+collections:
+  - name: community.docker
