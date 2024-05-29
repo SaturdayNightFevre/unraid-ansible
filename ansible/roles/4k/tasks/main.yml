@@ -50,7 +50,7 @@
           S6_CMD_WAIT_FOR_SERVICES_MAXTIME: '0'
           XDG_CONFIG_HOME: /config/xdg
           SONARR_BRANCH: main
-        ipc: private
+        ipc_mode: private
         labels:
           net.unraid.docker.icon: https://github.com/themepark-dev/theme.park/blob/master/css/addons/sonarr/sonarr-4k-logo/sonarr-4k.png?raw=true
           net.unraid.docker.managed: dockerman

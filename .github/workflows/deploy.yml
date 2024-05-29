@@ -33,11 +33,6 @@ jobs:
           private_key: ${{ secrets.PRIVATE_KEY }}
           preshared_key: "${{ secrets.PRESHARED }}"
 
-      #- name: Test Wireguard
-      #run: |
-      #ip addr
-      #ip route
-
       - name: Setup SSH
         env:
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -48,7 +43,6 @@ jobs:
           echo "$KEY" >> /home/runner/.ssh/github_actions
           chmod 600 /home/runner/.ssh/github_actions
           ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
-          head -c 100 /home/runner/.ssh/known_hosts
           eval `ssh-agent -s`
           ssh-add /home/runner/.ssh/github_actions
 
@@ -59,7 +53,6 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
-          ping -c 1 ${{ secrets.NAS_IP }}
           ansible-playbook -i /tmp/inventory.ini ansible/playbook.yml
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
