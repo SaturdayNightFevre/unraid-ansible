@@ -1,39 +1,37 @@
 ---
-- name: Check Docker module availability
-  hosts: localhost
-  tasks:
-    - name: Ensure Docker SDK is installed
-      pip:
-        name: docker
-        state: present
-        
+- name: Ensure Docker SDK is installed
+  ansible.builtin.pip:
+    name: docker
+    state: present
+
 - name: Check if Docker is installed
-  command: docker --version
+  ansible.builtin.command: docker --version
   register: docker_check
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Fail if Docker is not installed
-  fail:
+  ansible.builtin.fail:
     msg: "Docker is not installed. Please install Docker before running this playbook."
-  when: docker_check.rc != 0
+  when: docker_check.rc != 0 and docker_check|failed
+
 
 - name: Check if directory /mnt/user/appdata/ exists
-  stat:
+  ansible.builtin.stat:
     path: /mnt/user/appdata/
   register: appdata_dir_check
 
 - name: Fail if directory /mnt/user/appdata/ does not exist
-  fail:
+  ansible.builtin.fail:
     msg: "Directory /mnt/user/appdata/ does not exist. Please create it before continuing."
   when: not appdata_dir_check.stat.exists
 
 - name: Check if Docker network "web" exists
-  docker_network_info:
+  community.docker.docker_network_info:
     name: web
   register: network_info
 
 - name: Create Docker network "web" if it does not exist
-  docker_network:
+  community.docker.docker_network:
     name: web
     state: present
   when: not network_info.exists
