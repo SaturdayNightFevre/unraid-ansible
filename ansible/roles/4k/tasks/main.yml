@@ -1,11 +1,8 @@
 ---
----
 - name: Deploy Docker Containers
   hosts: johnflix
   become: no
   tasks:
-
-
     - name: Start 4k-films container
       docker_container:
         name: 4k-films
