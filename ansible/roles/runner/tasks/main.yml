@@ -3,8 +3,8 @@
   ansible.builtin.pip:
     name: docker
     state: present
-    
-- name: Ensure the requirements file is present
+
+- name: Create the requirements file
   copy:
     content: |
       ---
