@@ -9,8 +9,6 @@
     msg: "Docker is not installed. Please install Docker before running this playbook."
   when: docker_check.rc != 0 and docker_check.changed
 
-
-
 - name: Check if directory /mnt/user/appdata/ exists
   ansible.builtin.stat:
     path: /mnt/user/appdata/
