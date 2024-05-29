@@ -1,6 +1,5 @@
----
 - name: Start 4k-films container
-  docker_container:
+  community.docker.docker_container:
     name: 4k-films
     image: linuxserver/radarr:5.0.3
     entrypoint:
@@ -32,7 +31,7 @@
       - /mnt/user/media/old-4k:/old-4k
 
 - name: Start 4k-tv container
-  docker_container:
+  community.docker.docker_container:
     name: 4k-tv
     image: linuxserver/sonarr:3.0.10
     entrypoint:
