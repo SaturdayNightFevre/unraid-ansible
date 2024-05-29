@@ -1,7 +1,13 @@
 ---
-- name: Ensure Docker and Networks
+- name: Check Runner
   hosts: localhost
   become: true
+  roles:
+    - runner
+
+- name: Ensure Docker and Networks
+  hosts: johnflix
+  become: false
   roles:
     - common
 

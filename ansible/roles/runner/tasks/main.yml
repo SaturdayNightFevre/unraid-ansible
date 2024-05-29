@@ -1,0 +1,5 @@
+---
+- name: Ensure Docker SDK is installed
+  ansible.builtin.pip:
+    name: docker
+    state: present

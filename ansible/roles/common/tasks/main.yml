@@ -1,9 +1,4 @@
 ---
-- name: Ensure Docker SDK is installed
-  ansible.builtin.pip:
-    name: docker
-    state: present
-
 - name: Check if Docker is installed
   ansible.builtin.command: docker --version
   register: docker_check
