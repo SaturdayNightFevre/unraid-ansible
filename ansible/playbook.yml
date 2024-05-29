@@ -1,8 +1,7 @@
 ---
-- name: Configure NAS
-  hosts: nas_servers
-  become: true
+- name: Deploy Docker Containers
+  hosts: johnflix
+  become: no
   roles:
-    - role: common
-    - role: 4k
-
+    - common
+    - 4k
