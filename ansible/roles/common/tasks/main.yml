@@ -1,6 +1,6 @@
 ---
 - name: Ensure pip is installed
-  ansible.builtin.shell: python -m ensurepip --default-pip
+  ansible.builtin.shell: python3 -m ensurepip --default-pip
   changed_when: false
   ignore_errors: true
 
@@ -11,7 +11,7 @@
 - name: Install requests library
   ansible.builtin.shell: pip install requests
   changed_when: false
-  
+
 - name: Check if Docker is installed
   ansible.builtin.command: docker --version
   register: docker_check
