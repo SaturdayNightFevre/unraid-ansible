@@ -8,6 +8,7 @@
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     networks:
       - name: web
+    published_ports: ['5656:5656']
     labels:
       net.unraid.docker.icon: "https://user-images.githubusercontent.com/11823348/114629539-129b9100-9cb9-11eb-94a8-803fabc27d9e.png"
       net.unraid.docker.managed: "dockerman"
@@ -35,6 +36,7 @@
     use_ssh_client: true
     name: 4k-tv
     image: linuxserver/sonarr:3.0.10
+    published_ports: ['6767:6767']
     entrypoint:
       - /init
     ipc_mode: private
