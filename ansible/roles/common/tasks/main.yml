@@ -9,7 +9,7 @@
   changed_when: false
 
 - name: Install requests library
-  ansible.builtin.command: pip install requests
+  ansible.builtin.command: pip install requests==2.31.0
   changed_when: false
 
 - name: Check if Docker is installed
@@ -31,10 +31,6 @@
   ansible.builtin.fail:
     msg: "Directory /mnt/user/appdata/ does not exist. Please create it before continuing."
   when: not appdata_dir_check.stat.exists
-  
-- name: Get info on docker host
-  community.docker.docker_host_info:
-  register: result
 
 
 
