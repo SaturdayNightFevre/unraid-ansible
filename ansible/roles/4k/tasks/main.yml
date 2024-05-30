@@ -1,6 +1,5 @@
 - name: Start 4k-films container
   community.docker.docker_container:
-    #DOCKER_API_VERSION: 
     name: 4k-films
     image: linuxserver/radarr:5.0.3
     entrypoint:
@@ -13,7 +12,7 @@
       net.unraid.docker.icon: https://user-images.githubusercontent.com/11823348/114629539-129b9100-9cb9-11eb-94a8-803fabc27d9e.png
       net.unraid.docker.managed: dockerman
       net.unraid.docker.webui: https://4k-films.johnflix.uk
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.4k-films.service: 4k-films
       traefik.http.routers.4k-films.tls.certresolver: dns-cloudflare
       traefik.http.routers.4k-films.entrypoints: websecure
