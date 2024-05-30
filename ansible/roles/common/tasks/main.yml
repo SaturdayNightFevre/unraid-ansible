@@ -32,15 +32,13 @@
     msg: "Directory /mnt/user/appdata/ does not exist. Please create it before continuing."
   when: not appdata_dir_check.stat.exists
 
+- name: Check if Docker network "web" exists
+  community.docker.docker_network_info:
+    name: web
+  register: network_info
 
-
-#- name: Check if Docker network "web" exists
-  #community.docker.docker_network_info:
-    #name: web
-  #register: network_info
-#
-#- name: Create Docker network "web" if it does not exist
-  #community.docker.docker_network:
-    #name: web
-    #state: present
-  #when: not network_info.exists
+- name: Create Docker network "web" if it does not exist
+  community.docker.docker_network:
+    name: web
+    state: present
+  when: not network_info.exists
