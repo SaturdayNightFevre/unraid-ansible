@@ -6,7 +6,7 @@
     name: audiobook
     image: "lscr.io/linuxserver/readarr:0.3.17-develop"
     networks:
-      - name: "{{ web_network }}"
+      - name: web
     published_ports: ["8686:8686"]
     env:
       PUID: "{{ puid }}"
@@ -39,7 +39,7 @@
     name: audible
     image: "ghcr.io/advplyr/audiobookshelf:latest"
     networks:
-      - name: "{{ web_network }}"
+      - name: web
     published_ports: ["1337:1337"]
     env:
       PUID: "{{ puid }}"
