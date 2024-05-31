@@ -10,9 +10,13 @@
   become: false
   roles:
     - common
+  vars_files:
+    - vars.yml
 
 - name: Deploy Docker Containers
   hosts: johnflix
   become: false
   roles:
     - 4k
+  vars_files:
+    - vars.yml

@@ -188,43 +188,43 @@ repos:
           - typing_extensions
           - wcmatch
           - yamllint
-  - repo: https://github.com/jazzband/pip-tools
-    rev: 7.4.1
-    hooks:
-      - id: pip-compile
-        name: lock
-        alias: lock
-        always_run: true
-        entry: pip-compile --upgrade --no-annotate --output-file=.config/requirements-lock.txt pyproject.toml --strip-extras --unsafe-package ruamel-yaml-clib --unsafe-package resolvelib
-        files: ^.config\/.*requirements.*$
-        language: python
-        language_version: "3.10" # minimal we support officially
-        pass_filenames: false
-        stages: [manual]
-        additional_dependencies:
-          - pip>=22.3.1
-      - id: pip-compile
-        name: deps
-        alias: deps
-        always_run: true
-        entry: pip-compile --no-annotate --output-file=.config/constraints.txt pyproject.toml --all-extras --strip-extras --unsafe-package wcmatch --unsafe-package ruamel-yaml-clib --unsafe-package resolvelib
-        files: ^.config\/.*requirements.*$
-        language: python
-        language_version: "3.10" # minimal we support officially
-        pass_filenames: false
-        additional_dependencies:
-          - pip>=22.3.1
-      - id: pip-compile
-        entry: pip-compile -v --no-annotate --output-file=.config/constraints.txt pyproject.toml --all-extras --strip-extras --unsafe-package wcmatch --unsafe-package ruamel-yaml-clib --unsafe-package resolvelib --upgrade
-        language: python
-        always_run: true
-        pass_filenames: false
-        files: ^.config\/.*requirements.*$
-        alias: up
-        stages: [manual]
-        language_version: "3.10" # minimal we support officially
-        additional_dependencies:
-          - pip>=22.3.1
+  #- repo: https://github.com/jazzband/pip-tools
+  #rev: 7.4.1
+  #hooks:
+  #- id: pip-compile
+  #name: lock
+  #alias: lock
+  #always_run: true
+  #entry: pip-compile --upgrade --no-annotate --output-file=.config/requirements-lock.txt pyproject.toml --strip-extras --unsafe-package ruamel-yaml-clib --unsafe-package resolvelib
+  #files: ^.config\/.*requirements.*$
+  #language: python
+  #language_version: "3.10" # minimal we support officially
+  #pass_filenames: false
+  #stages: [manual]
+  #additional_dependencies:
+  #- pip>=22.3.1
+  #- id: pip-compile
+  #name: deps
+  #alias: deps
+  #always_run: true
+  #entry: pip-compile --no-annotate --output-file=.config/constraints.txt pyproject.toml --all-extras --strip-extras --unsafe-package wcmatch --unsafe-package ruamel-yaml-clib --unsafe-package resolvelib
+  #files: ^.config\/.*requirements.*$
+  #language: python
+  #language_version: "3.10" # minimal we support officially
+  #pass_filenames: false
+  #additional_dependencies:
+  #- pip>=22.3.1
+  #- id: pip-compile
+  #entry: pip-compile -v --no-annotate --output-file=.config/constraints.txt pyproject.toml --all-extras --strip-extras --unsafe-package wcmatch --unsafe-package ruamel-yaml-clib --unsafe-package resolvelib --upgrade
+  #language: python
+  #always_run: true
+  #pass_filenames: false
+  #files: ^.config\/.*requirements.*$
+  #alias: up
+  #stages: [manual]
+  #language_version: "3.10" # minimal we support officially
+  #additional_dependencies:
+  #- pip>=22.3.1
   - # keep at bottom as these are slower
     repo: local
     hooks:

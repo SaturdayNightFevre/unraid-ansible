@@ -22,14 +22,14 @@
     msg: "Docker is not installed. Please install Docker before running this playbook."
   when: docker_check.rc != 0 and docker_check.changed
 
-- name: Check if directory /mnt/user/appdata/ exists
+- name: Check if directory {{app_data_dir}} exists
   ansible.builtin.stat:
-    path: /mnt/user/appdata/
+    path: { { app_data_dir } }
   register: appdata_dir_check
 
-- name: Fail if directory /mnt/user/appdata/ does not exist
+- name: Fail if directory {{app_data_dir}} does not exist
   ansible.builtin.fail:
-    msg: "Directory /mnt/user/appdata/ does not exist. Please create it before continuing."
+    msg: "Directory {{app_data_dir}} does not exist. Please create it before continuing."
   when: not appdata_dir_check.stat.exists
 
 - name: Check if Docker network "web" exists
