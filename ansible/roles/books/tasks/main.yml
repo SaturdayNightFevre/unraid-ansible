@@ -8,11 +8,11 @@
     networks:
       - name: web
     env:
-      - PUID="{{ puid }}"
-      - PGID="{{ pgid }}"
-      - TZ="{{timezone}}"
-      - DOCKER_MODS="linuxserver/mods:universal-calibre"
-      - OAUTHLIB_RELAX_TOKEN_SCOPE="1"
+      PUID:"{{ puid }}"
+      PGID:"{{ pgid }}"
+      TZ:"{{timezone}}"
+      DOCKER_MODS:"linuxserver/mods:universal-calibre"
+      OAUTHLIB_RELAX_TOKEN_SCOPE:"1"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-web-logo.png"
       net.unraid.docker.managed: "dockerman"
@@ -46,9 +46,9 @@
     networks:
       - name: web
     env:
-      - PUID="{{ puid }}"
-      - PGID="{{ pgid }}"
-      - TZ="{{timezone}}"
+      PUID:"{{ puid }}"
+      PGID:"{{ pgid }}"
+      TZ:"{{timezone}}"
     volumes:
       - "{{ app_data_dir }}readarr/:/config"
       - "/mnt/user/media/Books/Calibre Library:/books"
@@ -78,9 +78,9 @@
     name: calibre
     image: linuxserver/calibre:7.5.1
     env:
-      - PUID="{{ puid }}"
-      - PGID="{{ pgid }}"
-      - TZ="{{timezone}}"
+      PUID:"{{ puid }}"
+      PGID:"{{ pgid }}"
+      TZ:"{{timezone}}"
     volumes:
       - "{{ app_data_dir }}calibre/config:/config"
       - "{{ app_data_dir }}calibre/upload:/uploads"
