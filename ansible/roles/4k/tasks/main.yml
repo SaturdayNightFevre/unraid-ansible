@@ -1,6 +1,8 @@
 ---
 - name: Start 4k-films container
   community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
     name: 4k-films
     image: linuxserver/radarr:5.6.0
     entrypoint:
@@ -33,7 +35,8 @@
 
 - name: Start 4k-tv container
   community.docker.docker_container:
-    use_ssh_client: true
+    image_name_mismatch: "recreate"
+    pull: "always"
     name: 4k-tv
     image: linuxserver/sonarr:4.0.5
     published_ports: ["6767:6767"]
