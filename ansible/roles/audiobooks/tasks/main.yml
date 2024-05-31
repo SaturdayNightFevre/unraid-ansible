@@ -1,0 +1,67 @@
+---
+- name: Start audiobook container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: audiobook
+    image: "lscr.io/linuxserver/readarr:0.3.17-develop"
+    networks:
+      - name: "{{ web_network }}"
+    published_ports: ["8686:8686"]
+    env:
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"
+    volumes:
+      - "{{ app_data_dir }}readarr-audio/:/config"
+      - "/mnt/user/media/audiobooks/:/audiobooks"
+      - "/mnt/user/downloads/:/downloads"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/readarr-logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8686]"
+      traefik.enable: "true"
+      traefik.http.routers.audiobook.service: "audiobook"
+      traefik.http.routers.audiobook.tls.certresolver: "dns-cloudflare"
+      traefik.http.routers.audiobook.entrypoints: "websecure"
+      traefik.http.services.audiobook.loadbalancer.server.port: "8686"
+      traefik.docker.network: "web"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    restart_policy: unless-stopped
+
+- name: Start audible container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: audible
+    image: "ghcr.io/advplyr/audiobookshelf:latest"
+    networks:
+      - name: "{{ web_network }}"
+    published_ports: ["1337:1337"]
+    env:
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"
+      PORT: "1337"
+    volumes:
+      - "/mnt/user/media/audiobooks/:/audiobooks"
+      - "{{ app_data_dir }}audiobookshelf/metadata:/metadata"
+      - "{{ app_data_dir }}audiobookshelf/:/config"
+    labels:
+      net.unraid.docker.icon: "https://www.audiobookshelf.org/Logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:[PORT:1337]"
+      traefik.enable: "true"
+      traefik.http.routers.audible.service: "audible"
+      traefik.http.routers.audible.tls.certresolver: "dns-cloudflare"
+      traefik.http.routers.audible.entrypoints: "websecure"
+      traefik.http.services.audible.loadbalancer.server.port: "1337"
+      traefik.docker.network: "web"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    restart_policy: unless-stopped
