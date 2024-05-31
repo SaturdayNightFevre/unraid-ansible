@@ -1,0 +1,102 @@
+---
+- name: Start library container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: library
+    image: linuxserver/calibre-web:0.6.21
+    networks:
+      - name: web
+    environment:
+      - PUID="{{ puid }}"
+      - PGID="{{ pgid }}"
+      - TZ="{{timezone}}"
+      - DOCKER_MODS=linuxserver/mods:universal-calibre
+      - OAUTHLIB_RELAX_TOKEN_SCOPE=1
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-web-logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8083]"
+      traefik.enable: "true"
+      traefik.http.routers.library.service: "library"
+      traefik.http.routers.library.tls.certresolver: "dns-cloudflare"
+      traefik.http.routers.library.entrypoints: "websecure"
+      traefik.http.services.library.loadbalancer.server.port: "8083"
+      traefik.docker.network: "web"
+    logging:
+      driver: json-file
+      options:
+        max-file: '1'
+        max-size: 10m
+    ports:
+      - "8083:8083/tcp"
+    volumes:
+      - "{{ app_data_dir }}calibre-web:/config"
+      - "/mnt/user/media/Books/Calibre Library:/books"
+      - "{{ app_data_dir }}custom-scripts/calibre-web:/custom-cont-init.d:ro"
+      - "{{ app_data_dir }}calibre-web/gmail.json:/gmail.json:ro"
+    restart_policy: unless-stopped
+    working_dir: "/"
+
+- name: Start books container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: books
+    image: lscr.io/linuxserver/readarr:0.3.17-develop
+    networks:
+      - name: web
+    environment:
+      - PUID="{{ puid }}"
+      - PGID="{{ pgid }}"
+      - TZ="{{timezone}}"
+    volumes:
+      - "{{ app_data_dir }}readarr/:/config"
+      - "/mnt/user/media/Books/Calibre Library:/books"
+      - "/mnt/user/downloads/:/downloads"
+    ports:
+      - "8787:8787"
+    restart: unless-stopped
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/readarr-logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8787]"
+      traefik.enable: "true"
+      traefik.http.routers.books.service: "books"
+      traefik.http.routers.books.tls.certresolver: "dns-cloudflare"
+      traefik.http.routers.books.entrypoints: "websecure"
+      traefik.http.services.books.loadbalancer.server.port: "8787"
+      traefik.docker.network: "web"
+
+- name: Start calibre container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: calibre
+    image: linuxserver/calibre:7.5.1
+    environment:
+      - PUID="{{ puid }}"
+      - PGID="{{ pgid }}"
+      - TZ="{{timezone}}"
+    volumes:
+      - "{{ app_data_dir }}calibre/config:/config"
+      - "{{ app_data_dir }}calibre/upload:/uploads"
+      - "{{ app_data_dir }}calibre/plugins:/plugins"
+      - "/mnt/user/media/Books/Calibre Library:/Calibre_Library"
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Calibre_logo_3.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8080]"
+      traefik.enable: "true"
+      traefik.http.routers.calibre.service: "calibre"
+      traefik.http.routers.calibre.tls.certresolver: "dns-cloudflare"
+      traefik.http.routers.calibre.entrypoints: "websecure"
+      traefik.http.services.calibre.loadbalancer.server.port: "8080"
+      traefik.docker.network: "web"
+
