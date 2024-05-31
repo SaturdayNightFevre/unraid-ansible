@@ -7,12 +7,12 @@
     image: linuxserver/calibre-web:0.6.21
     networks:
       - name: web
-    environment:
+    env:
       - PUID="{{ puid }}"
       - PGID="{{ pgid }}"
       - TZ="{{timezone}}"
-      - DOCKER_MODS=linuxserver/mods:universal-calibre
-      - OAUTHLIB_RELAX_TOKEN_SCOPE=1
+      - DOCKER_MODS="linuxserver/mods:universal-calibre"
+      - OAUTHLIB_RELAX_TOKEN_SCOPE="1"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-web-logo.png"
       net.unraid.docker.managed: "dockerman"
@@ -45,7 +45,7 @@
     image: lscr.io/linuxserver/readarr:0.3.17-develop
     networks:
       - name: web
-    environment:
+    env:
       - PUID="{{ puid }}"
       - PGID="{{ pgid }}"
       - TZ="{{timezone}}"
@@ -77,7 +77,7 @@
     pull: "always"
     name: calibre
     image: linuxserver/calibre:7.5.1
-    environment:
+    env:
       - PUID="{{ puid }}"
       - PGID="{{ pgid }}"
       - TZ="{{timezone}}"
