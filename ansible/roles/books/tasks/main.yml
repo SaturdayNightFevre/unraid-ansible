@@ -95,7 +95,7 @@
       max-file: "1"
       max-size: 10m
     networks:
-      - web
+      - name: web
     labels:
       net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Calibre_logo_3.png"
       net.unraid.docker.managed: "dockerman"
