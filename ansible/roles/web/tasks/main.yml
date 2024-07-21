@@ -3,7 +3,7 @@
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    container_default_behavior: read_only
+    container_default_behavior: compatibility
     security_opts:
       - no-new-privileges=true
     name: traefik
