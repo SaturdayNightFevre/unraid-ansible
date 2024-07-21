@@ -53,8 +53,10 @@ jobs:
 
       - name: create ansible env file
         run: |
-          echo "DUCK_DNS_TOKEN=${{ secrets.DUCK_DNS_TOKEN }}" >> /tmp/web-vars-env
-          echo "CF_KEY=${{ secrets.CF_KEY}}" >> /tmp/web-vars-env
+            echo "DUCK_DNS_TOKEN=${{ secrets.DUCK_DNS_TOKEN }}" >> /tmp/web-vars-env
+            echo "CF_KEY=${{ secrets.CF_KEY}}" >> /tmp/web-vars-env
+            echo "EMAIL=${{ secrets.EMAIL }}" >> /tmp/web-vars-env
+            echo "DOMAIN=${{ secrets.DOMAIN}}" >> /tmp/web-vars-env
 
       - name: load ansible web vars env file
         run: |
