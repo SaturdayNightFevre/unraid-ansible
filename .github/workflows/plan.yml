@@ -1,12 +1,12 @@
-name: Deploy to NAS
+name: Plan/Validation/Diff Check
 
 on:
-  push:
-    branches: main
+  pull_request:
+    types: [opened, edited, synchronize]
   workflow_dispatch:
 
 jobs:
-  deploy:
+  validate:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,15 +37,14 @@ jobs:
         env:
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          IP: ${{ secrets.NAS_IP }}
         run: |
           rm -rf /home/runner/.ssh/
           mkdir  /home/runner/.ssh
           echo "$KEY" >> /home/runner/.ssh/github_actions
           chmod 600 /home/runner/.ssh/github_actions
-          ssh-keyscan -H "$IP" >> /home/runner/.ssh/known_hosts
-          #eval `ssh-agent -s`
-          #ssh-add /home/runner/.ssh/github_actions
+          ssh-keyscan -H ${{ secrets.NAS_IP }} >> /home/runner/.ssh/known_hosts
+          eval `ssh-agent -s`
+          ssh-add /home/runner/.ssh/github_actions
 
       - name: Define Ansible Inventory
         run: |
@@ -54,10 +53,10 @@ jobs:
 
       - name: create ansible env file
         run: |
-          echo "DUCK_DNS_TOKEN=${{ secrets.DUCK_DNS_TOKEN }}" >> /tmp/web-vars-env
-          echo "CF_KEY=${{ secrets.CF_KEY}}" >> /tmp/web-vars-env
-          echo "EMAIL=${{ secrets.EMAIL }}" >> /tmp/web-vars-env
-          echo "DOMAIN=${{ secrets.DOMAIN}}" >> /tmp/web-vars-env
+            echo "DUCK_DNS_TOKEN=${{ secrets.DUCK_DNS_TOKEN }}" >> /tmp/web-vars-env
+            echo "CF_KEY=${{ secrets.CF_KEY}}" >> /tmp/web-vars-env
+            echo "EMAIL=${{ secrets.EMAIL }}" >> /tmp/web-vars-env
+            echo "DOMAIN=${{ secrets.DOMAIN}}" >> /tmp/web-vars-env
 
       - name: load ansible web vars env file
         run: |
@@ -68,9 +67,13 @@ jobs:
           source "/tmp/web-vars-env"
           set +o allexport
 
-      - name: Run Ansible Playbook
+      - name: Ansible Syntax Check
         run: |
-          ansible-playbook -i /tmp/inventory.ini ansible/playbook.yml
+          ansible-playbook -i /tmp/inventory.ini ansible/playbook.yml --syntax-check
+
+      - name: Ansible Dry Run
+        run: |
+          ansible-playbook -i /tmp/inventory.ini ansible/playbook.yml --check --diff
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
           ANSIBLE_PRIVATE_KEY_FILE: /home/runner/.ssh/github_actions
