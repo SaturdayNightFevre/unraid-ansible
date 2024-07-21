@@ -3,6 +3,4 @@ app_data_dir: /mnt/user/appdata/
 puid: "1000"
 pgid: "1000"
 timezone: Europe/London
-email: fevs11@gmail.com
-domain: johnflix.uk
 username: feves
