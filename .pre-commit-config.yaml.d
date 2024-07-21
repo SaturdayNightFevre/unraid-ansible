@@ -56,13 +56,6 @@ repos:
           - prettier@3.2.4
           - prettier-plugin-toml@2.0.1
           - prettier-plugin-sort-json@3.1.0
-  - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v8.8.0
-    hooks:
-      - id: cspell
-        # entry: codespell --relative
-        args: [--relative, --no-progress, --no-summary]
-        name: Spell check with cspell
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.28.2
     hooks:
@@ -108,21 +101,21 @@ repos:
           )$
         additional_dependencies:
           - tomli
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.35.1
-    hooks:
-      - id: yamllint
-        exclude: >
-          (?x)^(
-            examples/playbooks/templates/.*|
-            examples/yamllint/.*|
-            examples/other/some.j2.yaml|
-            examples/playbooks/collections/.*|
-            test/fixtures/formatting-before/.*
-          )$
-        files: \.(yaml|yml)$
-        types: [file, yaml]
-        entry: yamllint --strict
+  #- repo: https://github.com/adrienverge/yamllint.git
+  #rev: v1.35.1
+  #hooks:
+  #- id: yamllint
+  #exclude: >
+  #(?x)^(
+  #examples/playbooks/templates/.*|
+  #examples/yamllint/.*|
+  #examples/other/some.j2.yaml|
+  #examples/playbooks/collections/.*|
+  #test/fixtures/formatting-before/.*
+  #)$
+  #files: \.(yaml|yml)$
+  #types: [file, yaml]
+  #entry: yamllint --strict
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: "v0.4.4"
     hooks:

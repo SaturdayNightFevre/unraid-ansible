@@ -1,0 +1,49 @@
+# Ignore Python bytecode and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Ignore VSCode specific settings
+.vscode/
+
+# Ignore Ansible specific files
+*.retry
+*.log
+
+# Ignore secrets and environment variable files
+*.vault_pass
+*.env
+
+# Ignore inventory files
+inventory
+hosts
+
+# Ignore roles directory if generated dynamically
+roles/
+
+# Ignore Ansible Galaxy roles and collections
+roles/galaxy/
+collections/ansible_collections/
+
+# Ignore temporary files
+tmp/
+temp/
+
+# Ignore SSH key files
+*.pem
+
+# Ignore additional directories
+*.swp
+*~
+.DS_Store
+
+# Ignore other IDE specific files (optional)
+.idea/
+*.sublime-workspace
+*.sublime-project
