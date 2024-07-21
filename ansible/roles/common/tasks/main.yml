@@ -3,6 +3,7 @@
   ansible.builtin.command: python3 -m ensurepip --default-pip
   changed_when: false
   ignore_errors: true
+  register: ignore_errors_register
 
 - name: Upgrade pip
   ansible.builtin.command: pip install --upgrade pip
@@ -16,18 +17,19 @@
   ansible.builtin.command: docker --version
   register: docker_check
   ignore_errors: true
+  changed_when: false
 
 - name: Fail if Docker is not installed
   ansible.builtin.fail:
     msg: "Docker is not installed. Please install Docker before running this playbook."
   when: docker_check.rc != 0 and docker_check.changed
 
-- name: Check if directory {{app_data_dir}} exists
+- name: Check if directory exists {{ app_data_dir }}
   ansible.builtin.stat:
     path: "{{ app_data_dir }}"
   register: appdata_dir_check
 
-- name: Fail if directory {{ app_data_dir }} does not exist
+- name: Fail if directory does not exist {{ app_data_dir }}
   ansible.builtin.fail:
     msg: "Directory {{ app_data_dir }} does not exist. Please create it before continuing."
   when: not appdata_dir_check.stat.exists

@@ -1,0 +1,49 @@
+---
+- name: Start traefik container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    container_default_behavior: read_only
+    security_opts:
+      - no-new-privileges=true
+    name: traefik
+    image: traefik:v3.0
+    networks:
+      - name: web
+    env:
+      PUID: "{{puid}}"
+      PGID: "{{pgid}}"
+      TZ: "{{timezone}}"
+      OAUTHLIB_RELAX_TOKEN_SCOPE: "1"
+      CF_DNS_API_TOKEN: "{{CF_KEY}}"
+      CF_API_EMAIL: "{{email}}"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-web-logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8083]"
+      traefik.enable: "true"
+      traefik.http.routers.traefik-https.entrypoints: "https"
+      traefik.http.routers.traefik-https.rule: "Host('traefik.{{domain}}')"
+      traefik.http.middlewares.traefik-auth.basicauth.users: "{{username}}"
+      traefik.http.routers.traefik-https.middlewares: "traefik-auth"
+      traefik.http.routers.traefik-https.service: "api@internal"
+      traefik.http.routers.traefik-https.tls.certresolver: "letsencrypt"
+      traefik.http.routers.traefik-https.tls.domains[0].main: "{{domain}}"
+      traefik.http.routers.traefik-https.tls.domains[0].sans: "*.{{domain}}"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "{{ app_data_dir }}traefik-new/data/traefik.yml:/traefik.yml:ro"
+      - "{{ app_data_dir }}traefik-new/data/configs:/configs:ro"
+      - "{{ app_data_dir }}traefik-new/data/acme.json:/acme.json:rw"
+      - "{{ app_data_dir }}traefik-new/data/logs:/logs:rw"
+
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    ports:
+      - "81:80"
+      - "440:443"
+    restart_policy: unless-stopped
+    working_dir: "/"
