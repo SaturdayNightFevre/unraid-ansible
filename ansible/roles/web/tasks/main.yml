@@ -16,7 +16,7 @@
       TZ: "{{timezone}}"
       OAUTHLIB_RELAX_TOKEN_SCOPE: "1"
       CF_DNS_API_TOKEN: "{{CF_KEY}}"
-      CF_API_EMAIL: "{{email}}"
+      CF_API_EMAIL: "{{EMAIL}}"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-web-logo.png"
       net.unraid.docker.managed: "dockerman"
