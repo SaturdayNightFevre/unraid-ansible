@@ -10,6 +10,8 @@
   become: false
   roles:
     - common
+  vars_files:
+    - vars.yml
 
 - name: Deploy Traefik
   hosts: johnflix
