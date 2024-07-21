@@ -25,7 +25,7 @@
         CF_KEY: '{{ lookup("env", "CF_KEY") }}'
         DUCK_DNS_TOKEN: '{{ lookup("env", "DUCK_DNS_TOKEN")}}'
         EMAIL: '{{ lookup("env", "EMAIL")}}'
-        DOMAIN '{{ lookup("env", "DOMAIN")}}'
+        DOMAIN: '{{ lookup("env", "DOMAIN")}}'
   roles:
     - web
   vars_files:
