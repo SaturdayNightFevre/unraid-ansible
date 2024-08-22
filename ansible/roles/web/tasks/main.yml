@@ -1,4 +1,29 @@
 ---
+- name: Ensure the config file exists in {{ app_data_dir }}traefik-new/data/configs
+  ansible.builtin.stat:
+    path: "{{ app_data_dir }}traefik-new/data/traefik.yml"
+  register: config_file_stat
+
+- name: Copy the config file to the host if it doesn't exist
+  ansible.builtin.copy:
+    src: ../files/traefik-config.yml  # Path to the file in your repo (relative to your playbook)
+    dest: "{{ app_data_dir }}traefik-new/data/traefik.yml"
+    owner: root      # Adjust these as necessary
+    group: root
+    mode: '0644'
+  when: not config_file_stat.stat.exists
+
+- name: Ensure the acme.json file exists in {{ app_data_dir }}traefik-new/data/acme.json
+  ansible.builtin.stat:
+    path: "{{ app_data_dir }}traefik-new/data/acme.json"
+  register: acme_file_stat
+
+- name: Create the acme.json file if it doesn't exist
+  ansible.builtin.file:
+    path: "{{ app_data_dir }}traefik-new/data/acme.json"
+    state: touch
+  when: not acme_file_stat.stat.exists
+
 - name: Start traefik container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
