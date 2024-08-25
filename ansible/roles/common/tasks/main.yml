@@ -9,9 +9,12 @@
   ansible.builtin.command: pip install --upgrade pip
   changed_when: false
 
-- name: Install requests library
-  ansible.builtin.command: pip install requests==2.31.0
+- name: Install requests library with the correct Python version
+  ansible.builtin.command:
+    cmd: /usr/bin/python3 -m pip install requests==2.31.0
+    creates: /usr/lib/python3.9/site-packages/requests
   changed_when: false
+
 
 - name: Check if Docker is installed
   ansible.builtin.command: docker --version

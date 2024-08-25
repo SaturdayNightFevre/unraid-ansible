@@ -24,8 +24,6 @@ env/
 inventory
 hosts
 
-# Ignore roles directory if generated dynamically
-roles/
 
 # Ignore Ansible Galaxy roles and collections
 roles/galaxy/

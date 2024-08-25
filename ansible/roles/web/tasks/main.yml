@@ -1,12 +1,41 @@
 ---
+- name: Ensure the config file exists in {{ app_data_dir }}traefik-new/data/configs
+  ansible.builtin.stat:
+    path: "{{ app_data_dir }}traefik-new/data/traefik.yml"
+  register: config_file_stat
+
+- name: Copy the config file to the host if it doesn't exist
+  ansible.builtin.copy:
+    src: ../files/traefik-config.yml  # Path to the file in your repo (relative to your playbook)
+    dest: "{{ app_data_dir }}traefik-new/data/traefik.yml"
+    owner: root      # Adjust these as necessary
+    group: root
+    mode: '0644'
+  when: not config_file_stat.stat.exists
+
+- name: Ensure the acme.json file exists in {{ app_data_dir }}traefik-new/data/acme.json
+  ansible.builtin.stat:
+    path: "{{ app_data_dir }}traefik-new/data/acme.json"
+  register: acme_file_stat
+
+- name: Create the acme.json file if it doesn't exist
+  ansible.builtin.file:
+    path: "{{ app_data_dir }}traefik-new/data/acme.json"
+    state: touch
+    owner: root
+    group: root
+    mode: '0600'
+  when: not acme_file_stat.stat.exists
+
 - name: Start traefik container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    container_default_behavior: read_only
+    container_default_behavior: compatibility
+    read_only: true
     security_opts:
       - no-new-privileges=true
-    name: traefik
+    name: traefik-new
     image: traefik:v3.0
     networks:
       - name: web
@@ -16,20 +45,20 @@
       TZ: "{{timezone}}"
       OAUTHLIB_RELAX_TOKEN_SCOPE: "1"
       CF_DNS_API_TOKEN: "{{CF_KEY}}"
-      CF_API_EMAIL: "{{email}}"
+      CF_API_EMAIL: "{{EMAIL}}"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-web-logo.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "http://[IP]:[PORT:8083]"
       traefik.enable: "true"
       traefik.http.routers.traefik-https.entrypoints: "https"
-      traefik.http.routers.traefik-https.rule: "Host('traefik.{{domain}}')"
+      traefik.http.routers.traefik-https.rule: "Host('traefik.{{DOMAIN}}')"
       traefik.http.middlewares.traefik-auth.basicauth.users: "{{username}}"
       traefik.http.routers.traefik-https.middlewares: "traefik-auth"
       traefik.http.routers.traefik-https.service: "api@internal"
       traefik.http.routers.traefik-https.tls.certresolver: "letsencrypt"
-      traefik.http.routers.traefik-https.tls.domains[0].main: "{{domain}}"
-      traefik.http.routers.traefik-https.tls.domains[0].sans: "*.{{domain}}"
+      traefik.http.routers.traefik-https.tls.domains[0].main: "{{DOMAIN}}"
+      traefik.http.routers.traefik-https.tls.domains[0].sans: "*.{{DOMAIN}}"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
