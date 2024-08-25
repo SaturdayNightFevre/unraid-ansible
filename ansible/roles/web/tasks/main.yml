@@ -22,6 +22,9 @@
   ansible.builtin.file:
     path: "{{ app_data_dir }}traefik-new/data/acme.json"
     state: touch
+    owner: root
+    group: root
+    mode: '0600'
   when: not acme_file_stat.stat.exists
 
 - name: Start traefik container
@@ -29,9 +32,10 @@
     image_name_mismatch: "recreate"
     pull: "always"
     container_default_behavior: compatibility
+    read_only: true
     security_opts:
       - no-new-privileges=true
-    name: traefik
+    name: traefik-new
     image: traefik:v3.0
     networks:
       - name: web
