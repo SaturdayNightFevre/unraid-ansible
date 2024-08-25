@@ -1,4 +1,16 @@
 ---
+- name: Ensure the traefik directory exists
+  file:
+    path: "{{ app_data_dir }}/traefik-new/"
+    state: directory
+    mode: '0755'
+
+- name: Ensure the data directory exists
+  file:
+    path: "{{ app_data_dir }}/traefik-new/data/"
+    state: directory
+    mode: '0755'
+
 - name: Ensure the config file exists in {{ app_data_dir }}traefik-new/data/configs
   ansible.builtin.stat:
     path: "{{ app_data_dir }}traefik-new/data/traefik.yml"
