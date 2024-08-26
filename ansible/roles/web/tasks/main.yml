@@ -11,10 +11,11 @@
     state: directory
     mode: '0755'
 
-- name: Ensure the config file exists in {{ app_data_dir }}traefik-new/data/configs
-  ansible.builtin.stat:
-    path: "{{ app_data_dir }}traefik-new/data/traefik.yml"
-  register: config_file_stat
+- name: Deploy Traefik configuration
+  template:
+    src: traefik.yml.j2
+    dest: "{{ app_data_dir }}/traefik-new/data/traefik.yml"
+    mode: '0644'
 
 - name: Copy the config file to the host if it doesn't exist
   ansible.builtin.copy:
@@ -39,7 +40,7 @@
     mode: '0600'
   when: not acme_file_stat.stat.exists
 
-- name: Start traefik container
+- name: Ensure traefik container is running
   community.docker.docker_container:
     name: traefik
     image: traefik:v3.0
@@ -50,8 +51,8 @@
     networks:
       - name: web
     ports:
-      - 81:80
-      - 440:443
+      - "81:80"
+      - "440:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "{{ app_data_dir }}/traefik-new/data/traefik.yml:/traefik.yml:ro"
@@ -62,18 +63,18 @@
       TZ: "{{ timezone }}"
       CF_DNS_API_TOKEN: "{{ CF_KEY }}"
     security_opts:
-      - no-new-privileges:true
+      - "no-new-privileges:true"
     labels:
       traefik.enable: "true"
       traefik.http.routers.traefik-https.entrypoints: "https"
-      traefik.http.routers.traefik-https.rule: "Host('traefik.{{DOMAIN}}')"
+      traefik.http.routers.traefik-https.rule: "Host('traefik.{{ DOMAIN }}')"
       traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}"
       traefik.http.routers.traefik-https.middlewares: "traefik-auth"
       traefik.http.routers.traefik-https.service: "api@internal"
       traefik.http.routers.traefik-https.tls.certresolver: "letsencrypt"
       traefik.http.routers.traefik-https.tls.domains[0].main: "{{ DOMAIN }}"
-      traefik.http.routers.traefik-https.tls.domains[0].sans: "*.{{DOMAIN}}"
-    log_driver: json-file
+      traefik.http.routers.traefik-https.tls.domains[0].sans: "*.{{ DOMAIN }}"
+    log_driver: "json-file"
     log_options:
       max-file: "1"
       max-size: "10m"
