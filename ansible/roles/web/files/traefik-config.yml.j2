@@ -23,7 +23,7 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    defaultRule: '{% raw %}Host(`{{ index .Labels "com.docker.compose.service" }}.{{ DOMAIN }}`){% endraw %}'
+    defaultRule: '{% raw %}Host(`{{ index .Labels "com.docker.compose.service" }}.{{ lookup("env", "DOMAIN") }}`){% endraw %}'
     network: web
   file:
     directory: "/configs"
@@ -32,13 +32,13 @@ providers:
 certificatesResolvers:
   http:
     acme:
-      email: "{{ EMAIL }}"
+      email: "{{ lookup('env', 'EMAIL') }}"
       storage: acme.json
       httpChallenge:
         entryPoint: http
   letsencrypt:
     acme:
-      email: "{{ EMAIL }}"
+      email: "{{ lookup('env', 'EMAIL') }}"
       caServer: https://acme-staging-v02.api.letsencrypt.org/directory # TODO: comment this out once working
       storage: acme.json
       dnsChallenge:
