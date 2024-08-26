@@ -18,7 +18,7 @@
 
 
 - name: Deploy Traefik configuration
-  ansible.builtin.template::
+  ansible.builtin.template:
     src: ../files/traefik-config.yml.j2
     dest: "{{ app_data_dir }}/traefik-new/data/traefik.yml"
     owner: root      # Adjust these as necessary
