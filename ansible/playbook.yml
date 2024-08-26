@@ -17,7 +17,6 @@
 - name: Deploy Traefik
   hosts: johnflix
   become: false
-  gather_facts: False
   pre_tasks:
     - name: Loading environment variables
       tags: always
