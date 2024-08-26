@@ -16,10 +16,11 @@
     path: "{{ app_data_dir }}traefik-new/data/traefik.yml"
   register: config_file_stat
 
-- name: Copy the config file to the host if it doesn't exist
-  ansible.builtin.copy:
-    src: ../files/traefik-config.yml  # Path to the file in your repo (relative to your playbook)
-    dest: "{{ app_data_dir }}traefik-new/data/traefik.yml"
+
+- name: Deploy Traefik configuration
+  template:
+    src: ../files/traefik-config.yml.j2
+    dest: "{{ app_data_dir }}/traefik-new/data/traefik.yml"
     owner: root      # Adjust these as necessary
     group: root
     mode: '0644'
