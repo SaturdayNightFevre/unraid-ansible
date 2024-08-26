@@ -2,6 +2,7 @@
 - name: Check Runner
   hosts: localhost
   become: true
+  gather_facts: False 
   roles:
     - runner
 
@@ -16,6 +17,7 @@
 - name: Deploy Traefik
   hosts: johnflix
   become: false
+  gather_facts: False
   pre_tasks:
     - name: Loading environment variables
       tags: always
@@ -34,6 +36,7 @@
 - name: Deploy Docker Containers
   hosts: johnflix
   become: false
+  gather_facts: False
   roles:
     - 4k
     - audiobooks
