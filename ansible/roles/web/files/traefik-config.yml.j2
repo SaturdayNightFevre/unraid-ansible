@@ -23,11 +23,8 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.{{ DOMAIN }}`)'
+    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\"}}.{{ DOMAIN }}`)"
     network: web
-  file:
-    directory: "/configs"
-    watch: true
 
 certificatesResolvers:
   http:
