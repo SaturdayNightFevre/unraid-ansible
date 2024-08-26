@@ -11,11 +11,10 @@
     state: directory
     mode: '0755'
 
-- name: Deploy Traefik configuration
-  template:
-    src: traefik.yml.j2
-    dest: "{{ app_data_dir }}/traefik-new/data/traefik.yml"
-    mode: '0644'
+- name: Ensure the config file exists in {{ app_data_dir }}traefik-new/data/configs
+  ansible.builtin.stat:
+    path: "{{ app_data_dir }}traefik-new/data/traefik.yml"
+  register: config_file_stat
 
 - name: Copy the config file to the host if it doesn't exist
   ansible.builtin.copy:
