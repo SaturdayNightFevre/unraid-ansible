@@ -21,6 +21,8 @@
     - name: Loading environment variables
       tags: always
       set_fact:
+        # I write the variables in uppercase so they match the .env file - but you don't have to
+        # For booleans I use the strings "true" and "false", and convert them to booleans at this point
         CF_KEY: '{{ lookup("env", "CF_KEY") }}'
         DUCK_DNS_TOKEN: '{{ lookup("env", "DUCK_DNS_TOKEN")}}'
         EMAIL: '{{ lookup("env", "EMAIL")}}'

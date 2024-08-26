@@ -1,0 +1,59 @@
+# TODO: this is just copied from the guide
+api:
+  dashboard: true
+
+entryPoints:
+  http:
+    address: ":80"
+    forwardedHeaders:
+      trustedIPs:
+        - 192.168.1.0/16
+        - 10.253.0.0/24
+
+  https:
+    address: ":443"
+    http:
+      tls: {}
+    forwardedHeaders:
+      trustedIPs:
+        - 192.168.1.0/16
+        - 10.253.0.0/24
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.johnflix.uk`)'
+    network: web
+
+certificatesResolvers:
+  http:
+    acme:
+      email: fevs11@gmail.com
+      storage: acme.json
+      httpChallenge:
+        entryPoint: http
+  letsencrypt:
+    acme:
+      email: fevs11@gmail.com
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory # TODO: comment this out once working
+      storage: acme.json
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
+
+serversTransport:
+  insecureSkipVerify: false
+
+accessLog:
+  filePath: "/logs/access.log"
+  fields:
+    headers:
+      names:
+        User-Agent: keep
+
+log:
+  filePath: "/logs/traefik.log"
+  level: INFO
