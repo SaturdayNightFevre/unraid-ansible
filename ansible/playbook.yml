@@ -2,9 +2,16 @@
 - name: Check Runner
   hosts: localhost
   become: true
-  gather_facts: False 
+  gather_facts: False
   roles:
     - runner
+
+- name: Set Ansible facts from environment variables
+  set_fact:
+    EMAIL: "{{ lookup('env', 'EMAIL') }}"
+    DUCK_DNS_TOKEN: "{{ lookup('env', 'DUCK_DNS_TOKEN') }}"
+    CF_KEY: "{{ lookup('env', 'CF_KEY') }}"
+    DOMAIN: "{{ lookup('env', 'DOMAIN') }}"
 
 - name: Ensure Docker and Networks
   hosts: johnflix
@@ -20,17 +27,15 @@
   pre_tasks:
     - name: Loading environment variables
       tags: always
-      set_fact:
-        # I write the variables in uppercase so they match the .env file - but you don't have to
-        # For booleans I use the strings "true" and "false", and convert them to booleans at this point
-        CF_KEY: '{{ lookup("env", "CF_KEY") }}'
-        DUCK_DNS_TOKEN: '{{ lookup("env", "DUCK_DNS_TOKEN")}}'
-        EMAIL: '{{ lookup("env", "EMAIL")}}'
-        DOMAIN: '{{ lookup("env", "DOMAIN")}}'
   roles:
     - web
   vars_files:
     - vars.yml
+  vars:
+    EMAIL: "{{ EMAIL }}"
+    DUCK_DNS_TOKEN: "{{ DUCK_DNS_TOKEN }}"
+    CF_KEY: "{{ CF_KEY }}"
+    DOMAIN: "{{ DOMAIN }}"
 
 - name: Deploy Docker Containers
   hosts: johnflix

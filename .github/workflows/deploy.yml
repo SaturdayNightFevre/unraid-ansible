@@ -59,18 +59,13 @@ jobs:
           echo "EMAIL=${{ secrets.EMAIL }}" >> /tmp/web-vars-env
           echo "DOMAIN=${{ secrets.DOMAIN}}" >> /tmp/web-vars-env
 
-      - name: load ansible web vars env file
-        run: |
-          set -o nounset -o pipefail -o errexit
-
-          # Load all variables from .env and export them all for Ansible to read
-          set -o allexport
-          source "/tmp/web-vars-env"
-          set +o allexport
-
       - name: Run Ansible Playbook
         run: |
           ansible-playbook -i /tmp/inventory.ini ansible/playbook.yml
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
           ANSIBLE_PRIVATE_KEY_FILE: /home/runner/.ssh/github_actions
+          EMAIL: ${{ secrets.EMAIL }}
+          DUCK_DNS_TOKEN: ${{ secrets.DUCK_DNS_TOKEN }}
+          CF_KEY: ${{ secrets.CF_KEY}}
+          DOMAIN: ${{ secrets.DOMAIN}}
