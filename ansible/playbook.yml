@@ -1,17 +1,17 @@
 ---
-- name: Check Runner
+- name: Check Runner and Set Variables
   hosts: localhost
   become: true
-  gather_facts: False
+  gather_facts: false
   roles:
     - runner
-
-- name: Set Ansible facts from environment variables
-  set_fact:
-    EMAIL: "{{ lookup('env', 'EMAIL') }}"
-    DUCK_DNS_TOKEN: "{{ lookup('env', 'DUCK_DNS_TOKEN') }}"
-    CF_KEY: "{{ lookup('env', 'CF_KEY') }}"
-    DOMAIN: "{{ lookup('env', 'DOMAIN') }}"
+  tasks:
+    - name: Set Ansible facts from environment variables
+      set_fact:
+        EMAIL: "{{ lookup('env', 'EMAIL') }}"
+        DUCK_DNS_TOKEN: "{{ lookup('env', 'DUCK_DNS_TOKEN') }}"
+        CF_KEY: "{{ lookup('env', 'CF_KEY') }}"
+        DOMAIN: "{{ lookup('env', 'DOMAIN') }}"
 
 - name: Ensure Docker and Networks
   hosts: johnflix
@@ -26,24 +26,18 @@
   become: false
   pre_tasks:
     - name: Loading environment variables
-      tags: always
+      set_fact:
+        EMAIL: "{{ hostvars['localhost'].EMAIL }}"
+        DUCK_DNS_TOKEN: "{{ hostvars['localhost'].DUCK_DNS_TOKEN }}"
+        CF_KEY: "{{ hostvars['localhost'].CF_KEY }}"
+        DOMAIN: "{{ hostvars['localhost'].DOMAIN }}"
   roles:
     - web
   vars_files:
     - vars.yml
-  vars:
-    EMAIL: "{{ EMAIL }}"
-    DUCK_DNS_TOKEN: "{{ DUCK_DNS_TOKEN }}"
-    CF_KEY: "{{ CF_KEY }}"
-    DOMAIN: "{{ DOMAIN }}"
 
 - name: Deploy Docker Containers
   hosts: johnflix
   become: false
-  gather_facts: False
+  gather_facts: false
   roles:
-    - 4k
-    - audiobooks
-    - books
-  vars_files:
-    - vars.yml
