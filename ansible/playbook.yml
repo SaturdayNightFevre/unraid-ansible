@@ -41,3 +41,8 @@
   become: false
   gather_facts: false
   roles:
+    - 4k
+    - audiobooks
+    - books
+  vars_files:
+    - vars.yml
