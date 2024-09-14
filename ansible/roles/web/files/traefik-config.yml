@@ -1,6 +1,7 @@
 # TODO: this is just copied from the guide
 api:
   dashboard: true
+  insecure: true
 
 entryPoints:
   http:
