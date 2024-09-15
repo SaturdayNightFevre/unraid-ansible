@@ -65,12 +65,16 @@
       - "no-new-privileges:true"
     labels:
       traefik.enable: "true"
-      traefik.http.routers.traefik-dashboard.rule: "Host(`proxy.{{ DOMAIN }}`) && PathPrefix(`/dashboard`)"
+      traefik.http.routers.traefik-dashboard.rule: "Host(`proxy.{{ DOMAIN }}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
       traefik.http.routers.traefik-dashboard.entrypoints: "https"
       traefik.http.routers.traefik-dashboard.service: "api@internal"
       traefik.http.routers.traefik-dashboard.tls.certresolver: "letsencrypt"
+      # Middleware for basic auth
+      traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ password_hash }}"
+      # Middleware for headers (prevent indexing)
       traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
-      traefik.http.routers.traefik-dashboard.middlewares: "traefik-dashboard-redirect"
+      # Attach both middlewares to the dashboard route
+      traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
     log_driver: "json-file"
     log_options:
       max-file: "1"

@@ -52,13 +52,6 @@ jobs:
           echo "[johnflix]" > /tmp/inventory.ini
           echo "${{ secrets.NAS_IP }} ansible_user=${{ secrets.NAS_USER}}" >> /tmp/inventory.ini
 
-      - name: create ansible env file
-        run: |
-          echo "DUCK_DNS_TOKEN=${{ secrets.DUCK_DNS_TOKEN }}" >> /tmp/web-vars-env
-          echo "CF_KEY=${{ secrets.CF_KEY}}" >> /tmp/web-vars-env
-          echo "EMAIL=${{ secrets.EMAIL }}" >> /tmp/web-vars-env
-          echo "DOMAIN=${{ secrets.DOMAIN}}" >> /tmp/web-vars-env
-
       - name: Run Ansible Playbook
         run: |
           ansible-playbook -i /tmp/inventory.ini ansible/playbook.yml
@@ -69,3 +62,4 @@ jobs:
           DUCK_DNS_TOKEN: ${{ secrets.DUCK_DNS_TOKEN }}
           CF_KEY: ${{ secrets.CF_KEY}}
           DOMAIN: ${{ secrets.DOMAIN}}
+          PASSWORD_HASH: ${{ secrets.PASSWORD_HASH}}
