@@ -12,7 +12,7 @@
         DUCK_DNS_TOKEN: "{{ lookup('env', 'DUCK_DNS_TOKEN') }}"
         CF_KEY: "{{ lookup('env', 'CF_KEY') }}"
         DOMAIN: "{{ lookup('env', 'DOMAIN') }}"
-        PASSWORD_HASH: "{{ hostvars['localhost'].PASSWORD_HASH}}"
+        PASSWORD_HASH: "{{ lookup('env', 'PASSWORD_HASH') }}"
 
 - name: Ensure Docker and Networks
   hosts: johnflix
