@@ -70,7 +70,7 @@
       traefik.http.routers.traefik-dashboard.service: "api@internal"
       traefik.http.routers.traefik-dashboard.tls.certresolver: "letsencrypt"
       # Middleware for basic auth
-      traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ password_hash }}"
+      traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
       # Middleware for headers (prevent indexing)
       traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
       # Attach both middlewares to the dashboard route
