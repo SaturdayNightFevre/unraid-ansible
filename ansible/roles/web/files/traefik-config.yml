@@ -1,7 +1,6 @@
 # TODO: this is just copied from the guide
 api:
   dashboard: true
-  insecure: true
 
 entryPoints:
   http:
@@ -44,6 +43,14 @@ certificatesResolvers:
         resolvers:
           - "1.1.1.1:53"
           - "1.0.0.1:53"
+
+middlewares:
+  ip-whitelist:
+    ipWhiteList:
+      sourceRange:
+        - "192.168.1.0/16"
+        - "10.253.0.0/24"
+
 
 serversTransport:
   insecureSkipVerify: false
