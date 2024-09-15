@@ -13,14 +13,12 @@
 
 - name: Deploy the Traefik configuration using a template
   ansible.builtin.template:
-    src: "../files/traefik.yml.j2"  # Path to the Jinja2 template file
+    src: "traefik.yml.j2"  # No need to include the full path if it is in the role's templates folder
     dest: "{{ app_data_dir }}traefik-new/data/traefik.yml"
     owner: root
     group: root
     mode: '0644'
-    backup: yes   # Backup the old config before replacing it
-  vars:
-    EMAIL: "{{ EMAIL }}"
+    backup: yes
 
 
 - name: Ensure the acme.json file exists in {{ app_data_dir }}traefik-new/data/acme.json
