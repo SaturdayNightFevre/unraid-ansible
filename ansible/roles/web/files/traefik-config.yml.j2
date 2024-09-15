@@ -1,4 +1,3 @@
-# TODO: this is just copied from the guide
 api:
   dashboard: true
 
@@ -23,7 +22,7 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.{{ DOMAIN }}`)'
+    defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.johnflix.uk`)'
     network: web
 
 certificatesResolvers:
@@ -44,6 +43,13 @@ certificatesResolvers:
           - "1.1.1.1:53"
           - "1.0.0.1:53"
 
+middlewares:
+  ip-whitelist:
+    ipWhiteList:
+      sourceRange:
+        - "192.168.1.0/16"
+        - "10.253.0.0/24"
+
 serversTransport:
   insecureSkipVerify: false
 
@@ -56,4 +62,4 @@ accessLog:
 
 log:
   filePath: "/logs/traefik.log"
-  level: INFO
+  level: DEBUG
