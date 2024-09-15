@@ -23,7 +23,17 @@
     checksum_algorithm: md5
   register: source_file_stat
 
-- name: Copy the config file to the host if it doesn't exist or has changed
+- name: Copy the config file to the host if it doesn't exist
+  ansible.builtin.copy:
+    src: "../files/traefik-config.yml"  # Path to the file in your repo (relative to your playbook)
+    dest: "{{ app_data_dir }}traefik-new/data/traefik.yml"
+    owner: root      # Adjust these as necessary
+    group: root
+    mode: '0644'
+    backup: yes      # Optional: Keep a backup of the old config
+  when: not config_file_stat.stat.exists
+
+- name: Copy the config file to the host if it has changed
   ansible.builtin.copy:
     src: "../files/traefik-config.yml"  # Path to the file in your repo (relative to your playbook)
     dest: "{{ app_data_dir }}traefik-new/data/traefik.yml"
@@ -32,7 +42,7 @@
     mode: '0644'
     force: yes       # Replace the file if it's different
     backup: yes      # Optional: Keep a backup of the old config
-  when: not config_file_stat.stat.exists or config_file_stat.stat.checksum != source_file_stat.stat.checksum
+  when: config_file_stat.stat.exists and config_file_stat.stat.checksum != source_file_stat.stat.checksum
 
 
 - name: Ensure the acme.json file exists in {{ app_data_dir }}traefik-new/data/acme.json
