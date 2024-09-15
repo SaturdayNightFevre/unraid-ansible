@@ -20,7 +20,7 @@
     mode: '0644'
     backup: yes   # Backup the old config before replacing it
   vars:
-    EMAIL: {{ EMAIL }}
+    EMAIL: "{{ EMAIL }}"
 
 
 - name: Ensure the acme.json file exists in {{ app_data_dir }}traefik-new/data/acme.json
