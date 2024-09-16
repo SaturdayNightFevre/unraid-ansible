@@ -20,12 +20,6 @@
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/readarr-logo.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "http://[IP]:[PORT:8686]"
-      traefik.enable: "true"
-      traefik.http.routers.audiobook.service: "audiobook"
-      traefik.http.routers.audiobook.tls.certresolver: "dns-cloudflare"
-      traefik.http.routers.audiobook.entrypoints: "websecure"
-      traefik.http.services.audiobook.loadbalancer.server.port: "8686"
-      traefik.docker.network: "web"
     log_driver: json-file
     log_options:
       max-file: "1"

@@ -16,8 +16,6 @@
       net.unraid.docker.icon: "https://user-images.githubusercontent.com/11823348/114629539-129b9100-9cb9-11eb-94a8-803fabc27d9e.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://4k-films.johnflix.uk"
-      traefik.enable: "true"
-      traefik.docker.network: "web"
     log_driver: json-file
     log_options:
       max-file: "1"
@@ -43,12 +41,6 @@
       net.unraid.docker.icon: "https://github.com/themepark-dev/theme.park/blob/master/css/addons/sonarr/sonarr-4k-logo/sonarr-4k.png?raw=true"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://4k-tv.johnflix.uk"
-      traefik.enable: "true"
-      traefik.http.routers.4k-tv.service: "4k-tv"
-      traefik.http.routers.4k-tv.tls.certresolver: "dns-cloudflare"
-      traefik.http.routers.4k-tv.entrypoints: "websecure"
-      traefik.http.services.4k-tv.loadbalancer.server.port: "6767"
-      traefik.docker.network: "web"
     log_driver: json-file
     log_options:
       max-file: "1"
