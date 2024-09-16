@@ -61,7 +61,7 @@
     security_opts:
       - "no-new-privileges:true"
     labels:
-      net.unraid.docker.icon: "https://doc.traefik.io/traefik/assets/images/logo-traefik-proxy-logo.svg"
+      net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Traefik.logo.png/868px-Traefik.logo.png"
       net.unraid.docker.managed: "dockerman"
       #net.unraid.docker.webui: http://[IP]:[PORT:7878]
       traefik.enable: "true"
