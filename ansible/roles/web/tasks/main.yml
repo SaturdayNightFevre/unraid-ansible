@@ -20,7 +20,7 @@
     owner: root
     group: root
     mode: '0644'
-    backup: yes  # Optional: Backup the previous file
+    backup: false  # Optional: Backup the previous file
 
 - name: Ensure the acme.json file exists in {{ app_data_dir }}traefik-new/data/acme.json
   ansible.builtin.stat:
@@ -51,10 +51,10 @@
       - "440:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "{{ app_data_dir }}/traefik-new/data/traefik.yml:/traefik.yml:ro"
-      - "{{ app_data_dir }}/traefik-new/data/configs:/configs:ro"
-      - "{{ app_data_dir }}/traefik-new/data/acme.json:/acme.json:rw"
-      - "{{ app_data_dir }}/traefik-new/data/logs:/logs:rw"
+      - "{{ app_data_dir }}/traefik/data/traefik.yml:/traefik.yml:ro"
+      - "{{ app_data_dir }}/traefik/data/configs:/configs:ro"
+      - "{{ app_data_dir }}/traefik/data/acme.json:/acme.json:rw"
+      - "{{ app_data_dir }}/traefik/data/logs:/logs:rw"
     env:
       TZ: "{{ timezone }}"
       CF_DNS_API_TOKEN: "{{ CF_KEY }}"
@@ -75,7 +75,7 @@
       traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
       # Attach both middlewares to the dashboard route
       traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect, @file"
-    #log_driver: "json-file"
-    #log_options:
-      #max-file: "1"
-      #max-size: "10m"
+    log_driver: "json-file"
+    log_options:
+      max-file: "1"
+      max-size: "10m"
