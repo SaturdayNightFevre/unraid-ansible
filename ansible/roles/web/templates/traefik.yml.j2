@@ -24,7 +24,7 @@ providers:
     exposedByDefault: false
     {% raw -%}
     defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.johnflix.uk`)'
-    {% endraw %}
+    {%- endraw %}
     network: web
 
 certificatesResolvers:
