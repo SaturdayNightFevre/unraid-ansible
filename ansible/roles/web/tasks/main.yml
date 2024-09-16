@@ -61,6 +61,9 @@
     security_opts:
       - "no-new-privileges:true"
     labels:
+      net.unraid.docker.icon: "https://doc.traefik.io/traefik/assets/images/logo-traefik-proxy-logo.svg"
+      net.unraid.docker.managed: "dockerman"
+      #net.unraid.docker.webui: http://[IP]:[PORT:7878]
       traefik.enable: "true"
       traefik.http.routers.traefik-dashboard.rule: "Host(`proxy.{{ DOMAIN }}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
       traefik.http.routers.traefik-dashboard.entrypoints: "https"
