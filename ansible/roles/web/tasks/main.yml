@@ -1,7 +1,7 @@
 ---
-- name: Ensure the traefik directory exists
+- name: Ensure the base traefik directory exists
   file:
-    path: "{{ app_data_dir }}/traefik/"
+    path: "{{ app_data_dir }}traefik"
     state: directory
     mode: '0755'
 
@@ -22,7 +22,7 @@
     mode: '0644'
     backup: false  # Optional: Backup the previous file
 
-- name: Ensure the acme.json file exists in {{ app_data_dir }}traefik-new/data/acme.json
+- name: Ensure the acme.json file exists
   ansible.builtin.stat:
     path: "{{ app_data_dir }}traefik/data/acme.json"
   register: acme_file_stat
@@ -36,7 +36,7 @@
     mode: '0600'
   when: not acme_file_stat.stat.exists
 
-- name: Ensure traefik container is running
+- name: Ensure Traefik container is running
   community.docker.docker_container:
     name: traefik
     image: traefik:v3.1.2
@@ -51,10 +51,10 @@
       - "440:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "{{ app_data_dir }}/traefik/data/traefik.yml:/traefik.yml:ro"
-      - "{{ app_data_dir }}/traefik/data/configs:/configs:ro"
-      - "{{ app_data_dir }}/traefik/data/acme.json:/acme.json:rw"
-      - "{{ app_data_dir }}/traefik/data/logs:/logs:rw"
+      - "{{ app_data_dir }}traefik/data/traefik.yml:/traefik.yml:ro"
+      - "{{ app_data_dir }}traefik/data/configs:/configs:ro"
+      - "{{ app_data_dir }}traefik/data/acme.json:/acme.json:rw"
+      - "{{ app_data_dir }}traefik/data/logs:/logs:rw"
     env:
       TZ: "{{ timezone }}"
       CF_DNS_API_TOKEN: "{{ CF_KEY }}"
@@ -63,7 +63,8 @@
     labels:
       net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Traefik.logo.png/868px-Traefik.logo.png"
       net.unraid.docker.managed: "dockerman"
-      #net.unraid.docker.webui: http://[IP]:[PORT:7878]
+      # net.unraid.docker.webui: "http://[IP]:[PORT:7878]"
+      # Traefik dashboard and middleware configuration
       traefik.enable: "true"
       traefik.http.routers.traefik-dashboard.rule: "Host(`proxy.{{ DOMAIN }}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
       traefik.http.routers.traefik-dashboard.entrypoints: "https"
@@ -73,8 +74,9 @@
       traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
       # Middleware for headers (prevent indexing)
       traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
-      # Attach both middlewares to the dashboard route
-      traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect, @file"
+      # Attach both middlewares to the dashboard route (fixed @file issue)
+      traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
+
     log_driver: "json-file"
     log_options:
       max-file: "1"
