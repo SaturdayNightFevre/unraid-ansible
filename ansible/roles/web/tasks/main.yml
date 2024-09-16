@@ -79,4 +79,3 @@
     #log_options:
       #max-file: "1"
       #max-size: "10m"
-    working_dir: "/"
