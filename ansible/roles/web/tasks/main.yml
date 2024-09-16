@@ -61,6 +61,9 @@
       traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
       traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
       traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
+      net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Traefik.logo.png/868px-Traefik.logo.png"
+      net.unraid.docker.managed: "dockerman"
+      # net.unraid.docker.webui: "http://[IP]:[PORT:7878]"
     log_driver: "json-file"
     log_options:
       max-file: "1"
