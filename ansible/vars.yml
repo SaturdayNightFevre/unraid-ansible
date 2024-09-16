@@ -1,5 +1,5 @@
 ---
-app_data_dir: /mnt/user/appdata/
+app_data_dir: /mnt/user/appdata
 puid: "1000"
 pgid: "1000"
 timezone: Europe/London

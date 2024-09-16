@@ -13,7 +13,7 @@
       PGID: "{{ pgid }}"
       TZ: "{{ timezone }}"
     volumes:
-      - "{{ app_data_dir }}readarr-audio/:/config"
+      - "{{ app_data_dir }}/readarr-audio/:/config"
       - "/mnt/user/media/audiobooks/:/audiobooks"
       - "/mnt/user/downloads/:/downloads"
     labels:
@@ -48,8 +48,8 @@
       PORT: "1337"
     volumes:
       - "/mnt/user/media/audiobooks/:/audiobooks"
-      - "{{ app_data_dir }}audiobookshelf/metadata:/metadata"
-      - "{{ app_data_dir }}audiobookshelf/:/config"
+      - "{{ app_data_dir }}/audiobookshelf/metadata:/metadata"
+      - "{{ app_data_dir }}/audiobookshelf/:/config"
     labels:
       net.unraid.docker.icon: "https://www.audiobookshelf.org/Logo.png"
       net.unraid.docker.managed: "dockerman"

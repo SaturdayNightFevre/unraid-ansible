@@ -30,10 +30,10 @@
     ports:
       - "8083:8083/tcp"
     volumes:
-      - "{{ app_data_dir }}calibre-web:/config"
+      - "{{ app_data_dir }}/calibre-web:/config"
       - "/mnt/user/media/Books/Calibre Library:/books"
-      - "{{ app_data_dir }}custom-scripts/calibre-web:/custom-cont-init.d:ro"
-      - "{{ app_data_dir }}calibre-web/gmail.json:/gmail.json:ro"
+      - "{{ app_data_dir }}/custom-scripts/calibre-web:/custom-cont-init.d:ro"
+      - "{{ app_data_dir }}/calibre-web/gmail.json:/gmail.json:ro"
     restart_policy: unless-stopped
     working_dir: "/"
 
@@ -50,7 +50,7 @@
       PGID: "{{ pgid }}"
       TZ: "{{timezone}}"
     volumes:
-      - "{{ app_data_dir }}readarr/:/config"
+      - "{{ app_data_dir }}/readarr/:/config"
       - "/mnt/user/media/Books/Calibre Library:/books"
       - "/mnt/user/downloads/:/downloads"
     ports:
@@ -82,9 +82,9 @@
       PGID: "{{ pgid }}"
       TZ: "{{timezone}}"
     volumes:
-      - "{{ app_data_dir }}calibre/config:/config"
-      - "{{ app_data_dir }}calibre/upload:/uploads"
-      - "{{ app_data_dir }}calibre/plugins:/plugins"
+      - "{{ app_data_dir }}/calibre/config:/config"
+      - "{{ app_data_dir }}/calibre/upload:/uploads"
+      - "{{ app_data_dir }}/calibre/plugins:/plugins"
       - "/mnt/user/media/Books/Calibre Library:/Calibre_Library"
     ports:
       - "8080:8080"
