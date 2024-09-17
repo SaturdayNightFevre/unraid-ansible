@@ -17,8 +17,8 @@
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://4k-films.johnflix.uk"
       traefik.enable: "true"
-      traefik.http.routers.service1.entrypoints: "https"
-      traefik.http.routers.service1.tls.certresolver: "letsencrypt"
+      traefik.http.routers.4k-films.entrypoints: "https"
+      traefik.http.routers.4k-films.tls.certresolver: "letsencrypt"
     log_driver: json-file
     log_options:
       max-file: "1"
