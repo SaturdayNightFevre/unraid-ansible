@@ -16,6 +16,9 @@
       net.unraid.docker.icon: "https://user-images.githubusercontent.com/11823348/114629539-129b9100-9cb9-11eb-94a8-803fabc27d9e.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://4k-films.johnflix.uk"
+      traefik.enable: "true"
+      traefik.http.routers.service1.entrypoints: "https"
+      traefik.http.routers.service1.tls.certresolver: "letsencrypt"
     log_driver: json-file
     log_options:
       max-file: "1"
