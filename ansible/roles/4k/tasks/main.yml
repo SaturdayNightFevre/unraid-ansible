@@ -20,7 +20,7 @@
       traefik.http.routers.4k-films.tls.certresolver: "letsencrypt"
       traefik.http.services.4k-films.loadbalancer.server.port: "5656"
       traefik.http.routers.4k-films-router.rule: "Host(`4k-films.{{ DOMAIN }}`)"
-      traefik.http.routers.4k-films-router.entrypoints: "websecure"
+      traefik.http.routers.4k-films-router.entrypoints: "https"
     log_driver: json-file
     log_options:
       max-file: "1"
