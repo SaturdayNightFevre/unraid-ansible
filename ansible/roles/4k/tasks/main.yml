@@ -29,9 +29,12 @@
     restart_policy: always
     volumes:
       - "{{ app_data_dir }}/radarr-4k:/config"
-      - /mnt/user/downloads:/downloads
-      - /mnt/user/media/4k-movies:/movies
-      - /mnt/user/media/old-4k:/old-4k
+      - "{{ dwnlds_dir }}:/downloads"
+      - "{{ media_dir }}/4k-movies:/movies"
+      - "{{ media_dir }}/old-4k:/old-4k"
+    security_opts:
+      - no-new-privileges:true
+    read_only: true
 
 - name: Start 4k-tv container
   community.docker.docker_container:
@@ -62,7 +65,12 @@
     restart_policy: always
     volumes:
       - "{{ app_data_dir }}/sonarr-4k:/config"
-      - /mnt/user/downloads:/downloads
-      - /mnt/user/media/4k-tv-shows:/tv-shows
-      - /mnt/user/media/old-4k:/old-4k
+      - "{{ dwnlds_dir }}:/downloads"
+      - "{{ media_dir }}/4k-tv-shows:/tv-shows"
+      - "{{ media_dir }}/old-4k:/old-4k"
     working_dir: /
+    security_opts:
+      - no-new-privileges:true
+    read_only: true 
+
+
