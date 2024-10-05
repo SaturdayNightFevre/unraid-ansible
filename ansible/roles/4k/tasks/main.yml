@@ -21,6 +21,7 @@
       traefik.http.services.4k-films.loadbalancer.server.port: "5656"
       traefik.http.routers.4k-films-router.rule: "Host(`4k-films.{{ DOMAIN }}`)"
       traefik.http.routers.4k-films-router.entrypoints: "https"
+      traefik.http.routers.4k-films-router.middlewares: "internal-ipallowlist@file"
     log_driver: json-file
     log_options:
       max-file: "1"
@@ -37,7 +38,7 @@
     image_name_mismatch: "recreate"
     pull: "always"
     name: 4k-tv
-    image: linuxserver/sonarr:4.0.5
+    image: linuxserver/sonarr:4.0.9
     published_ports: ["6767:6767"]
     entrypoint:
       - /init
@@ -46,6 +47,12 @@
       net.unraid.docker.icon: "https://github.com/themepark-dev/theme.park/blob/master/css/addons/sonarr/sonarr-4k-logo/sonarr-4k.png?raw=true"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://4k-tv.johnflix.uk"
+      traefik.enable: "true"
+      traefik.http.routers.4k-tv.tls.certresolver: "letsencrypt"
+      traefik.http.services.4k-tv.loadbalancer.server.port: "6767"
+      traefik.http.routers.4k-tv-router.rule: "Host(`4k-tv.{{ DOMAIN }}`)"
+      traefik.http.routers.4k-tv-router.entrypoints: "https"
+      traefik.http.routers.4k-tv-router.middlewares: "internal-ipallowlist@file"
     log_driver: json-file
     log_options:
       max-file: "1"
