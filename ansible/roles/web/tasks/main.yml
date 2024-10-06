@@ -60,11 +60,41 @@
       traefik.http.routers.traefik-dashboard.tls.certresolver: "letsencrypt"
       traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
       traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
-      traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect, internal-ipallowlist@file"
-      net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Traefik.logo.png/868px-Traefik.logo.png"
+      traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
+      net.unraid.docker.icon: "https://www.clipartmax.com/png/small/63-633339_traefik-docker-swarm-load-balancing.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://proxy.johnflix.uk"
     log_driver: "json-file"
     log_options:
       max-file: "1"
       max-size: "10m"
+
+- name: Ensure Pi-hole container is running
+  community.docker.docker_container:
+    name: pihole
+    image: pihole/pihole:latest
+    pull: "always"
+    restart_policy: unless-stopped
+    ports:
+      - "82:80/tcp"
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - "{{ app_data_dir }}/pihole/etc-pihole:/etc/pihole"
+      - "{{ app_data_dir }}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
+    labels:
+      net.unraid.docker.icon: "https://www.clipartmax.com/png/small/296-2965097_network-wide-ad-blocking-via-your-own-linux-hardware-pihole-logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://pi-hole.johnflix.uk"
+      traefik.enable: "true"
+    environment:
+      TZ: "{{ timezone }}"
+      WEBPASSWORD: "{{ PASSWORD_HASH }}"
+    security_opts:
+      - "no-new-privileges:true"
+    log_driver: "json-file"
+    log_options:
+      max-file: "1"
+      max-size: "10m"
+
+
