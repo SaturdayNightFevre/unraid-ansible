@@ -13,7 +13,7 @@
         CF_KEY: "{{ lookup('env', 'CF_KEY') }}"
         DOMAIN: "{{ lookup('env', 'DOMAIN') }}"
         PASSWORD_HASH: "{{ lookup('env', 'PASSWORD_HASH') }}"
-        PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"
+        PASSWORD: "{{ lookup('env', 'PASSWORD') }}"
 
 - name: Ensure Docker and Networks
   hosts: johnflix
