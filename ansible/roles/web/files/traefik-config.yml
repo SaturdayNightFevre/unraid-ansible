@@ -63,4 +63,5 @@ accessLog:
         User-Agent: keep
 
 log:
+  filePath: "/logs/traefik.log"
   level: DEBUG
