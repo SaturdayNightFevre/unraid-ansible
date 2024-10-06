@@ -1,4 +1,3 @@
-# TODO: this is just copied from the guide
 api:
   dashboard: true
 
@@ -13,7 +12,8 @@ entryPoints:
   https:
     address: ":443"
     http:
-      tls: {}
+      tls:
+        certResolver: "letsencrypt"
     forwardedHeaders:
       trustedIPs:
         - 192.168.1.0/16
@@ -36,7 +36,7 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: fevs11@gmail.com
-      caServer: https://acme-staging-v02.api.letsencrypt.org/directory # TODO: comment this out once working
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory # TODO:  https://acme-v02.api.letsencrypt.org/
       storage: acme.json
       dnsChallenge:
         provider: cloudflare
@@ -63,5 +63,4 @@ accessLog:
         User-Agent: keep
 
 log:
-  filePath: "/logs/traefik.log"
   level: DEBUG

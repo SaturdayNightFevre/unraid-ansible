@@ -51,10 +51,6 @@
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://4k-tv.johnflix.uk"
       traefik.enable: "true"
-      traefik.http.routers.4k-tv.tls.certresolver: "letsencrypt"
-      traefik.http.services.4k-tv.loadbalancer.server.port: "6767"
-      traefik.http.routers.4k-tv-router.rule: "Host(`4k-tv.{{ DOMAIN }}`)"
-      traefik.http.routers.4k-tv-router.entrypoints: "https"
       #traefik.http.routers.4k-tv-router.middlewares: "internal-ipallowlist@file"
     log_driver: json-file
     log_options:
