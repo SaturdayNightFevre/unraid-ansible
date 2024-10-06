@@ -89,7 +89,7 @@
       traefik.enable: "true"
     env:
       TZ: "{{ timezone }}"
-      WEBPASSWORD: "{{ PASSWORD_HASH }}"
+      WEBPASSWORD: "{{ PASSWORD }}"
     security_opts:
       - "no-new-privileges:true"
     log_driver: "json-file"

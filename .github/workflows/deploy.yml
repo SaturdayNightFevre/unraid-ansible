@@ -63,3 +63,4 @@ jobs:
           CF_KEY: ${{ secrets.CF_KEY}}
           DOMAIN: ${{ secrets.DOMAIN}}
           PASSWORD_HASH: ${{ secrets.PASSWORD_HASH}}
+          PASSWORD: ${{ secrets.PASSWORD }}
