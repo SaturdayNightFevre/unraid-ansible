@@ -87,7 +87,7 @@
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://pi-hole.johnflix.uk"
       traefik.enable: "true"
-    environment:
+    env:
       TZ: "{{ timezone }}"
       WEBPASSWORD: "{{ PASSWORD_HASH }}"
     security_opts:
