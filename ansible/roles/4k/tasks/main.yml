@@ -32,9 +32,9 @@
       - "{{ dwnlds_dir }}:/downloads"
       - "{{ media_dir }}/4k-movies:/movies"
       - "{{ media_dir }}/old-4k:/old-4k"
-    security_opts:
-      - no-new-privileges:true
-    #read_only: true
+    #security_opts:
+      #- no-new-privileges:true
+    read_only: true
 
 - name: Start 4k-tv container
   community.docker.docker_container:
@@ -69,8 +69,8 @@
       - "{{ media_dir }}/4k-tv-shows:/tv-shows"
       - "{{ media_dir }}/old-4k:/old-4k"
     working_dir: /
-    security_opts:
-      - no-new-privileges:true
-    #read_only: true
+    #security_opts:
+      #- no-new-privileges:true
+    read_only: true
 
 
