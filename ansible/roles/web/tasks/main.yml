@@ -86,6 +86,7 @@
       net.unraid.docker.icon: "https://www.clipartmax.com/png/small/296-2965097_network-wide-ad-blocking-via-your-own-linux-hardware-pihole-logo.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://pihole.johnflix.uk"
+      traefik.http.services.pihole.loadbalancer.server.port: "82"
       traefik.enable: "true"
     env:
       TZ: "{{ timezone }}"
