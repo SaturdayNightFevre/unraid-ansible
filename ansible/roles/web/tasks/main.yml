@@ -32,7 +32,7 @@
 - name: Ensure Traefik container is running
   community.docker.docker_container:
     name: traefik
-    image: traefik:v3.1.2
+    image: traefik:v3.1.7
     pull: "always"
     read_only: true
     restart_policy: always
@@ -123,7 +123,7 @@
     env:
       TZ: "{{ timezone }}"
       WEBPASSWORD: "{{ PASSWORD }}"
-      FTLCONF_LOCAL_IPV4: "{{ LOCAL_IP }}"
+      FTLCONF_LOCAL_IPV4: "{{ local_ip }}"
       IPV6: "false"
       VIRTUAL_HOST: "pihole.{{ DOMAIN }}"
     security_opts:
