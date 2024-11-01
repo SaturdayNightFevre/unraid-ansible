@@ -99,7 +99,7 @@
       traefik.http.services.pihole.loadbalancer.server.port: "82"  # Set Pi-hole’s internal web port
 
       # Redirect root to /admin for the Pi-hole web interface
-      traefik.http.middlewares.pihole-redirect.redirectregex.regex: "^https?://(.*)/?$"
+      traefik.http.middlewares.pihole-redirect.redirectregex.regex: "^https?://([^/]+)(/)?$$"
       traefik.http.middlewares.pihole-redirect.redirectregex.replacement: "https://$1/admin/"
       traefik.http.middlewares.pihole-redirect.redirectregex.permanent: "true"
       traefik.http.routers.pihole-router.middlewares: "pihole-redirect"
