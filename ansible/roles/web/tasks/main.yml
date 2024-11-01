@@ -80,9 +80,6 @@
       - "53:53/tcp"
       - "53:53/udp"
       - "853:853/udp"
-    dns:
-      - 8.8.8.8
-      - 1.1.1.1
     volumes:
       - "{{ app_data_dir }}/pihole/etc-pihole:/etc/pihole"
       - "{{ app_data_dir }}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
@@ -99,19 +96,13 @@
       traefik.http.routers.pihole-router.rule: "Host(`pihole.{{ DOMAIN }}`)"
       traefik.http.routers.pihole-router.entrypoints: "https"
       traefik.http.routers.pihole-router.tls.certresolver: "letsencrypt"
-      traefik.http.services.pihole.loadbalancer.server.port: "80"  # Set Pi-hole’s internal web port
+      traefik.http.services.pihole.loadbalancer.server.port: "82"  # Set Pi-hole’s internal web port
 
       # Redirect root to /admin for the Pi-hole web interface
       traefik.http.middlewares.pihole-redirect.redirectregex.regex: "^https?://(.*)/?$"
       traefik.http.middlewares.pihole-redirect.redirectregex.replacement: "https://$1/admin/"
       traefik.http.middlewares.pihole-redirect.redirectregex.permanent: "true"
       traefik.http.routers.pihole-router.middlewares: "pihole-redirect"
-
-      # DNS-over-TLS (TCP on port 853) Configuration
-      traefik.tcp.routers.dnsovertls.rule: "HostSNI(`pihole.{{ DOMAIN }}`)"
-      traefik.tcp.routers.dnsovertls.entrypoints: "dnsovertls"
-      traefik.tcp.routers.dnsovertls.tls.certresolver: "letsencrypt"  # TLS enabled for DNS-over-TLS
-      traefik.tcp.routers.dnsovertls.service: "pihole-tcp"
 
       # Standard DNS over TCP (port 53)
       traefik.tcp.routers.dns.rule: "HostSNI(`*`)"  # Wildcard for regular DNS
