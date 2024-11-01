@@ -123,6 +123,9 @@
     env:
       TZ: "{{ timezone }}"
       WEBPASSWORD: "{{ PASSWORD }}"
+      FTLCONF_LOCAL_IPV4: "{{ LOCAL_IP }}"
+      IPV6: "false"
+      VIRTUAL_HOST: "pihole.{{ DOMAIN }}"
     security_opts:
       - "no-new-privileges:true"
     log_driver: "json-file"
