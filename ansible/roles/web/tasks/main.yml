@@ -86,8 +86,12 @@
       net.unraid.docker.icon: "https://www.clipartmax.com/png/small/296-2965097_network-wide-ad-blocking-via-your-own-linux-hardware-pihole-logo.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://pihole.johnflix.uk"
-      traefik.http.services.pihole.loadbalancer.server.port: "82"
       traefik.enable: "true"
+      traefik.http.routers.pihole.tls.certresolver: "letsencrypt"
+      traefik.http.services.pihole.loadbalancer.server.port: "82"
+      traefik.http.routers.pihole-router.rule: "Host(`pihole.{{ DOMAIN }}`)"
+      traefik.http.routers.pihole-router.entrypoints: "https"
+      #traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
     env:
       TZ: "{{ timezone }}"
       WEBPASSWORD: "{{ PASSWORD }}"
