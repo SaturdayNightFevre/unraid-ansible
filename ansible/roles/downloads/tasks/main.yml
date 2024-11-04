@@ -6,7 +6,7 @@
     restart_policy: always
     networks:
       - name: web
-    cap_add:
+    capabilities:
       - NET_ADMIN
     volumes:
       - "{{ app_data_dir }}/gluetun:/gluetun"
