@@ -14,6 +14,8 @@
         DOMAIN: "{{ lookup('env', 'DOMAIN') }}"
         PASSWORD_HASH: "{{ lookup('env', 'PASSWORD_HASH') }}"
         PASSWORD: "{{ lookup('env', 'PASSWORD') }}"
+        OPENVPN_USER: "{{ lookup('env', 'OPENVPN_USER') }}"
+        OPENVPN_PASSWORD: "{{ lookup('env', 'OPENVPN_PASSWORD') }}"
 
 - name: Ensure Docker and Networks
   hosts: johnflix
