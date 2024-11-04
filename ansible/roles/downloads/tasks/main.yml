@@ -12,8 +12,8 @@
       - "{{ app_data_dir }}/gluetun:/gluetun"
     env:
       VPN_SERVICE_PROVIDER: "private internet access"
-      OPENVPN_USER: "{{  }}"
-      OPENVPN_PASSWORD: "{{  }}"
+      OPENVPN_USER: "{{ OPENVPN_USER }}"
+      OPENVPN_PASSWORD: "{{ OPENVPN_PASSWORD }}"
       SERVER_REGIONS: "Netherlands"
       VPN_PORT_FORWARDING: "on"
       FIREWALL_OUTBOUND_SUBNETS:  "{{ subnet }}"
