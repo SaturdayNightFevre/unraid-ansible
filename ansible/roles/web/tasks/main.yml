@@ -128,4 +128,24 @@
       max-file: "1"
       max-size: "10m"
 
-
+- name: Set up DuckDNS container
+  community.docker.docker_container:
+    name: duckdns
+    image: lscr.io/linuxserver/duckdns:latest
+    env:
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"
+      SUBDOMAINS: "{{ DOMAIN }}"
+      TOKEN: "{{ DUCK_DNS_TOKEN }}"
+      UPDATE_IP: "ipv4"
+    volumes:
+      - "{{ app_data_dir }}/duckdns/config:/config "
+    restart_policy: unless-stopped
+    log_driver: "json-file"
+    log_options:
+      max-file: "1"
+      max-size: "10m"
+    labels:
+      net.unraid.docker.icon: "https://www.duckdns.org/img/ducky_icon.png"
+      net.unraid.docker.managed: "dockerman"

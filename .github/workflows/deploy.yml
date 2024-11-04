@@ -64,3 +64,5 @@ jobs:
           DOMAIN: ${{ secrets.DOMAIN}}
           PASSWORD_HASH: ${{ secrets.PASSWORD_HASH}}
           PASSWORD: ${{ secrets.PASSWORD }}
+          OPENVPN_USER: ${{ secrets.OPENVPN_USER }}
+          OPENVPN_PASSWORD: ${{ secrets.OPENVPN_PASSWORD }}

@@ -1,0 +1,92 @@
+
+- name: Start Gluetun container
+  community.docker.docker_container:
+    name: gluetun
+    image: qmcgaw/gluetun:v3
+    restart_policy: always
+    networks:
+      - name: web
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - "{{ app_data_dir }}/gluetun:/gluetun"
+    env:
+      VPN_SERVICE_PROVIDER: "private internet access"
+      OPENVPN_USER: "{{  }}"
+      OPENVPN_PASSWORD: "{{  }}"
+      SERVER_REGIONS: "Netherlands"
+      VPN_PORT_FORWARDING: "on"
+      FIREWALL_OUTBOUND_SUBNETS:  "{{ subnet }}"
+      BLOCK_MALICIOUS: "on"
+      BLOCK_SURVEILLANCE: "on"
+      BLOCK_ADS: "on"
+    ports:
+      - "8112:8112"
+      - "9696:9696"
+      - "58846:58846"
+    labels:
+      # Deluge
+      traefik.enable: "true"
+      traefik.http.routers.gluetun-deluge.tls.certresolver: "letsencrypt"
+      traefik.http.services.gluetun-deluge.loadbalancer.server.port: "8112"
+      traefik.http.routers.gluetun-deluge.rule: "Host(`downloads.{{ DOMAIN }}`)"
+      traefik.http.routers.gluetun-deluge.entrypoints: "https"
+      # Prowlarr
+      traefik.http.routers.gluetun-prowlarr.tls.certresolver: "letsencrypt"
+      traefik.http.services.gluetun-prowlarr.loadbalancer.server.port: "9696"
+      traefik.http.routers.gluetun-prowlarr.rule: "Host(`torrents.{{ DOMAIN }}`)"
+      traefik.http.routers.gluetun-prowlarr.entrypoints: "https"
+      # Unraid Labels
+      net.unraid.docker.icon: "https://github.com/qdm12/gluetun/blob/master/doc/logo_256.png"
+      net.unraid.docker.managed: "dockerman"
+
+- name: Start Deluge container
+  community.docker.docker_container:
+    name: deluge
+    image: linuxserver/deluge:2.1.1
+    restart_policy: always
+    network_mode: "service:gluetun"
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "Etc/UTC"
+      DELUGE_LOGLEVEL: "warn"   # Optional
+    volumes:
+      - "{{ app_data_dir }}/deluge:/config"
+      - "{{ dwnlds_dir }}:/downloads"
+    labels:
+      net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Deluge_icon.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://downloads.johnflix.uk"
+
+- name: Start Gluetun Deluge Port Manager container
+  community.docker.docker_container:
+    name: gluetun-deluge-port-manager
+    image: plaexmstr/gluetun-deluge-port-manager
+    restart_policy: always
+    depends_on:
+      - gluetun
+    volumes:
+      - "{{ app_data_dir }}/gluetun:/gluetun"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    network_mode: "service:gluetun"
+    env:
+      DELUGE_PORT: "8112"
+      PORT_FORWARDED: "/tmp/gluetun/piaportforward.json"
+
+- name: Start Prowlarr container
+  community.docker.docker_container:
+    name: torrents
+    image: lscr.io/linuxserver/prowlarr:1.25.4
+    restart_policy: always
+    network_mode: "service:gluetun"
+    env:
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"
+    volumes:
+      - "{{ app_data_dir }}/prowlarr:/config"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/prowlarr-banner.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://torrents.johnflix.uk"

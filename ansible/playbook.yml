@@ -40,6 +40,19 @@
   vars_files:
     - vars.yml
 
+- name: Deploy Download Layer
+  hosts: johnflix
+  become: false
+  pre_tasks:
+    - name: Loading environment variables
+      set_fact:
+        OPENVPN_USER: "{{ hostvars['localhost'].OPENVPN_USER: }}"
+        OPENVPN_PASSWORD: "{{ hostvars['localhost'].OPENVPN_PASSWORD: }}"
+  roles:
+    - web
+  vars_files:
+    - vars.yml
+
 - name: Deploy Docker Containers
   hosts: johnflix
   become: false
