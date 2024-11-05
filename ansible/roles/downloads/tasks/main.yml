@@ -45,7 +45,7 @@
     name: deluge
     image: linuxserver/deluge:2.1.1
     restart_policy: always
-    network_mode: "service:gluetun"
+    network_mode: "container:gluetun"
     env:
       PUID: "1000"
       PGID: "1000"
@@ -69,7 +69,7 @@
     volumes:
       - "{{ app_data_dir }}/gluetun:/gluetun"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    network_mode: "service:gluetun"
+    network_mode: "container:gluetun"
     env:
       DELUGE_PORT: "8112"
       PORT_FORWARDED: "/tmp/gluetun/piaportforward.json"
@@ -79,7 +79,7 @@
     name: torrents
     image: lscr.io/linuxserver/prowlarr:1.25.4
     restart_policy: always
-    network_mode: "service:gluetun"
+    network_mode: "container:gluetun"
     env:
       PUID: "{{ puid }}"
       PGID: "{{ pgid }}"
