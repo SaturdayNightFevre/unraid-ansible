@@ -1,4 +1,3 @@
-
 - name: Start Gluetun container
   community.docker.docker_container:
     name: gluetun
@@ -25,17 +24,16 @@
       - "9696:9696"
       - "58846:58846"
     labels:
-      # Deluge
       traefik.enable: "true"
-      traefik.http.routers.gluetun-deluge.tls.certresolver: "letsencrypt"
-      traefik.http.services.gluetun-deluge.loadbalancer.server.port: "8112"
       traefik.http.routers.gluetun-deluge.rule: "Host(`downloads.{{ DOMAIN }}`)"
       traefik.http.routers.gluetun-deluge.entrypoints: "https"
-      # Prowlarr
-      traefik.http.routers.gluetun-prowlarr.tls.certresolver: "letsencrypt"
-      traefik.http.services.gluetun-prowlarr.loadbalancer.server.port: "9696"
+      traefik.http.routers.gluetun-deluge.tls.certresolver: "letsencrypt"
+      traefik.http.services.gluetun-deluge.loadbalancer.server.port: "8112"
+      # Traefik label for Prowlarr (on Gluetun's network)
       traefik.http.routers.gluetun-prowlarr.rule: "Host(`torrents.{{ DOMAIN }}`)"
       traefik.http.routers.gluetun-prowlarr.entrypoints: "https"
+      traefik.http.routers.gluetun-prowlarr.tls.certresolver: "letsencrypt"
+      traefik.http.services.gluetun-prowlarr.loadbalancer.server.port: "9696"
       # Unraid Labels
       net.unraid.docker.icon: "https://github.com/qdm12/gluetun/blob/master/doc/logo_256.png"
       net.unraid.docker.managed: "dockerman"
@@ -64,8 +62,6 @@
     name: gluetun-deluge-port-manager
     image: plaexmstr/gluetun-deluge-port-manager
     restart_policy: always
-    depends_on:
-      - gluetun
     volumes:
       - "{{ app_data_dir }}/gluetun:/gluetun"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"

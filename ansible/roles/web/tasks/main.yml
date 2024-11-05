@@ -93,7 +93,7 @@
       net.unraid.docker.webui: "https://pihole.johnflix.uk"
 
       # Enable Traefik for Pi-hole container
-      traefik.enable: "true"
+      traefik.enable: "false"
 
       # Web Interface (HTTPS) Configuration
       traefik.http.routers.pihole-router.rule: "Host(`pihole.{{ DOMAIN }}`)"
