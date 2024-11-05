@@ -25,10 +25,18 @@
       - "58846:58846"
     labels:
       traefik.enable: "true"
-      traefik.http.routers.gluetun-deluge-router.rule: "Host(`downloads.{{ DOMAIN }}`)"
-      traefik.http.routers.gluetun-deluge-router.entrypoints: "https"
+      traefik.http.routers.gluetun-deluge-rtr.rule: "Host(`downloads.{{ DOMAIN }}`)"
+      traefik.http.routers.gluetun-deluge-rtr.entrypoints: "https"
+      ## HTTP Services
+      traefik.http.routers.gluetun-deluge-rtr.service: "gluetun-deluge"
+      traefik.http.routers.gluetun-deluge-rtr.service: "gluetun-deluge"
       traefik.http.routers.gluetun-deluge.tls.certresolver: "letsencrypt"
-      traefik.http.services.gluetun-deluge.loadbalancer.server.port: "8112"
+      traefik.http.services.gluetun-deluge.loadbalancer.server.portt: "8112"
+      traefik.http.routers.gluetun-delugesecure.entrypoints: "https"
+      traefik.http.routers.gluetun-delugesecure.rule: "Host(`downloads.{{ DOMAIN }}`)"
+      traefik.http.routers.gluetun-delugesecure.tls: true
+      traefik.http.routers.gluetun-delugesecure.tls.certresolver: "letsencrypt"
+      traefik.http.routers.gluetun-delugesecure.service: "gluetun-deluge"
       # Traefik label for Prowlarr (on Gluetun's network)
       traefik.http.routers.gluetun-prowlarr.rule: "Host(`torrents.{{ DOMAIN }}`)"
       traefik.http.routers.gluetun-prowlarr.entrypoints: "https"
