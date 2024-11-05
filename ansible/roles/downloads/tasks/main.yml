@@ -45,6 +45,8 @@
     name: deluge
     image: linuxserver/deluge:2.1.1
     restart_policy: always
+    networks:
+      - name: web
     network_mode: "container:gluetun"
     env:
       PUID: "1000"

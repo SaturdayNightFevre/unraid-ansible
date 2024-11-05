@@ -76,6 +76,8 @@
     pull: "always"
     hostname: "pihole.{{ DOMAIN }}"
     restart_policy: unless-stopped
+    networks:
+      - name: web
     ports:
       - "82:80/tcp"
       - "53:53/tcp"
