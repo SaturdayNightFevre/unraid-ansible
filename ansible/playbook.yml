@@ -60,8 +60,10 @@
   become: false
   gather_facts: false
   roles:
-    - 4k
+    - 4k-arrs
+    - arrs
     - audiobooks
     - books
+    - plex
   vars_files:
     - vars.yml

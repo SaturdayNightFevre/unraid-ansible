@@ -63,7 +63,7 @@
       traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
       net.unraid.docker.icon: "https://www.clipartmax.com/png/small/63-633339_traefik-docker-swarm-load-balancing.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://proxy.johnflix.uk"
+      net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}}"
     log_driver: "json-file"
     log_options:
       max-file: "1"

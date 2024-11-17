@@ -1,0 +1,82 @@
+---
+- name: Start films container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: films
+    image: linuxserver/radarr:5.14.0
+    entrypoint:
+      - /init
+    env:
+      PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PGID: 100
+      PUID: 99
+    networks:
+      - name: web
+    published_ports: ["5656:5656"]
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr-logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://films.{{ DOMAIN }}"
+      traefik.enable: "true"
+      traefik.http.routers.films.tls.certresolver: "letsencrypt"
+      traefik.http.services.films.loadbalancer.server.port: "7878"
+      traefik.http.routers.films-router.rule: "Host(`films.{{ DOMAIN }}`)"
+      traefik.http.routers.films-router.entrypoints: "https"
+      #traefik.http.routers.films-router.middlewares: "internal-ipallowlist@file"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    restart_policy: always
+    volumes:
+      - "{{ app_data_dir }}/radarr/config:/config"
+      - "{{ dwnlds_dir }}:/downloads"
+      - "{{ media_dir }}/Films:/movies"
+    #security_opts:
+      #- no-new-privileges:true
+    #read_only: true
+
+- name: Start tv container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: tv
+    image: linuxserver/sonarr:4.0.9
+    published_ports: ["6767:6767"]
+    env:
+      PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PGID: 100
+      PUID: 99
+    entrypoint:
+      - /init
+    ipc_mode: private
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/sonarr-icon.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://4k-tv.{{ DOMAIN }}"
+      traefik.enable: "true"
+      traefik.http.routers.tv.tls.certresolver: "letsencrypt"
+      traefik.http.services.tv.loadbalancer.server.port: "8989"
+      traefik.http.routers.tv-router.rule: "Host(`tv.{{ DOMAIN }}`)"
+      traefik.http.routers.tv-router.entrypoints: "https"
+      dfgdf 
+      #traefik.http.routers.tv-router.middlewares: "internal-ipallowlist@file"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    networks:
+      - name: web
+    restart_policy: always
+    volumes:
+    - "{{ app_data_dir }}/sonarr/dev/rtc:/dev/rtc:ro"
+    - "{{ app_data_dir }}/sonarr:/config"
+    - "{{ dwnlds_dir }}:/downloads"
+    - "{{ media_dir }}/TV Shows:/tv"
+    working_dir: /
+    #security_opts:
+      #- no-new-privileges:true
+    #read_only: true
+
+
