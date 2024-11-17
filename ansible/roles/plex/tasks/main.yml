@@ -1,14 +1,61 @@
 ---
-- name: Start Plex container
+#- name: Start OLD Plex container
+  #community.docker.docker_container:
+    #image_name_mismatch: "recreate"
+    #pull: "always"
+    #name: plex
+    #image: binhex/arch-plexpass:1.32.4.7195-1-01
+    #restart_policy: always
+    #command: ["/bin/bash", "/usr/local/bin/init.sh"]
+    #runtime: nvidia
+    #entrypoint: ["/usr/bin/dumb-init", "--"]
+    #env:
+      #TZ: "{{ timezone }}"
+      #PUID: "99"
+      #PGID: "100"
+      #HOST_CONTAINERNAME: "binhex-plexpass"
+      #NVIDIA_DRIVER_CAPABILITIES: "all"
+      #NVIDIA_VISIBLE_DEVICES: "GPU-4f06ded6-04b8-a364-9264-027a0333b98f"
+      #HOST_OS: "Unraid"
+      #HOST_HOSTNAME: "JohnFlix"
+      #TCP_PORT_32400: "324001.32.4"
+      #PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      #HOME: "/home/nobody"
+      #TERM: "xterm"
+      #LANG: "en_GB.UTF-8"
+    #hostname: "JohnFlix"
+    #ipc_mode: "private"
+    #network_mode: "host"
+    #privileged: true
+    #security_opts:
+      #- "label=disable"
+    #working_dir: "/"
+    #volumes:
+      #- "{{ app_data_dir }}/plex/transcode:/Transcode"
+      #- "{{ app_data_dir }}/plex:/config"
+      #- "{{ media_dir }}:/media"
+    #labels:
+      #net.unraid.docker.icon: "https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/plex-icon.png"
+      #net.unraid.docker.managed: "dockerman"
+      #net.unraid.docker.webui: "http://[IP]:[PORT:32400]/web/index.html"
+      #org.opencontainers.image.authors: "= binhex"
+      #org.opencontainers.image.source: "= https://github.com/binhex/arch-plexpass"
+    #log_driver: json-file
+    #log_options:
+      #max-file: "1"
+      #max-size: 10m
+
+- name: Ensure new Plex container is running
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    name: plex
-    image: binhex/arch-plexpass:1.32.4.7195-1-01
-    restart_policy: always
-    command: ["/bin/bash", "/usr/local/bin/init.sh"]
+    name: plex-new
     runtime: nvidia
-    entrypoint: ["/usr/bin/dumb-init", "--"]
+    image: lscr.io/linuxserver/plex:1.32.4
+    security_opts:
+      - "label=disable"
+    network_mode: "host"
+    restart_policy: "unless-stopped"
     env:
       TZ: "{{ timezone }}"
       PUID: "99"
@@ -23,24 +70,18 @@
       HOME: "/home/nobody"
       TERM: "xterm"
       LANG: "en_GB.UTF-8"
-    hostname: "JohnFlix"
-    ipc_mode: "private"
-    network_mode: "host"
-    privileged: true
-    security_opts:
-      - "label=disable"
-    working_dir: "/"
+      VERSION: "docker"
+      PLEX_CLAIM: "claim-9fuq66opASmyTDu5CWAq"
     volumes:
       - "{{ app_data_dir }}/plex/transcode:/Transcode"
-      - "{{ app_data_dir }}/plex:/config"
+      - "{{ app_data_dir }}/plex-new:/config"
       - "{{ media_dir }}:/media"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/plex-icon.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "http://[IP]:[PORT:32400]/web/index.html"
-      org.opencontainers.image.authors: "= binhex"
-      org.opencontainers.image.source: "= https://github.com/binhex/arch-plexpass"
     log_driver: json-file
     log_options:
       max-file: "1"
       max-size: 10m
+
