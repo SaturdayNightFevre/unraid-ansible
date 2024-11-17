@@ -13,7 +13,7 @@
       PUID: "99"
     networks:
       - name: web
-    published_ports: ["5656:5656"]
+    published_ports: ["7878:7878"]
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr-logo.png"
       net.unraid.docker.managed: "dockerman"
@@ -43,7 +43,7 @@
     pull: "always"
     name: tv
     image: linuxserver/sonarr:4.0.9
-    published_ports: ["6767:6767"]
+    published_ports: ["8989:8989"]
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PGID: "100"
