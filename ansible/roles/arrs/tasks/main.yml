@@ -9,8 +9,8 @@
       - /init
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PGID: 100
-      PUID: 99
+      PGID: "100"
+      PUID: "99"
     networks:
       - name: web
     published_ports: ["5656:5656"]
@@ -46,8 +46,8 @@
     published_ports: ["6767:6767"]
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PGID: 100
-      PUID: 99
+      PGID: "100"
+      PUID: "99"
     entrypoint:
       - /init
     ipc_mode: private
