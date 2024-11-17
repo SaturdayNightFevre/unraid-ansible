@@ -51,7 +51,7 @@
     pull: "always"
     name: plex
     runtime: nvidia
-    image: lscr.io/linuxserver/plex:1.32.4
+    image: lscr.io/linuxserver/plex:1.41.2
     security_opts:
       - "label=disable"
     network_mode: "host"
@@ -67,10 +67,9 @@
       TCP_PORT_32400: "324001.32.4"
       PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       HOME: "/home/nobody"
-      TERM: "xterm"
+      TERM: "bash"
       LANG: "en_GB.UTF-8"
       VERSION: "docker"
-      PLEX_CLAIM: "claim-9fuq66opASmyTDu5CWAq"
     volumes:
       - "{{ app_data_dir }}/plex:/config"
       - "{{ media_dir }}:/media"
@@ -82,4 +81,3 @@
     log_options:
       max-file: "1"
       max-size: 10m
-
