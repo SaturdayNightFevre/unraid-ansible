@@ -54,7 +54,7 @@
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/sonarr-icon.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://4k-tv.{{ DOMAIN }}"
+      net.unraid.docker.webui: "https://tv.{{ DOMAIN }}"
       traefik.enable: "true"
       traefik.http.routers.tv.tls.certresolver: "letsencrypt"
       traefik.http.services.tv.loadbalancer.server.port: "8989"
