@@ -35,7 +35,9 @@
       - "{{ media_dir }}/Films:/movies"
     #security_opts:
       #- no-new-privileges:true
-    #read_only: true
+    read_only: true
+    tmpfs:
+      - "/run:exec"
 
 - name: Start tv container
   community.docker.docker_container:
@@ -76,6 +78,8 @@
     working_dir: /
     #security_opts:
       #- no-new-privileges:true
-    #read_only: true
+    read_only: true
+    tmpfs:
+      - "/run:exec"
 
 
