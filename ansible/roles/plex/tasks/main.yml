@@ -9,7 +9,7 @@
     command: ["/bin/bash", "/usr/local/bin/init.sh"]
     runtime: nvidia
     entrypoint: ["/usr/bin/dumb-init", "--"]
-    environment:
+    env:
       TZ: "{{ timezone }}"
       PUID: "99"
       PGID: "100"
