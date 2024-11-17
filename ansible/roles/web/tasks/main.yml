@@ -138,7 +138,7 @@
       PUID: "{{ puid }}"
       PGID: "{{ pgid }}"
       TZ: "{{ timezone }}"
-      SUBDOMAINS: "{{ DOMAIN }}"
+      SUBDOMAINS: "johnflix"
       TOKEN: "{{ DUCK_DNS_TOKEN }}"
       UPDATE_IP: "ipv4"
     volumes:
