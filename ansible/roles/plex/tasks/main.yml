@@ -49,7 +49,7 @@
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    name: plex-new
+    name: plex
     runtime: nvidia
     image: lscr.io/linuxserver/plex:1.32.4
     security_opts:
@@ -60,7 +60,6 @@
       TZ: "{{ timezone }}"
       PUID: "99"
       PGID: "100"
-      HOST_CONTAINERNAME: "binhex-plexpass"
       NVIDIA_DRIVER_CAPABILITIES: "all"
       NVIDIA_VISIBLE_DEVICES: "GPU-4f06ded6-04b8-a364-9264-027a0333b98f"
       HOST_OS: "Unraid"
@@ -73,8 +72,7 @@
       VERSION: "docker"
       PLEX_CLAIM: "claim-9fuq66opASmyTDu5CWAq"
     volumes:
-      - "{{ app_data_dir }}/plex/transcode:/Transcode"
-      - "{{ app_data_dir }}/plex-new:/config"
+      - "{{ app_data_dir }}/plex:/config"
       - "{{ media_dir }}:/media"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/plex-icon.png"
