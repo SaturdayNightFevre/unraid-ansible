@@ -4,7 +4,7 @@
     image_name_mismatch: "recreate"
     pull: "always"
     name: plex
-    image: binhex/arch-plexpass:1.32.4.7195-1-01
+    image: binhex/arch-plexpass:1.41.2.9200-1-01
     restart_policy: always
     command: ["/bin/bash", "/usr/local/bin/init.sh"]
     runtime: nvidia

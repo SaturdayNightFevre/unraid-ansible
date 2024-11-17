@@ -42,7 +42,7 @@
     image_name_mismatch: "recreate"
     pull: "always"
     name: tv
-    image: linuxserver/sonarr:4.0.9
+    image: linuxserver/sonarr:4.0.10
     published_ports: ["8989:8989"]
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

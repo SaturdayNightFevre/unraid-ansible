@@ -41,7 +41,7 @@
     image_name_mismatch: "recreate"
     pull: "always"
     name: 4k-tv
-    image: linuxserver/sonarr:4.0.9
+    image: linuxserver/sonarr:4.0.10
     published_ports: ["6767:6767"]
     entrypoint:
       - /init
