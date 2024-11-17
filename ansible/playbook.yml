@@ -17,53 +17,52 @@
         OPENVPN_USER: "{{ lookup('env', 'OPENVPN_USER') }}"
         OPENVPN_PASSWORD: "{{ lookup('env', 'OPENVPN_PASSWORD') }}"
 
-#- name: Ensure Docker and Networks
-  #hosts: johnflix
-  #become: false
-  #roles:
-    #- common
-  #vars_files:
-    #- vars.yml
+- name: Ensure Docker and Networks
+  hosts: johnflix
+  become: false
+  roles:
+    - common
+  vars_files:
+    - vars.yml
+- name: Deploy Web Layer
+  hosts: johnflix
+  become: false
+  pre_tasks:
+    - name: Loading environment variables
+      set_fact:
+        EMAIL: "{{ hostvars['localhost'].EMAIL }}"
+        DUCK_DNS_TOKEN: "{{ hostvars['localhost'].DUCK_DNS_TOKEN }}"
+        CF_KEY: "{{ hostvars['localhost'].CF_KEY }}"
+        DOMAIN: "{{ hostvars['localhost'].DOMAIN }}"
+        PASSWORD_HASH: "{{ hostvars['localhost'].PASSWORD_HASH}}"
+        PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"
+  roles:
+    - web
+  vars_files:
+    - vars.yml
 
-#- name: Deploy Web Layer
-  #hosts: johnflix
-  #become: false
-  #pre_tasks:
-    #- name: Loading environment variables
-      #set_fact:
-        #EMAIL: "{{ hostvars['localhost'].EMAIL }}"
-        #DUCK_DNS_TOKEN: "{{ hostvars['localhost'].DUCK_DNS_TOKEN }}"
-        #CF_KEY: "{{ hostvars['localhost'].CF_KEY }}"
-        #DOMAIN: "{{ hostvars['localhost'].DOMAIN }}"
-        #PASSWORD_HASH: "{{ hostvars['localhost'].PASSWORD_HASH}}"
-        #PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"
-  #roles:
-    #- web
-  #vars_files:
-    #- vars.yml
-#
-#- name: Deploy Download Layer
-  #hosts: johnflix
-  #become: false
-  #pre_tasks:
-    #- name: Loading environment variables
-      #set_fact:
-        #OPENVPN_USER: "{{ hostvars['localhost'].OPENVPN_USER }}"
-        #OPENVPN_PASSWORD: "{{ hostvars['localhost'].OPENVPN_PASSWORD }}"
-  #roles:
-    #- downloads
-  #vars_files:
-    #- vars.yml
+- name: Deploy Download Layer
+  hosts: johnflix
+  become: false
+  pre_tasks:
+    - name: Loading environment variables
+      set_fact:
+        OPENVPN_USER: "{{ hostvars['localhost'].OPENVPN_USER }}"
+        OPENVPN_PASSWORD: "{{ hostvars['localhost'].OPENVPN_PASSWORD }}"
+  roles:
+    - downloads
+  vars_files:
+    - vars.yml
 
 - name: Deploy Docker Containers
   hosts: johnflix
   become: false
   gather_facts: false
   roles:
-    #- 4k-arrs
-    #- arrs
-    #- audiobooks
-    #- books
+    - 4k-arrs
+    - arrs
+    - audiobooks
+    - books
     - plex
   vars_files:
     - vars.yml
