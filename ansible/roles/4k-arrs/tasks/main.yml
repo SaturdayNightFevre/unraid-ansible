@@ -48,7 +48,6 @@
     #target_dir: "{{ app_data_dir }}/sonarr-4k"
     #app_owner: tv
 
-
 - name: Start 4k-tv container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
@@ -59,8 +58,7 @@
     env:
       PUID: "2001"
       PGID: "{{ media_pgid }}"
-    entrypoint:
-      - /init
+
     ipc_mode: private
     labels:
       net.unraid.docker.icon: "https://github.com/themepark-dev/theme.park/blob/master/css/addons/sonarr/sonarr-4k-logo/sonarr-4k.png?raw=true"
