@@ -36,13 +36,11 @@
     security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    #read_only: true
-    #tmpfs:
-      #- "/run:exec"
-      #- "/etc:rw"
-      #- "/etc/passwd:rw"
-      #- "/etc/group:rw"
-
+    read_only: true
+    tmpfs:
+      - "/run:exec"
+    memory: "1g"
+    cpus: 1
 
 #- name: Set permissions for Radarr config directory
   #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
