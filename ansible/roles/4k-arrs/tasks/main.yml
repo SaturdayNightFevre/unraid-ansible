@@ -39,14 +39,17 @@
     read_only: true
     tmpfs:
       - "/run:exec"
+      - "/etc:rw"
+      - "/etc/passwd:rw"
+      - "/etc/group:rw"
     memory: "1g"
     cpus: 1
 
-- name: Set permissions for Radarr config directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/sonarr-4k"
-    app_owner: tv
+#- name: Set permissions for Radarr config directory
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ app_data_dir }}/sonarr-4k"
+    #app_owner: tv
 
 
 - name: Start 4k-tv container
@@ -95,8 +98,8 @@
     cpus: 1
 
 
-- name: Set permissions for 4k-films directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ media_dir }}/4k-tv-shows"
-    app_owner: tv
+#- name: Set permissions for 4k-films directory
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ media_dir }}/4k-tv-shows"
+    #app_owner: tv
