@@ -83,16 +83,16 @@
     mode: "0775"
     recurse: yes
 
-- name: Find all files in the downloads config directory
-  ansible.builtin.find:
-    paths: "{{ app_data_dir }}/deluge"
-    recurse: yes
-    file_type: file
-  register: download_config_files
+#- name: Find all files in the downloads config directory
+  #ansible.builtin.find:
+    #paths: "{{ app_data_dir }}/deluge"
+    #recurse: yes
+    #file_type: file
+  #register: download_config_files
 
-- name: Set permissions to 664 for all files in downloads config
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    mode: "0664"
-  loop: "{{ download_config_files.files }}"
+#- name: Set permissions to 664 for all files in downloads config
+  #ansible.builtin.file:
+    #path: "{{ item.path }}"
+    #mode: "0664"
+  #loop: "{{ download_config_files.files }}"
 

@@ -9,7 +9,7 @@
       - /init
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PUID: 2002
+      PUID: "2002"
       PGID: "{{ media_pgid }}"
     networks:
       - name: web
@@ -51,7 +51,7 @@
     image: linuxserver/sonarr:4.0.10
     published_ports: ["6767:6767"]
     env:
-      PUID: 2001
+      PUID: "2001"
       PGID: "{{ media_pgid }}"
     entrypoint:
       - /init
