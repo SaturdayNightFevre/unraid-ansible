@@ -76,7 +76,7 @@
     volumes:
     - "{{ app_data_dir }}/sonarr/dev/rtc:/dev/rtc:ro"
     - "{{ app_data_dir }}/sonarr:/config"
-    - "{{ dwnlds_dir }}:/downloads"
+    - "{{ dwnlds_dir }}:/downloads:rw,uid=1000,gid=1000"
     - "{{ media_dir }}/TV Shows:/tv"
     working_dir: /
     security_opts:
