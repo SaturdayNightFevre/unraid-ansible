@@ -94,3 +94,4 @@
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/prowlarr-banner.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://torrents.johnflix.uk"
+    

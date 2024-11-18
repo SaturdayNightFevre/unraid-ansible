@@ -30,6 +30,14 @@
       - "{{ app_data_dir }}/calibre-web/gmail.json:/gmail.json:ro"
     restart_policy: unless-stopped
     working_dir: "/"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    read_only: true
+    tmpfs:
+      - "/run:exec"
+    memory: "1g"
+    cpus: 1
 
 - name: Start books container
   community.docker.docker_container:
@@ -58,6 +66,14 @@
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/readarr-logo.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "http://[IP]:[PORT:8787]"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    read_only: true
+    tmpfs:
+      - "/run:exec"
+    memory: "1g"
+    cpus: 1
 
 - name: Start calibre container
   community.docker.docker_container:
@@ -88,4 +104,12 @@
       net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Calibre_logo_3.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "http://[IP]:[PORT:8080]"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    read_only: true
+    tmpfs:
+      - "/run:exec"
+    memory: "1g"
+    cpus: 1
 
