@@ -32,11 +32,14 @@
       - "{{ dwnlds_dir }}:/downloads"
       - "{{ media_dir }}/4k-movies:/movies"
       - "{{ media_dir }}/old-4k:/old-4k"
-    tmpfs:
-      - "/run:exec"
     security_opts:
       - no-new-privileges:true
+      - apparmor=docker-default
     read_only: true
+    tmpfs:
+      - "/run:exec"
+    mem_limit: "1g"
+    cpu_shares: 1024
 
 - name: Start 4k-tv container
   community.docker.docker_container:
@@ -73,8 +76,12 @@
     working_dir: /
     security_opts:
       - no-new-privileges:true
+      - apparmor=docker-default
     read_only: true
     tmpfs:
       - "/run:exec"
+    mem_limit: "1g"
+    cpu_shares: 1024
+
 
 
