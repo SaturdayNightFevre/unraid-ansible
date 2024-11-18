@@ -1,4 +1,10 @@
 ---
+- name: Set permissions for Radarr config directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/radarr-4k"
+    app_owner: films
+
 - name: Start 4k-films container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
@@ -42,6 +48,13 @@
       - "/run:exec"
     memory: "1g"
     cpus: 1
+
+- name: Set permissions for 4k-films directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ media_dir }}/4k-movies"
+    app_owner: films
+
 
 - name: Start 4k-tv container
   community.docker.docker_container:

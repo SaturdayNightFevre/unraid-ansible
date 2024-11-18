@@ -1,0 +1,22 @@
+---
+# set_directory_permissions.yml
+- name: Set ownership and permissions for the specified directory
+  ansible.builtin.file:
+    path: "{{ target_dir }}"
+    owner: "{{ app_owner }}"
+    group: "{{ app_group | default('media') }}"
+    mode: "{{ dir_mode | default('0775') }}"
+    recurse: yes
+
+- name: Find all files in the specified directory
+  ansible.builtin.find:
+    paths: "{{ target_dir }}"
+    recurse: yes
+    file_type: file
+  register: found_files
+
+- name: Set permissions for all files in the specified directory
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ file_mode | default('0664') }}"
+  loop: "{{ found_files.files }}"
