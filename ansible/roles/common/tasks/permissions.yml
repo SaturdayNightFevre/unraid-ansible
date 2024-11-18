@@ -53,35 +53,35 @@
 
 #Set permissions
 #downloads
-- name: Set permissions for the downloads directory
-  ansible.builtin.file:
-    path: "{{ dwnlds_dir }}"
-    owner: downloads
-    group: media
-    mode: "0775"
-    recurse: yes
+#- name: Set permissions for the downloads directory
+  #ansible.builtin.file:
+    #path: "{{ dwnlds_dir }}"
+    #owner: downloads
+    #group: media
+    #mode: "0775"
+    #recurse: yes
+#
+#- name: Find all files in the downloads directory
+  #ansible.builtin.find:
+    #paths: "{{ dwnlds_dir }}"
+    #recurse: yes
+    #file_type: file
+  #register: download_files
+#
+#- name: Set permissions to 664 for all files in downloads
+  #ansible.builtin.file:
+    #path: "{{ item.path }}"
+    #mode: "0664"
+  #loop: "{{ download_files.files }}"
+#
 
-- name: Find all files in the downloads directory
-  ansible.builtin.find:
-    paths: "{{ dwnlds_dir }}"
-    recurse: yes
-    file_type: file
-  register: download_files
-
-- name: Set permissions to 664 for all files in downloads
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    mode: "0664"
-  loop: "{{ download_files.files }}"
-
-
-- name: Set permissions for the downloads config directory
-  ansible.builtin.file:
-    path: "{{ app_data_dir }}/deluge"
-    owner: downloads
-    group: media
-    mode: "0775"
-    recurse: yes
+#- name: Set permissions for the downloads config directory
+  #ansible.builtin.file:
+    #path: "{{ app_data_dir }}/deluge"
+    #owner: downloads
+    #group: media
+    #mode: "0775"
+    #recurse: yes
 
 #- name: Find all files in the downloads config directory
   #ansible.builtin.find:
