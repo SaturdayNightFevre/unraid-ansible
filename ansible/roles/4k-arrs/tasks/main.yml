@@ -6,8 +6,6 @@
     pull: "always"
     name: 4k-films
     image: linuxserver/radarr:5.14.0
-    entrypoint:
-      - /init
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PUID: "2002"
@@ -100,5 +98,5 @@
 - name: Set permissions for 4k-films directory
   ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
   vars:
-    target_dir: "{{ media_dir }}/sonarr-4k"
+    target_dir: "{{ media_dir }}/4k-tv-shows"
     app_owner: tv
