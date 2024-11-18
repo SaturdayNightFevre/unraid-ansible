@@ -9,6 +9,8 @@
       - /init
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      PUID: 2002
+      PGID: "{{ media_pgid }}"
     networks:
       - name: web
     published_ports: ["5656:5656"]
@@ -48,6 +50,9 @@
     name: 4k-tv
     image: linuxserver/sonarr:4.0.10
     published_ports: ["6767:6767"]
+    env:
+      PUID: 2001
+      PGID: "{{ media_pgid }}"
     entrypoint:
       - /init
     ipc_mode: private

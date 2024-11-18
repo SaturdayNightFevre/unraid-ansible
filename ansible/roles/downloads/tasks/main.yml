@@ -29,7 +29,6 @@
       traefik.http.routers.gluetun-deluge-rtr.entrypoints: "https"
       ## HTTP Services
       traefik.http.routers.gluetun-deluge-rtr.service: "gluetun-deluge"
-      traefik.http.routers.gluetun-deluge-rtr.service: "gluetun-deluge"
       traefik.http.routers.gluetun-deluge.tls.certresolver: "letsencrypt"
       traefik.http.services.gluetun-deluge.loadbalancer.server.portt: "8112"
       traefik.http.routers.gluetun-delugesecure.entrypoints: "https"
@@ -53,8 +52,8 @@
     restart_policy: always
     network_mode: "container:gluetun"
     env:
-      PUID: "1000"
-      PGID: "1000"
+      PUID: "2000"
+      PGID: "{{ media_pgid }}"
       TZ: "Etc/UTC"
       DELUGE_LOGLEVEL: "warn"   # Optional
     volumes:
@@ -63,7 +62,7 @@
     labels:
       net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Deluge_icon.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://downloads.johnflix.uk"
+      net.unraid.docker.webui: "https://downloads.{{ DOMAIN }}"
 
 - name: Start Gluetun Deluge Port Manager container
   community.docker.docker_container:
@@ -93,5 +92,4 @@
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/prowlarr-banner.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://torrents.johnflix.uk"
-    
+      net.unraid.docker.webui: "https://torrents.{{ DOMAIN }}"
