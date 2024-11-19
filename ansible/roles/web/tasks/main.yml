@@ -140,8 +140,8 @@
     name: duckdns
     image: lscr.io/linuxserver/duckdns:latest
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
       TZ: "{{ timezone }}"
       SUBDOMAINS: "johnflix"
       TOKEN: "{{ DUCK_DNS_TOKEN }}"
