@@ -40,6 +40,16 @@
     memory: "1g"
     cpus: 1
 
+- name: Set permissions for sonarr directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/sonarr"
+
+- name: Set permissions for tv show directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ media_dir }}/TV Shows"
+
 - name: Start tv container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
