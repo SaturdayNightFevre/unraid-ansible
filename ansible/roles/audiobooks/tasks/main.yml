@@ -33,9 +33,9 @@
     security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    read_only: true
-    tmpfs:
-      - "/run:exec"
+    #read_only: true
+    #tmpfs:
+      #- "/run:exec"
     memory: "1g"
     cpus: 1
 
@@ -79,8 +79,8 @@
     security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    read_only: true
-    tmpfs:
-      - "/run:exec"
+    #read_only: true
+    #tmpfs:
+      #- "/run:exec"
     memory: "1g"
     cpus: 1

@@ -81,9 +81,9 @@
       - "{{ media_dir }}/4k-tv-shows:/tv-shows:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
     working_dir: /
-    #security_opts:
-      #- no-new-privileges:true
-      #- apparmor=docker-default
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
     #read_only: true
     #tmpfs:
       #- "/run:exec"
