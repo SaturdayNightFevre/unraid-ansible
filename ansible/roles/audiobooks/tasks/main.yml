@@ -1,8 +1,8 @@
 ---
-- name: Set permissions for audiobook config directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/readarr-audio/"
+#- name: Set permissions for audiobook config directory
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ app_data_dir }}/readarr-audio/"
 
 - name: Start audiobook container
   community.docker.docker_container:
@@ -39,15 +39,15 @@
     memory: "1g"
     cpus: 1
 
-- name: Set permissions for audibooks
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ media_dir }}/audiobooks/"
-
-- name: Set permissions for audible config directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/audiobookshelf/"
+#- name: Set permissions for audibooks
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ media_dir }}/audiobooks/"
+#
+#- name: Set permissions for audible config directory
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ app_data_dir }}/audiobookshelf/"
 
 - name: Start audible container
   community.docker.docker_container:
