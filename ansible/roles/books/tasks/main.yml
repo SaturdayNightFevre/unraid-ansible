@@ -1,13 +1,13 @@
 ---
-- name: Set permissions for library config directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/calibre-web/"
-
-- name: Set permissions for custom scripts directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/custom-scripts/"
+#- name: Set permissions for library config directory
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ app_data_dir }}/calibre-web/"
+#
+#- name: Set permissions for custom scripts directory
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ app_data_dir }}/custom-scripts/"
 
 - name: Start library container
   community.docker.docker_container:
@@ -49,15 +49,15 @@
     memory: "1g"
     cpus: 1
 
-- name: Set permissions for book directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ media_dir }}/Books/"
-
-- name: Set permissions for book config
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/readarr/"
+#- name: Set permissions for book directory
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ media_dir }}/Books/"
+#
+#- name: Set permissions for book config
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ app_data_dir }}/readarr/"
 
 - name: Start books container
   community.docker.docker_container:
@@ -95,10 +95,10 @@
     memory: "1g"
     cpus: 1
 
-- name: Set permissions for book config
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/calibre/"
+#- name: Set permissions for book config
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ app_data_dir }}/calibre/"
 
 - name: Start calibre container
   community.docker.docker_container:
@@ -107,8 +107,8 @@
     name: calibre
     image: linuxserver/calibre:7.5.1
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
       TZ: "{{timezone}}"
     volumes:
       - "{{ app_data_dir }}/calibre/config:/config"
