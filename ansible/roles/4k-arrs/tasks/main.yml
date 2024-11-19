@@ -36,12 +36,12 @@
       - "{{ dwnlds_dir }}:/downloads:rw"
       - "{{ media_dir }}/4k-movies:/movies:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
-    #security_opts:
-      #- no-new-privileges:true
+    security_opts:
+      - no-new-privileges:true
       #- apparmor=docker-default
-    #read_only: true
-    #tmpfs:
-      #- "/run:exec"
+    read_only: true
+    tmpfs:
+      - "/run:exec"
     memory: "1g"
     cpus: 1
 
