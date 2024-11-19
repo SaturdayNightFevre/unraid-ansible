@@ -1,4 +1,14 @@
 ---
+- name: Set permissions for library config directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/calibre-web/"
+
+- name: Set permissions for custom scripts directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/custom-scripts/"
+
 - name: Start library container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
@@ -8,8 +18,8 @@
     networks:
       - name: web
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
       TZ: "{{timezone}}"
       DOCKER_MODS: "linuxserver/mods:universal-calibre"
       OAUTHLIB_RELAX_TOKEN_SCOPE: "1"
@@ -25,7 +35,7 @@
       - "8083:8083/tcp"
     volumes:
       - "{{ app_data_dir }}/calibre-web:/config"
-      - "/mnt/user/media/Books/Calibre Library:/books"
+      - "{{ media_dir }}/Books/Calibre Library:/books"
       - "{{ app_data_dir }}/custom-scripts/calibre-web:/custom-cont-init.d:ro"
       - "{{ app_data_dir }}/calibre-web/gmail.json:/gmail.json:ro"
     restart_policy: unless-stopped
@@ -39,6 +49,16 @@
     memory: "1g"
     cpus: 1
 
+- name: Set permissions for book directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ media_dir }}/Books/"
+
+- name: Set permissions for book config
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/readarr/"
+
 - name: Start books container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
@@ -48,13 +68,13 @@
     networks:
       - name: web
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
       TZ: "{{timezone}}"
     volumes:
       - "{{ app_data_dir }}/readarr/:/config"
-      - "/mnt/user/media/Books/Calibre Library:/books"
-      - "/mnt/user/downloads/:/downloads"
+      - "{{ media_dir }}/Books/Calibre Library:/books"
+      - "{{ dwnlds_dir }}:/downloads"
     ports:
       - "8787:8787"
     restart_policy: unless-stopped
@@ -75,6 +95,11 @@
     memory: "1g"
     cpus: 1
 
+- name: Set permissions for book config
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/calibre/"
+
 - name: Start calibre container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
@@ -89,7 +114,7 @@
       - "{{ app_data_dir }}/calibre/config:/config"
       - "{{ app_data_dir }}/calibre/upload:/uploads"
       - "{{ app_data_dir }}/calibre/plugins:/plugins"
-      - "/mnt/user/media/Books/Calibre Library:/Calibre_Library"
+      - "{{ media_dir }}/Books/Calibre Library:/Calibre_Library"
     ports:
       - "8080:8080"
       - "8081:8081"

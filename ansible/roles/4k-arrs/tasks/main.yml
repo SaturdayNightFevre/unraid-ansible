@@ -36,24 +36,16 @@
       - "{{ dwnlds_dir }}:/downloads:rw"
       - "{{ media_dir }}/4k-movies:/movies:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
-    #security_opts:
-      #- no-new-privileges:true
-      #- apparmor=docker-default
-    #read_only: true
-    #tmpfs:
-      #- "/run:exec"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    read_only: true
+    tmpfs:
+      - "/run:exec"
     memory: "1g"
     cpus: 1
 
-#- name: Set permissions for 4k movies directory
-  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  #vars:
-    #target_dir: "{{ media_dir }}/4k-movies"
-#
-#- name: Set permissions for sonarr config directory
-  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  #vars:
-    #target_dir: "{{ app_data_dir }}/sonarr-4k"
+
 
 - name: Start 4k-tv container
   community.docker.docker_container:
@@ -89,12 +81,12 @@
       - "{{ media_dir }}/4k-tv-shows:/tv-shows:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
     working_dir: /
-    #security_opts:
-      #- no-new-privileges:true
-      #- apparmor=docker-default
-    #read_only: true
-    #tmpfs:
-      #- "/run:exec"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    read_only: true
+    tmpfs:
+      - "/run:exec"
     memory: "1g"
     cpus: 1
 

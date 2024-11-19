@@ -1,4 +1,9 @@
 ---
+- name: Set permissions for audiobook config directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/readarr-audio/"
+
 - name: Start audiobook container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
@@ -9,17 +14,17 @@
       - name: web
     published_ports: ["8686:8686"]
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
       TZ: "{{ timezone }}"
     volumes:
       - "{{ app_data_dir }}/readarr-audio/:/config"
-      - "/mnt/user/media/audiobooks/:/audiobooks"
-      - "/mnt/user/downloads/:/downloads"
+      - "{{ media_dir }}/audiobooks/:/audiobooks"
+      - "{{ dwnlds_dir }}:/downloads"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/readarr-logo.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "http://[IP]:[PORT:8686]"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8686]" #TODO traefik
     log_driver: json-file
     log_options:
       max-file: "1"
@@ -34,6 +39,16 @@
     memory: "1g"
     cpus: 1
 
+- name: Set permissions for audibooks
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ media_dir }}/audiobooks/"
+
+- name: Set permissions for audible config directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/audiobookshelf/"
+
 - name: Start audible container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
@@ -44,26 +59,28 @@
       - name: web
     published_ports: ["1337:1337"]
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
       TZ: "{{ timezone }}"
       PORT: "1337"
     volumes:
-      - "/mnt/user/media/audiobooks/:/audiobooks"
+      - "{{ media_dir }}/audiobooks/:/audiobooks"
       - "{{ app_data_dir }}/audiobookshelf/metadata:/metadata"
       - "{{ app_data_dir }}/audiobookshelf/:/config"
     labels:
       net.unraid.docker.icon: "https://www.audiobookshelf.org/Logo.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "http://[IP]:[PORT:1337]"
-      traefik.enable: "true"
-      traefik.http.routers.audible.service: "audible"
-      traefik.http.routers.audible.tls.certresolver: "dns-cloudflare"
-      traefik.http.routers.audible.entrypoints: "websecure"
-      traefik.http.services.audible.loadbalancer.server.port: "1337"
-      traefik.docker.network: "web"
+      net.unraid.docker.webui: "http://[IP]:[PORT:1337]" #TODO traefik
     log_driver: json-file
     log_options:
       max-file: "1"
       max-size: 10m
     restart_policy: unless-stopped
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    read_only: true
+    tmpfs:
+      - "/run:exec"
+    memory: "1g"
+    cpus: 1
