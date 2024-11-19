@@ -34,8 +34,8 @@
     restart_policy: always
     volumes:
       - "{{ app_data_dir }}/radarr-4k:/config"
-      - "{{ dwnlds_dir }}:/downloads"
-      - "{{ media_dir }}/4k-movies:/movies"
+      - "{{ dwnlds_dir }}:/downloads:rw"
+      - "{{ media_dir }}/4k-movies:/movies:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
     security_opts:
       - no-new-privileges:true
@@ -86,8 +86,8 @@
     restart_policy: always
     volumes:
       - "{{ app_data_dir }}/sonarr-4k:/config"
-      - "{{ dwnlds_dir }}:/downloads"
-      - "{{ media_dir }}/4k-tv-shows:/tv-shows"
+      - "{{ dwnlds_dir }}:/downloads:rw"
+      - "{{ media_dir }}/4k-tv-shows:/tv-shows:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
     working_dir: /
     security_opts:
