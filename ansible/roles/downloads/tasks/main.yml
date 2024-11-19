@@ -1,12 +1,12 @@
-- name: Set permissions for Downloads config
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/deluge"
-
-- name: Set permissions for Downloads directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ dwnlds_dir }}"
+#- name: Set permissions for Downloads config
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ app_data_dir }}/deluge"
+#
+#- name: Set permissions for Downloads directory
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ dwnlds_dir }}"
 
 - name: Start Gluetun container
   community.docker.docker_container:
