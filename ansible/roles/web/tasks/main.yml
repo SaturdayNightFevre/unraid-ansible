@@ -130,6 +130,11 @@
       max-file: "1"
       max-size: "10m"
 
+- name: Set permissions for Downloads directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/duckdns/config"
+
 - name: Set up DuckDNS container
   community.docker.docker_container:
     name: duckdns

@@ -1,8 +1,12 @@
+- name: Set permissions for Downloads config
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/deluge"
+
 - name: Set permissions for Downloads directory
   ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
   vars:
-    target_dir: "{{ dwnlds_dir }}:/downloads"
-    app_owner: downloads
+    target_dir: "{{ dwnlds_dir }}"
 
 - name: Start Gluetun container
   community.docker.docker_container:
@@ -58,11 +62,10 @@
     restart_policy: always
     network_mode: "container:gluetun"
     env:
-      PUID: "2000"
-      PGID: "{{ media_pgid }}"
-      TZ: "Etc/UTC"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
+      TZ:  "{{ timezone }}"
       DELUGE_LOGLEVEL: "warn"   # Optional
-      UMASK: "002"
     volumes:
       - "{{ app_data_dir }}/deluge:/config"
       - "{{ dwnlds_dir }}:/downloads"
@@ -91,8 +94,8 @@
     restart_policy: always
     network_mode: "container:gluetun"
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
       TZ: "{{ timezone }}"
     volumes:
       - "{{ app_data_dir }}/prowlarr:/config"

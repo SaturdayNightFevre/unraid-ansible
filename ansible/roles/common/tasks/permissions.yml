@@ -1,54 +1,54 @@
----
-- name: Ensure the 'media' group exists
-  ansible.builtin.group:
-    name: media
-    gid: 2000
-    state: present
-    system: true
-
-- name: Create system user for Sonarr
-  ansible.builtin.user:
-    name: tv
-    group: media
-    uid: 2001
-    shell: /usr/sbin/nologin
-    home: /var/lib/sonarr
-    create_home: no
-    system: yes
-    append: yes
-
-- name: Create system user for Radarr
-  ansible.builtin.user:
-    name: films
-    group: media
-    uid: 2002
-    shell: /usr/sbin/nologin
-    home: /var/lib/radarr
-    create_home: no
-    system: yes
-    append: yes
-
-- name: Create system user for Plex
-  ansible.builtin.user:
-    name: plex
-    group: media
-    uid: 2003
-    shell: /usr/sbin/nologin
-    home: /var/lib/plex
-    create_home: no
-    system: yes
-    append: yes
-
-- name: Create system user for downloads
-  ansible.builtin.user:
-    name: downloads
-    group: media
-    uid: 2000
-    shell: /usr/sbin/nologin
-    home: /var/lib/downloads
-    create_home: no
-    system: yes
-    append: yes
+#---
+#- name: Ensure the 'media' group exists
+  #ansible.builtin.group:
+    #name: media
+    #gid: 2000
+    #state: present
+    #system: true
+#
+#- name: Create system user for Sonarr
+  #ansible.builtin.user:
+    #name: tv
+    #group: media
+    #uid: 2001
+    #shell: /usr/sbin/nologin
+    #home: /var/lib/sonarr
+    #create_home: no
+    #system: yes
+    #append: yes
+#
+#- name: Create system user for Radarr
+  #ansible.builtin.user:
+    #name: films
+    #group: media
+    #uid: 2002
+    #shell: /usr/sbin/nologin
+    #home: /var/lib/radarr
+    #create_home: no
+    #system: yes
+    #append: yes
+#
+#- name: Create system user for Plex
+  #ansible.builtin.user:
+    #name: plex
+    #group: media
+    #uid: 2003
+    #shell: /usr/sbin/nologin
+    #home: /var/lib/plex
+    #create_home: no
+    #system: yes
+    #append: yes
+#
+#- name: Create system user for downloads
+  #ansible.builtin.user:
+    #name: downloads
+    #group: media
+    #uid: 2000
+    #shell: /usr/sbin/nologin
+    #home: /var/lib/downloads
+    #create_home: no
+    #system: yes
+    #append: yes
 
 
 #Set permissions

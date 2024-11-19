@@ -1,4 +1,8 @@
 ---
+- name: Set permissions for Radarr config directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/radarr-4k"
 
 - name: Start 4k-films container
   community.docker.docker_container:
@@ -8,8 +12,8 @@
     image: linuxserver/radarr:5.14.0
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PUID: "2002"
-      PGID: "{{ media_pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
     networks:
       - name: web
     published_ports: ["5656:5656"]
@@ -42,11 +46,15 @@
     memory: "1g"
     cpus: 1
 
-#- name: Set permissions for Radarr config directory
-  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  #vars:
-    #target_dir: "{{ app_data_dir }}/sonarr-4k"
-    #app_owner: tv
+- name: Set permissions for 4k movies directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ media_dir }}/4k-movies"
+
+- name: Set permissions for sonarr config directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ app_data_dir }}/sonarr-4k"
 
 - name: Start 4k-tv container
   community.docker.docker_container:
@@ -56,8 +64,8 @@
     image: linuxserver/sonarr:4.0.10
     published_ports: ["6767:6767"]
     env:
-      PUID: "2001"
-      PGID: "{{ media_pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
     ipc_mode: private
     labels:
       net.unraid.docker.icon: "https://github.com/themepark-dev/theme.park/blob/master/css/addons/sonarr/sonarr-4k-logo/sonarr-4k.png?raw=true"
@@ -92,8 +100,7 @@
     cpus: 1
 
 
-#- name: Set permissions for 4k-films directory
-  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  #vars:
-    #target_dir: "{{ media_dir }}/4k-tv-shows"
-    #app_owner: tv
+- name: Set permissions for 4k-tv directory
+  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  vars:
+    target_dir: "{{ media_dir }}/4k-tv-shows"

@@ -3,8 +3,8 @@
 - name: Set ownership and permissions for the specified directory
   ansible.builtin.file:
     path: "{{ target_dir }}"
-    owner: "{{ app_owner }}"
-    group: "{{ app_group | default('media') }}"
+    owner: "{{ app_owner | default('nobody')}}"
+    group: "{{ app_group | default('users') }}"
     mode: "{{ dir_mode | default('0775') }}"
     recurse: yes
 

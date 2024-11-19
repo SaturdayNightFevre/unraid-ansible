@@ -47,6 +47,3 @@
     name: web
     state: present
   when: not network_info.exists
-
-- name: Fix ownership and permissions for directories
-  ansible.builtin.include_tasks: permissions.yml

@@ -2,8 +2,8 @@
 app_data_dir: /mnt/user/appdata
 media_dir:  /mnt/user/media
 dwnlds_dir: /mnt/user/downloads
-puid: "1000"
-pgid: "1000"
+PUID: "99"
+PGID: "100"
 media_pgid: "2000"
 timezone: Europe/London
 username: feves
