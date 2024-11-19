@@ -11,7 +11,6 @@
     name: 4k-films
     image: linuxserver/radarr:5.14.0
     env:
-      PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
     networks:
@@ -37,12 +36,12 @@
       - "{{ dwnlds_dir }}:/downloads:rw"
       - "{{ media_dir }}/4k-movies:/movies:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
-    security_opts:
-      - no-new-privileges:true
-      - apparmor=docker-default
-    read_only: true
-    tmpfs:
-      - "/run:exec"
+    #security_opts:
+      #- no-new-privileges:true
+      #- apparmor=docker-default
+    #read_only: true
+    #tmpfs:
+      #- "/run:exec"
     memory: "1g"
     cpus: 1
 
@@ -90,12 +89,12 @@
       - "{{ media_dir }}/4k-tv-shows:/tv-shows:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
     working_dir: /
-    security_opts:
-      - no-new-privileges:true
-      - apparmor=docker-default
-    read_only: true
-    tmpfs:
-      - "/run:exec"
+    #security_opts:
+      #- no-new-privileges:true
+      #- apparmor=docker-default
+    #read_only: true
+    #tmpfs:
+      #- "/run:exec"
     memory: "1g"
     cpus: 1
 
