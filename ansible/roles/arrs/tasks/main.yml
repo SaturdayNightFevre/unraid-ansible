@@ -7,8 +7,8 @@
     image: linuxserver/radarr:5.14.0
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PUID: "2002"
-      PGID: "{{ media_pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
     networks:
       - name: web
     published_ports: ["7878:7878"]
@@ -59,8 +59,8 @@
     published_ports: ["8989:8989"]
     env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PUID: "2001"
-      PGID: "{{ media_pgid }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
     ipc_mode: private
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/sonarr-icon.png"
