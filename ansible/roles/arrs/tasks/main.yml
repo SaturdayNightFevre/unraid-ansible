@@ -1,49 +1,49 @@
 ---
-- name: Start films container
-  community.docker.docker_container:
-    image_name_mismatch: "recreate"
-    pull: "always"
-    name: films
-    image: linuxserver/radarr:5.14.0
-    env:
-      PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      PUID: "2002"
-      PGID: "{{ media_pgid }}"
-    networks:
-      - name: web
-    published_ports: ["7878:7878"]
-    labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr-logo.png"
-      net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://films.{{ DOMAIN }}"
-      traefik.enable: "true"
-      traefik.http.routers.films.tls.certresolver: "letsencrypt"
-      traefik.http.services.films.loadbalancer.server.port: "7878"
-      traefik.http.routers.films-router.rule: "Host(`films.{{ DOMAIN }}`)"
-      traefik.http.routers.films-router.entrypoints: "https"
-      #traefik.http.routers.films-router.middlewares: "internal-ipallowlist@file"
-    log_driver: json-file
-    log_options:
-      max-file: "1"
-      max-size: 10m
-    restart_policy: always
-    volumes:
-      - "{{ app_data_dir }}/radarr/config:/config"
-      - "{{ dwnlds_dir }}:/downloads"
-      - "{{ media_dir }}/Films:/movies"
-    security_opts:
-      - no-new-privileges:true
-      - apparmor=docker-default
-    #read_only: true
-    #tmpfs:
-      #- "/run:exec"
-    memory: "1g"
-    cpus: 1
+#- name: Start films container
+  #community.docker.docker_container:
+    #image_name_mismatch: "recreate"
+    #pull: "always"
+    #name: films
+    #image: linuxserver/radarr:5.14.0
+    #env:
+      #PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      #PUID: "2002"
+      #PGID: "{{ media_pgid }}"
+    #networks:
+      #- name: web
+    #published_ports: ["7878:7878"]
+    #labels:
+      #net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr-logo.png"
+      #net.unraid.docker.managed: "dockerman"
+      #net.unraid.docker.webui: "https://films.{{ DOMAIN }}"
+      #traefik.enable: "true"
+      #traefik.http.routers.films.tls.certresolver: "letsencrypt"
+      #traefik.http.services.films.loadbalancer.server.port: "7878"
+      #traefik.http.routers.films-router.rule: "Host(`films.{{ DOMAIN }}`)"
+      #traefik.http.routers.films-router.entrypoints: "https"
+      ##traefik.http.routers.films-router.middlewares: "internal-ipallowlist@file"
+    #log_driver: json-file
+    #log_options:
+      #max-file: "1"
+      #max-size: 10m
+    #restart_policy: always
+    #volumes:
+      #- "{{ app_data_dir }}/radarr/config:/config"
+      #- "{{ dwnlds_dir }}:/downloads"
+      #- "{{ media_dir }}/Films:/movies"
+    #security_opts:
+      #- no-new-privileges:true
+      #- apparmor=docker-default
+    ##read_only: true
+    ##tmpfs:
+      ##- "/run:exec"
+    #memory: "1g"
+    #cpus: 1
 
-- name: Set permissions for sonarr directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/sonarr"
+#- name: Set permissions for sonarr directory
+  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+  #vars:
+    #target_dir: "{{ app_data_dir }}/sonarr"
 
 - name: Set permissions for tv show directory
   ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
