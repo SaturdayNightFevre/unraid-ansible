@@ -130,10 +130,6 @@
       max-file: "1"
       max-size: "10m"
 
-- name: Set permissions for Downloads directory
-  ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  vars:
-    target_dir: "{{ app_data_dir }}/duckdns/config"
 
 - name: Set up DuckDNS container
   community.docker.docker_container:
@@ -156,3 +152,40 @@
     labels:
       net.unraid.docker.icon: "https://www.duckdns.org/img/ducky_icon.png"
       net.unraid.docker.managed: "dockerman"
+
+- name: Start requests container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: requests
+    image: linuxserver/overseerr:1.33.2
+    env:
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
+      TZ: "{{ timezone }}"
+    networks:
+      - name: web
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/sct/overseerr/refs/heads/develop/public/android-chrome-192x192_maskable.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://requests.{{ DOMAIN }}"
+      traefik.enable: "true"
+      traefik.http.routers.requests.tls.certresolver: "letsencrypt"
+      traefik.http.services.requests.loadbalancer.server.port: "5055"
+      traefik.http.routers.requests-router.rule: "Host(`request.{{ DOMAIN }}`)"
+      traefik.http.routers.requests-router.entrypoints: "https"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    restart_policy: always
+    volumes:
+      - "{{ app_data_dir }}/overseerr:/config"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    ##read_only: true
+    ##tmpfs:
+      ##- "/run:exec"
+    memory: "1g"
+    cpus: 1
