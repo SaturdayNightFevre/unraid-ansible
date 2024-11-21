@@ -159,6 +159,8 @@
     pull: "always"
     name: requests
     image: linuxserver/overseerr:1.33.2
+    ports:
+      - "5055:5055/tcp"
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
