@@ -11,8 +11,6 @@
     name: 4k-films
     image: linuxserver/radarr:5.14.0
     env:
-      PUID: "{{ PUID }}"
-      PGID: "{{ PGID }}"
     networks:
       - name: web
     published_ports: ["5656:5656"]
@@ -39,9 +37,9 @@
     security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    #read_only: true
-    #tmpfs:
-      #- "/run:exec"
+    read_only: true
+    tmpfs:
+      - "/run:exec"
     memory: "1g"
     cpus: 1
 
