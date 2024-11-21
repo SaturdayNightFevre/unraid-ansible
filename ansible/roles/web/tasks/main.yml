@@ -61,7 +61,7 @@
       traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
       traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
       traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
-      net.unraid.docker.icon: "https://www.clipartmax.com/png/small/63-633339_traefik-docker-swarm-load-balancing.png"
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png?raw=true"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}}"
     log_driver: "json-file"
@@ -88,7 +88,7 @@
       - "{{ app_data_dir }}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
     labels:
       # Unraid-specific labels
-      net.unraid.docker.icon: "https://www.clipartmax.com/png/small/296-2965097_network-wide-ad-blocking-via-your-own-linux-hardware-pihole-logo.png"
+      net.unraid.docker.icon: "https://github.com/binhex/docker-templates/blob/master/binhex/images/official-pihole-icon.png?raw=true"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://pihole.johnflix.uk"
 
