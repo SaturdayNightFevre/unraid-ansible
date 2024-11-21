@@ -173,9 +173,10 @@
       net.unraid.docker.webui: "https://requests.{{ DOMAIN }}"
       traefik.enable: "true"
       traefik.http.routers.requests.tls.certresolver: "letsencrypt"
-      traefik.http.services.requests.loadbalancer.server.port: "5055"
       traefik.http.routers.requests-router.rule: "Host(`request.{{ DOMAIN }}`)"
       traefik.http.routers.requests-router.entrypoints: "https"
+      traefik.http.routers.requests-router.service: requests
+      traefik.http.services.requests.loadbalancer.server.port: "5055"
     log_driver: json-file
     log_options:
       max-file: "1"
