@@ -37,7 +37,7 @@
       traefik.enable: "true"
 
       # Unraid Labels
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/binhex/docker-templates/refs/heads/master/binhex/images/deluge-icon.png"
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/binhex/docker-templates/refs/heads/master/binhex/images/deluge-icon.png?raw=true"
       net.unraid.docker.managed: "dockerman"
 
 - name: Start Deluge container
