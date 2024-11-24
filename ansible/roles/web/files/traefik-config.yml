@@ -51,6 +51,26 @@ https:
         sourceRange:
         - 192.168.1.0/16
         - 10.253.0.0/24
+      # HSTS headers
+    default-hsts:
+      headers:
+        customResponseHeaders:
+          Strict-Transport-Security: "max-age=63072000; includeSubDomains; preload"
+        sslRedirect: true
+        sslForceHost: true
+
+tls:
+  # Apply default TLS settings for all routers
+  options:
+    default:
+      minVersion: VersionTLS12
+      cipherSuites:
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
 
 serversTransport:
   insecureSkipVerify: false
