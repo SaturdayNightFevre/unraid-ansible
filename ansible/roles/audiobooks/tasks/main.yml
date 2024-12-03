@@ -72,10 +72,10 @@
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "http://[IP]:[PORT:1337]" #TODO traefik
       traefik.enable: "true"
-      traefik.http.routers.films.tls.certresolver: "letsencrypt"
-      traefik.http.services.films.loadbalancer.server.port: "1337"
-      traefik.http.routers.films-router.rule: "Host(`audible.{{ DOMAIN }}`)"
-      traefik.http.routers.films-router.entrypoints: "https"
+      traefik.http.routers.audible.tls.certresolver: "letsencrypt"
+      traefik.http.services.audible.loadbalancer.server.port: "1337"
+      traefik.http.routers.audible-router.rule: "Host(`audible.{{ DOMAIN }}`)"
+      traefik.http.routers.audible-router.entrypoints: "https"
     log_driver: json-file
     log_options:
       max-file: "1"
