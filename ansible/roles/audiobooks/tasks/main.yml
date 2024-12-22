@@ -71,7 +71,7 @@
       net.unraid.docker.icon: "https://www.audiobookshelf.org/Logo.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "http://[IP]:[PORT:1337]" #TODO traefik
-      traefik.enable: "true"
+      traefik.enable: "false"
       traefik.http.routers.audible.tls.certresolver: "letsencrypt"
       traefik.http.services.audible.loadbalancer.server.port: "1337"
       traefik.http.routers.audible-router.rule: "Host(`audible.{{ DOMAIN }}`)"
