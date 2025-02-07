@@ -51,7 +51,7 @@
     labels:
       net.unraid.docker.icon: "https://docs.openwebui.com/images/logo.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "http://[IP]:[PORT:8300]"
+      net.unraid.docker.webui: "http://[IP]:8080"
       traefik.enable: "false"
       #traefik.http.routers.4k-tv.tls.certresolver: "letsencrypt"
       #traefik.http.services.4k-tv.loadbalancer.server.port: "6767"
@@ -74,4 +74,4 @@
     #tmpfs:
       #- "/run:exec"
     etc_hosts:
-      - "host.docker.internal:host-gateway"
+     - "host-gateway": ["host.docker.internal"]
