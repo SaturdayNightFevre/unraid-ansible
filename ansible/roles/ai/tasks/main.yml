@@ -67,11 +67,11 @@
     restart_policy: always
     volumes:
       - "{{ app_data_dir }}/open-webui:/app/backend/data"
-    security_opts:
-      - no-new-privileges:true
-      - apparmor=docker-default
+    #security_opts:
+      #- no-new-privileges:true
+      #- apparmor=docker-default
     #read_only: true
     #tmpfs:
       #- "/run:exec"
-
-
+    etc_hosts:
+      - "host.docker.internal:host-gateway"
