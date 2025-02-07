@@ -62,7 +62,6 @@
     - 4k-arrs
     - arrs
     - audiobooks
-    - books
     - ai
     - plex
   vars_files:
