@@ -63,7 +63,7 @@
     - arrs
     - audiobooks
     - books
-    - plex
     - ai
+    - plex
   vars_files:
     - vars.yml
