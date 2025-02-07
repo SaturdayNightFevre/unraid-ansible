@@ -40,7 +40,7 @@
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    name: Open WebUI
+    name: Open-WebUI
     image: ghcr.io/open-webui/open-webui:main
     published_ports: ["3000:8300"]
     env:
