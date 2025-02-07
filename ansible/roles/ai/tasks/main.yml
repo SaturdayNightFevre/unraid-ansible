@@ -46,7 +46,7 @@
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-      OLLAMA_BASE_URL: "{{ local_ip }}:11434"
+      OLLAMA_BASE_URL: "http://{{ local_ip }}:11434"
       WEBUI_AUTH: "False"
     ipc_mode: private
     labels:
