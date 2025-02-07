@@ -15,7 +15,7 @@
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       NVIDIA_DRIVER_CAPABILITIES: "all"
-      NVIDIA_VISIBLE_DEVICES: "GPU-4f06ded6-04b8-a364-9264-027a0333b98f"
+      NVIDIA_VISIBLE_DEVICES: "{{ tesla_p4 }}"
       HOST_OS: "Unraid"
       HOST_HOSTNAME: "JohnFlix"
       TCP_PORT_32400: "324001.32.4"

@@ -64,5 +64,6 @@
     - audiobooks
     - books
     - plex
+    - ai
   vars_files:
     - vars.yml
