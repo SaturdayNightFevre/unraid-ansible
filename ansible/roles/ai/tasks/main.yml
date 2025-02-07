@@ -74,4 +74,4 @@
     #tmpfs:
       #- "/run:exec"
     etc_hosts:
-     - "host-gateway": ["host.docker.internal"]
+     "host-gateway": ["host.docker.internal"]
