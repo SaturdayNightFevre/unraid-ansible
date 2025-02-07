@@ -62,8 +62,7 @@
     log_options:
       max-file: "1"
       max-size: 10m
-    #networks:
-      #- name: web
+    network_mode: "host"
     restart_policy: always
     volumes:
       - "{{ app_data_dir }}/open-webui:/app/backend/data"
