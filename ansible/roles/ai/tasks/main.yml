@@ -42,7 +42,7 @@
     pull: "always"
     name: Open-WebUI
     image: ghcr.io/open-webui/open-webui:main
-    published_ports: ["8080:3000"]
+    published_ports: ["8383:8080"]
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
