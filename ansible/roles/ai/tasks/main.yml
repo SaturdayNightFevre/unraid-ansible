@@ -73,5 +73,5 @@
     #read_only: true
     #tmpfs:
       #- "/run:exec"
-    etc_hosts:
-     "host-gateway": ["host.docker.internal"]
+    #etc_hosts:
+     #"host-gateway": ["host.docker.internal"]
