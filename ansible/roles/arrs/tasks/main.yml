@@ -16,12 +16,12 @@
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr-logo.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://films.{{ DOMAIN }}"
-      traefik.enable: "false"
+      traefik.enable: "true"
       traefik.http.routers.films.tls.certresolver: "letsencrypt"
       traefik.http.services.films.loadbalancer.server.port: "7878"
       traefik.http.routers.films-router.rule: "Host(`films.{{ DOMAIN }}`)"
       traefik.http.routers.films-router.entrypoints: "https"
-      #traefik.http.routers.films-router.middlewares: "internal-ipallowlist@file"
+      traefik.http.routers.films-router.middlewares: "internal-ipallowlist@file"
     log_driver: json-file
     log_options:
       max-file: "1"
