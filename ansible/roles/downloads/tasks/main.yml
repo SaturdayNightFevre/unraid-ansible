@@ -59,7 +59,7 @@
       - no-new-privileges:true
       - apparmor=docker-default
     labels:
-      net.unraid.docker.icon: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Deluge_icon.png"
+      net.unraid.docker.icon: "https://deluge-torrent.org/images/deluge_logo.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://downloads.{{ DOMAIN }}"
 
