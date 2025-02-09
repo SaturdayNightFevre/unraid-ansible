@@ -1,0 +1,77 @@
+---
+- name: Start ollama container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: ollama
+    image: ollama/ollama:0.5.7
+    runtime: nvidia
+    env:
+      TZ: "{{ timezone }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
+      NVIDIA_DRIVER_CAPABILITIES: "all"
+      NVIDIA_VISIBLE_DEVICES: "{{ tesla_p4 }}"
+    published_ports: ["11434:11434"]
+    labels:
+      net.unraid.docker.icon: "https://ollama.com/public/ollama.png"
+      net.unraid.docker.managed: "dockerman"
+      traefik.enable: "false"
+      #traefik.http.routers.4k-films.tls.certresolver: "letsencrypt"
+      #traefik.http.services.4k-films.loadbalancer.server.port: "5656"
+      #traefik.http.routers.4k-films-router.rule: "Host(`4k-films.{{ DOMAIN }}`)"
+      #traefik.http.routers.4k-films-router.entrypoints: "https"
+      #traefik.http.routers.4k-films-router.middlewares: "internal-ipallowlist@file"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    restart_policy: always
+    volumes:
+      - "{{ app_data_dir }}/ollama:/root/.ollama"
+    #security_opts:
+      #- no-new-privileges:true
+      #- apparmor=docker-default
+    ##read_only: true˙
+    #tmpfs:
+      #- "/run:exec"
+
+- name: Start Open WebUI container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: Open-WebUI
+    image: ghcr.io/open-webui/open-webui:main
+    published_ports: ["8383:8080"]
+    env:
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
+      OLLAMA_BASE_URL: "http://{{ local_ip }}:11434"
+      WEBUI_AUTH: "False"
+    ipc_mode: private
+    labels:
+      net.unraid.docker.icon: "https://docs.openwebui.com/images/logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:8383"
+      traefik.enable: "false"
+      #traefik.http.routers.4k-tv.tls.certresolver: "letsencrypt"
+      #traefik.http.services.4k-tv.loadbalancer.server.port: "6767"
+      #traefik.http.routers.4k-tv-router.rule: "Host(`4k-tv.{{ DOMAIN }}`)"
+      #traefik.http.routers.4k-tv-router.entrypoints: "https"
+      #traefik.http.routers.4k-tv-router.middlewares: "internal-ipallowlist@file"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    network_mode: "host"
+    restart_policy: always
+    volumes:
+      - "{{ app_data_dir }}/open-webui:/app/backend/data"
+    #security_opts:
+      #- no-new-privileges:true
+      #- apparmor=docker-default
+    #read_only: true
+    #tmpfs:
+      #- "/run:exec"
+    #etc_hosts:
+     #"host-gateway": ["host.docker.internal"]

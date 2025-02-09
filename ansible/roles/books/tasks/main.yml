@@ -116,7 +116,7 @@
       - "{{ app_data_dir }}/calibre/plugins:/plugins"
       - "{{ media_dir }}/Books/Calibre Library:/Calibre_Library"
     ports:
-      - "8080:8080"
+      - "8080:8087"
       - "8081:8081"
     restart_policy: unless-stopped
     log_driver: json-file
