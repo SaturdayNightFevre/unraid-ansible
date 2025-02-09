@@ -18,7 +18,7 @@
 - name: Deploy the Traefik dynamic configuration using a template
   ansible.builtin.template:
     src: "traefik-dynamic.yml.j2"
-    dest: "{{ app_data_dir }}/traefik/traefik_dynamic.yml"  # This is a file, not a directory
+    dest: "{{ app_data_dir }}/traefik/configs/traefik_dynamic.yml"  # This is a file, not a directory
     owner: root
     group: root
     mode: '0644'
