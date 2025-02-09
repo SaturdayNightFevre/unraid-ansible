@@ -28,6 +28,10 @@ providers:
     
     network: web
 
+  file:
+    directory: "/configs"
+    watch: true
+
 certificatesResolvers:
   http:
     acme:
@@ -49,24 +53,7 @@ certificatesResolvers:
 serversTransport:
   insecureSkipVerify: false
 
-http:
-  middlewares:
-    internal-ipallowlist:
-      ipAllowList:
-        sourceRange:
-          - "192.168.1.0/16"
-          - "10.253.0.0/24"
-      # HSTS headers
-    default-hsts:
-      headers:
-        customResponseHeaders:
-          Strict-Transport-Security: "max-age=63072000; includeSubDomains; preload"
-        sslRedirect: true
-        sslForceHost: true
-
-
 tls:
-  # Apply default TLS settings for all routers
   options:
     default:
       minVersion: VersionTLS12

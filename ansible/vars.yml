@@ -8,6 +8,7 @@ media_pgid: "2000"
 timezone: Europe/London
 username: feves
 local_ip: "192.168.1.10"
-subnet: "192.168.1.0/24"
+subnet: "192.168.1.0/16"
+wg_subnet: "10.253.0.0/24"
 tesla_p4: "GPU-4f06ded6-04b8-a364-9264-027a0333b98f"
 

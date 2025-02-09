@@ -1,0 +1,14 @@
+http:
+  middlewares:
+    internal-ipallowlist:
+      ipAllowList:
+        sourceRange:
+          - "{{ subnet }}"
+          - "{{ wg_subnet }}"
+
+    default-hsts:
+      headers:
+        customResponseHeaders:
+          Strict-Transport-Security: "max-age=63072000; includeSubDomains; preload"
+        sslRedirect: true
+        sslForceHost: true
