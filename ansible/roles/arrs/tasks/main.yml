@@ -71,7 +71,7 @@
       traefik.http.services.tv.loadbalancer.server.port: "8989"
       traefik.http.routers.tv-router.rule: "Host(`tv.{{ DOMAIN }}`)"
       traefik.http.routers.tv-router.entrypoints: "https"
-      traefik.http.routers.tv-router.middlewares: "internal-ipallowlist@file"
+      traefik.http.routers.tv-router.middlewares: "internal-ipallowlist"
     log_driver: json-file
     log_options:
       max-file: "1"
