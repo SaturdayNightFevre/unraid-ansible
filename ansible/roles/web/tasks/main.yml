@@ -118,6 +118,8 @@
 
       #traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
     env:
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
       TZ: "{{ timezone }}"
       WEBPASSWORD: "{{ PASSWORD }}"
       FTLCONF_LOCAL_IPV4: "{{ local_ip }}"
