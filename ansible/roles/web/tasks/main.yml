@@ -49,7 +49,7 @@
       - name: web
     ports:
       - "81:80"
-      - "440:443"
+      - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "{{ app_data_dir }}/traefik/traefik.yml:/traefik.yml:ro"
