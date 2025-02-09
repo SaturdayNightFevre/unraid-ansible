@@ -52,10 +52,10 @@ serversTransport:
 https:
   middlewares:
     internal-ipallowlist:
-      ipAllowList:
+      ipWhitelist:
         sourceRange:
-        - 192.168.1.0/16
-        - 10.253.0.0/24
+          - "192.168.1.0/16"
+          - "10.253.0.0/24"
       # HSTS headers
     default-hsts:
       headers:
