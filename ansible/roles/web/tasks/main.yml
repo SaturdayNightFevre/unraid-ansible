@@ -123,6 +123,7 @@
       FTLCONF_LOCAL_IPV4: "{{ local_ip }}"
       IPV6: "false"
       VIRTUAL_HOST: "pihole.{{ DOMAIN }}"
+      PIHOLE_LOGLEVEL: "debug"
     security_opts:
       - "no-new-privileges:true"
     log_driver: "json-file"
