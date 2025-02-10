@@ -35,7 +35,7 @@
       - "9696:9696"
       - "58846:58846"
     labels:
-      traefik.enable: "true"
+      traefik.enable: "false"
 
       # Unraid Labels
       net.unraid.docker.icon: "https://raw.githubusercontent.com/binhex/docker-templates/refs/heads/master/binhex/images/deluge-icon.png?raw=true"
