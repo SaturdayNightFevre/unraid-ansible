@@ -38,7 +38,7 @@
       traefik.enable: "false"
 
       # Unraid Labels
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/qdm12/gluetun/master/title.svg"
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/qdm12/gluetun/master/doc/logo_256.png"
       net.unraid.docker.managed: "dockerman"
 
 - name: Start Deluge container
