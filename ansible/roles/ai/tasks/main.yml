@@ -16,7 +16,7 @@
     labels:
       net.unraid.docker.icon: "https://ollama.com/public/ollama.png"
       net.unraid.docker.managed: "dockerman"
-      traefik.enable: "false"
+      #traefik.enable: "false"
       #traefik.http.routers.4k-films.tls.certresolver: "letsencrypt"
       #traefik.http.services.4k-films.loadbalancer.server.port: "5656"
       #traefik.http.routers.4k-films-router.rule: "Host(`4k-films.{{ DOMAIN }}`)"
@@ -53,7 +53,7 @@
       net.unraid.docker.icon: "https://docs.openwebui.com/images/logo.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "http://[IP]:8383"
-      traefik.enable: "false"
+      #traefik.enable: "false"
       #traefik.http.routers.4k-tv.tls.certresolver: "letsencrypt"
       #traefik.http.services.4k-tv.loadbalancer.server.port: "6767"
       #traefik.http.routers.4k-tv-router.rule: "Host(`4k-tv.{{ DOMAIN }}`)"
