@@ -49,7 +49,6 @@
         -out /etc/ssl/johnflix/wildcard.johnflix.uk.crt -days 365
         -subj "/CN=*.johnflix.uk"
       when: not cert_stat.stat.exists or (days_until_expiry is defined and days_until_expiry | int <= 30)
-      notify: Reload Traefik
 
 
     - name: Display certificate paths
