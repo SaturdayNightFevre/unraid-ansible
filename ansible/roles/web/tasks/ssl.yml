@@ -1,0 +1,39 @@
+---
+    - name: Ensure SSL directory exists
+      file:
+        path: /etc/ssl/johnflix
+        state: directory
+        mode: '0755'
+
+    - name: Generate private key
+      openssl_privatekey:
+        path: /etc/ssl/johnflix/wildcard.{{ domain }}.key
+        size: 2048
+        type: RSA
+
+    - name: Generate Certificate Signing Request (CSR)
+      openssl_csr:
+        path: /etc/ssl/johnflix/wildcard.{{ domain }}.csr
+        privatekey_path: /etc/ssl/johnflix/wildcard.{{ domain }}.key
+        common_name: "*.{{ domain }}"
+        subject_alt_name:
+          - "DNS:{{ domain }}"
+          - "DNS:*.{{ domain }}"
+
+    - name: Generate Self-Signed Wildcard Certificate
+      openssl_certificate:
+        path: /etc/ssl/johnflix/wildcard.{{ domain }}.crt
+        privatekey_path: /etc/ssl/johnflix/wildcard.{{ domain }}.key
+        csr_path: /etc/ssl/johnflix/wildcard.{{ domain }}.csr
+        provider: selfsigned
+        mode: '0644'
+
+    - name: Display certificate paths
+      debug:
+        msg: |
+          The self-signed wildcard certificate has been created successfully!
+          You can download it from:
+            Certificate: /etc/ssl/johnflix/wildcard.{{ domain }}.crt
+            Private Key: /etc/ssl/johnflix/wildcard.{{ domain }}.key
+          
+          To install it on your local machine, copy the `.crt` file and add it to your trusted certificates.
