@@ -5,28 +5,52 @@
         state: directory
         mode: '0755'
 
-    - name: Generate private key
-      openssl_privatekey:
-        path: /etc/ssl/johnflix/wildcard.{{ domain }}.key
-        size: 2048
-        type: RSA
+    - name: Check if wildcard certificate exists
+      stat:
+        path: /etc/ssl/johnflix/wildcard.johnflix.uk.crt
+      register: cert_stat
 
-    - name: Generate Certificate Signing Request (CSR)
-      openssl_csr:
-        path: /etc/ssl/johnflix/wildcard.{{ domain }}.csr
-        privatekey_path: /etc/ssl/johnflix/wildcard.{{ domain }}.key
-        common_name: "*.{{ domain }}"
-        subject_alt_name:
-          - "DNS:{{ domain }}"
-          - "DNS:*.{{ domain }}"
+    - name: Get certificate expiration date
+      command: "openssl x509 -enddate -noout -in /etc/ssl/johnflix/wildcard.johnflix.uk.crt"
+      register: cert_expiry
+      when: cert_stat.stat.exists
+      changed_when: false
+      ignore_errors: true
 
-    - name: Generate Self-Signed Wildcard Certificate
-      openssl_certificate:
-        path: /etc/ssl/johnflix/wildcard.{{ domain }}.crt
-        privatekey_path: /etc/ssl/johnflix/wildcard.{{ domain }}.key
-        csr_path: /etc/ssl/johnflix/wildcard.{{ domain }}.csr
-        provider: selfsigned
-        mode: '0644'
+    - name: Parse expiration date
+      set_fact:
+        cert_expiry_date: "{{ cert_expiry.stdout | regex_replace('notAfter=', '') | trim }}"
+      when: cert_expiry.stdout is defined
+
+    - name: Convert expiration date to epoch
+      command: "date -d '{{ cert_expiry_date }}' +%s"
+      register: cert_expiry_epoch
+      when: cert_expiry_date is defined
+      changed_when: false
+
+    - name: Get current date in epoch
+      command: "date +%s"
+      register: current_date_epoch
+      changed_when: false
+
+    - name: Calculate days until expiration
+      set_fact:
+        days_until_expiry: "{{ ((cert_expiry_epoch.stdout | int) - (current_date_epoch.stdout | int)) // 86400 }}"
+      when: cert_expiry_epoch.stdout is defined and current_date_epoch.stdout is defined
+
+    - name: Display certificate expiration status
+      debug:
+        msg: "Wildcard certificate expires in {{ days_until_expiry }} days."
+      when: days_until_expiry is defined
+
+    - name: Generate new certificate if missing or expiring within 30 days
+      shell: >
+        openssl req -x509 -nodes -newkey rsa:4096 -keyout /etc/ssl/johnflix/wildcard.johnflix.uk.key
+        -out /etc/ssl/johnflix/wildcard.johnflix.uk.crt -days 365
+        -subj "/CN=*.johnflix.uk"
+      when: not cert_stat.stat.exists or (days_until_expiry is defined and days_until_expiry | int <= 30)
+      notify: Reload Traefik
+
 
     - name: Display certificate paths
       debug:
@@ -35,5 +59,4 @@
           You can download it from:
             Certificate: /etc/ssl/johnflix/wildcard.{{ domain }}.crt
             Private Key: /etc/ssl/johnflix/wildcard.{{ domain }}.key
-          
           To install it on your local machine, copy the `.crt` file and add it to your trusted certificates.
