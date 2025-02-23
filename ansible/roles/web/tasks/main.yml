@@ -135,12 +135,9 @@
       TZ: "{{ timezone }}"
       WEBPASSWORD: "{{ PASSWORD }}"
       FTLCONF_LOCAL_IPV4: "{{ local_ip }}"
-      ServerIP: "{{ local_ip }}"  # Added to ensure proper IP binding
-      PROXY_LOCATION: "pihole"  # Added for reverse proxy
+      IPV6: "false"
       VIRTUAL_HOST: "pihole.{{ DOMAIN }}"
       PIHOLE_LOGLEVEL: "debug"
-      DNS1: "1.1.1.1"  # Explicit upstream DNS
-      DNS2: "1.0.0.1"  # Backup upstream DNS
     capabilities :
       - NET_ADMIN  # Added for network capabilities
     log_driver: "json-file"
