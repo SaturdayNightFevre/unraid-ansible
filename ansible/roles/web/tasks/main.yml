@@ -153,7 +153,7 @@
       DNS2: "1.0.0.1"  # Backup upstream DNS
     dns_search:
       - "{{ DOMAIN }}"  # Added for local domain resolution
-    cap_add:
+    capabilities :
       - NET_ADMIN  # Added for network capabilities
     log_driver: "json-file"
     log_options:
