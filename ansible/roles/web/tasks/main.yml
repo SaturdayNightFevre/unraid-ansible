@@ -133,7 +133,7 @@
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       TZ: "{{ timezone }}"
-      WEBPASSWORD: "{{ PASSWORD }}"
+      WEBPASSWORD: "test"
       FTLCONF_LOCAL_IPV4: "{{ local_ip }}"
       IPV6: "false"
       VIRTUAL_HOST: "pihole.{{ DOMAIN }}"
