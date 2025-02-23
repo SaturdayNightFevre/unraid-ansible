@@ -139,7 +139,6 @@
       PROXY_LOCATION: "pihole"  # Added for reverse proxy
       VIRTUAL_HOST: "pihole.{{ DOMAIN }}"
       PIHOLE_LOGLEVEL: "debug"
-      DNSMASQ_LISTENING: "local"  # Changed to allow access from docker network
       DNS1: "1.1.1.1"  # Explicit upstream DNS
       DNS2: "1.0.0.1"  # Backup upstream DNS
     capabilities :
