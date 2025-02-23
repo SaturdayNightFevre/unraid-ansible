@@ -151,8 +151,6 @@
       DNSMASQ_LISTENING: "local"  # Changed to allow access from docker network
       DNS1: "1.1.1.1"  # Explicit upstream DNS
       DNS2: "1.0.0.1"  # Backup upstream DNS
-    dns_search:
-      - "{{ DOMAIN }}"  # Added for local domain resolution
     capabilities :
       - NET_ADMIN  # Added for network capabilities
     log_driver: "json-file"
