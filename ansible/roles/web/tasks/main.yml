@@ -151,7 +151,7 @@
     dest: "{{ app_data_dir }}/pihole/etc-dnsmasq.d/03-johflix.conf"  # This is a file, not a directory
     owner: root
     group: root
-    mode: '0644'
+    mode: '0755'
     backup: false
 
 - name: Set up DuckDNS container
