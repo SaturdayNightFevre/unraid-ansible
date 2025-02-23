@@ -1,3 +1,4 @@
 rebind-domain-ok=/plex.direct
-address=/tv.{{ DOMAIN }}/{{ local_ip }}
-address=/films.{{ DOMAIN }}/{{ local_ip }}
+{% for service in local_dns %}
+address=/{{ service }}.{{ DOMAIN }}/{{ local_ip }}
+{% endfor %}
