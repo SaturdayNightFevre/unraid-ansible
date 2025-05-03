@@ -1,7 +1,7 @@
 ---
 app_data_dir: /mnt/user/appdata
 media_dir:  /mnt/user/media
-dwnlds_dir: /mnt/user/appdata/downloads
+dwnlds_dir: /mnt/user/downloads
 PUID: "99"
 PGID: "100"
 media_pgid: "2000"
