@@ -5,24 +5,16 @@
   ignore_errors: true
   register: ignore_errors_register
 
-# Either skip this step or use one of the alternatives above
-# - name: Upgrade pip
-#   ansible.builtin.command: pip install --upgrade pip
-#   changed_when: false
-#   failed_when: false  # Add this to ignore failures
-
-# Alternative approach
-- name: Upgrade pip using Python directly  
+- name: Upgrade pip
   ansible.builtin.command: python3 -m pip install --upgrade pip
   changed_when: false
-  ignore_errors: true  # Add this to continue even if it fails
+  ignore_errors: true  # Added to prevent playbook failure if pip upgrade fails
 
 - name: Install requests library with the correct Python version
   ansible.builtin.command:
     cmd: /usr/bin/python3 -m pip install requests==2.31.0
-  creates: /usr/lib/python3.9/site-packages/requests
+    creates: /usr/lib/python3.9/site-packages/requests
   changed_when: false
-
 
 - name: Check if Docker is installed
   ansible.builtin.command: docker --version
