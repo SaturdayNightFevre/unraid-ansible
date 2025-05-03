@@ -3,13 +3,15 @@
   ansible.builtin.command: python3 -m ensurepip --default-pip
   changed_when: false
   ignore_errors: true
-  register: ensurepip_result
+  register: ignore_errors_register
 
+- name: Upgrade pip
+  ansible.builtin.command: pip install --upgrade pip
+  changed_when: false
 
 - name: Install requests library with the correct Python version
   ansible.builtin.command:
     cmd: /usr/bin/python3 -m pip install requests==2.31.0
-  args:
     creates: /usr/lib/python3.9/site-packages/requests
   changed_when: false
 
