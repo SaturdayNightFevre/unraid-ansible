@@ -1,6 +1,5 @@
 api:
   dashboard: true
-
 entryPoints:
   http:
     address: ":80"
@@ -8,7 +7,6 @@ entryPoints:
       trustedIPs:
         - 192.168.1.0/16
         - 10.253.0.0/24
-
   https:
     address: ":443"
     http:
@@ -17,21 +15,21 @@ entryPoints:
       trustedIPs:
         - 192.168.1.0/16
         - 10.253.0.0/24
-
+  dns:
+    address: ":53"
+  udpdns:
+    address: ":53/udp"
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     {% raw -%}
-    defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.johnflix.uk`)'
-{%- endraw %}
-    
+    defaultRule: 'Host(`{{ normalize .Name }}.johnflix.uk`)'
+    {%- endraw %}
     network: web
-
   file:
     directory: "/configs"
     watch: true
-
 certificatesResolvers:
   http:
     acme:
@@ -49,10 +47,8 @@ certificatesResolvers:
         resolvers:
           - "1.1.1.1:53"
           - "1.0.0.1:53"
-
 serversTransport:
   insecureSkipVerify: false
-
 tls:
   options:
     default:
@@ -64,14 +60,12 @@ tls:
         - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
-
 accessLog:
   filePath: "/logs/access.log"
   fields:
     headers:
       names:
         User-Agent: keep
-
 log:
   filePath: "/logs/traefik.log"
   level: DEBUG
