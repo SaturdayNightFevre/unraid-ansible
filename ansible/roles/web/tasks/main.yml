@@ -68,7 +68,11 @@
       traefik.enable: "true"
       net.unraid.docker.icon: "https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png?raw=true"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}}/dashboard"
+      net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}/dashboard/"
+
+      # Dashboard configuration
+      traefik.http.routers.traefik-dashboard.rule: "Host(`proxy.{{ DOMAIN }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      traefik.http.routers.traefik-dashboard.entrypoints: "https"
       traefik.http.routers.traefik-dashboard.service: "api@internal"
       traefik.http.routers.traefik-dashboard.tls.certresolver: "letsencrypt"
       traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
