@@ -12,7 +12,8 @@
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
     login_password: "{{ PASSWORD }}"
+    db: "{{ app.db_name }}"  # Specify the database to connect to
     name: "{{ app.db_user }}"
     password: "{{ app.db_password }}"
-    priv: "{{ app.db_name }}:ALL"  # Proper format for database-level privileges
+    priv: "ALL"  # Grant all privileges on the database specified in db parameter
     state: present
