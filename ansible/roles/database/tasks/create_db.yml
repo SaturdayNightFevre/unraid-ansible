@@ -21,7 +21,7 @@
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
     login_password: "{{ PASSWORD }}"
-    database: "{{ app.db_name }}"
+    login_db: "{{ app.db_name }}"
     role: "{{ app.db_user }}"
     type: database
     privs: ALL

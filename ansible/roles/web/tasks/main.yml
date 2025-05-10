@@ -145,14 +145,14 @@
       max-file: "1"
       max-size: "10m"
 
-- name: Deploy the johnflix local dns config configuration using a template
-  ansible.builtin.template:
-    src: "pi-hole-johnflix-local-dns.conf.j2"
-    dest: "{{ app_data_dir }}/pihole/etc-dnsmasq.d/03-johflix.conf"  # This is a file, not a directory
-    owner: root
-    group: root
-    mode: '0755'
-    backup: false
+#- name: Deploy the johnflix local dns config configuration using a template
+  #ansible.builtin.template:
+    #src: "pi-hole-johnflix-local-dns.conf.j2"
+    #dest: "{{ app_data_dir }}/pihole/etc-dnsmasq.d/03-johflix.conf"  # This is a file, not a directory
+    #owner: root
+    #group: root
+    #mode: '0755'
+    #backup: false
 
 - name: Set up DuckDNS container
   community.docker.docker_container:
