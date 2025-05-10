@@ -1,25 +1,38 @@
 ---
-- name: Ensure pip is installed
-  ansible.builtin.command: python3 -m ensurepip --default-pip
-  changed_when: false
-  ignore_errors: true
-  register: ignore_errors_register
+- name: Create directory for virtual environment
+  ansible.builtin.file:
+    path: "/opt/ansible_venv"
+    state: directory
+    mode: '0755'
 
-- name: Upgrade pip
-  ansible.builtin.command: python3 -m pip install --upgrade pip
+- name: Install Python venv module if not present
+  ansible.builtin.command: python3 -m pip install virtualenv
   changed_when: false
-  ignore_errors: true  # Added to prevent playbook failure if pip upgrade fails
+  ignore_errors: true  # Continue even if this fails
 
-- name: Install psycopg2-binary with pip
-  pip:
-    name: psycopg2-binary
+- name: Create Python virtual environment
+  ansible.builtin.command: python3 -m venv /opt/ansible_venv
+  args:
+    creates: /opt/ansible_venv/bin/python
+  register: venv_created
+
+- name: Upgrade pip in virtual environment
+  ansible.builtin.command: /opt/ansible_venv/bin/pip install --upgrade pip
+  changed_when: true
+  when: venv_created.changed
+
+- name: Install required Python packages in virtual environment
+  ansible.builtin.pip:
+    name: 
+      - psycopg2-binary
+      - requests==2.31.0
     state: present
+    virtualenv: /opt/ansible_venv
+  register: pip_install
 
-- name: Install requests library with the correct Python version
-  ansible.builtin.command:
-    cmd: /usr/bin/python3 -m pip install requests==2.31.0
-    creates: /usr/lib/python3.9/site-packages/requests
-  changed_when: false
+- name: Set fact for Python interpreter path
+  ansible.builtin.set_fact:
+    ansible_python_interpreter: /opt/ansible_venv/bin/python
 
 - name: Check if Docker is installed
   ansible.builtin.command: docker --version
