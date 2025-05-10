@@ -1,15 +1,20 @@
 ---
-#- name: Ensure pip is installed
-  #ansible.builtin.command: python3 -m ensurepip --default-pip
-  #changed_when: false
-  #ignore_errors: true
-  #register: ignore_errors_register
-#
-#- name: Upgrade pip
-  #ansible.builtin.command: python3 -m pip install --upgrade pip
-  #changed_when: false
-  #ignore_errors: true  # Added to prevent playbook failure if pip upgrade fails
-#
+- name: Ensure pip is installed
+  ansible.builtin.command: python3 -m ensurepip --default-pip
+  changed_when: false
+  ignore_errors: true
+  register: ignore_errors_register
+
+- name: Upgrade pip
+  ansible.builtin.command: python3 -m pip install --upgrade pip
+  changed_when: false
+  ignore_errors: true  # Added to prevent playbook failure if pip upgrade fails
+
+- name: Install psycopg2-binary with pip
+  pip:
+    name: psycopg2-binary
+    state: present
+
 #- name: Install requests library with the correct Python version
   #ansible.builtin.command:
     #cmd: /usr/bin/python3 -m pip install requests==2.31.0
