@@ -15,15 +15,20 @@
       - name: web
     published_ports: ["5656:5656"]
     labels:
-      net.unraid.docker.icon: "https://user-images.githubusercontent.com/11823348/114629539-129b9100-9cb9-11eb-94a8-803fabc27d9e.png"
-      net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://4k-films.johnflix.uk"
       traefik.enable: "true"
-      traefik.http.routers.4k-films.tls.certresolver: "letsencrypt"
-      traefik.http.services.4k-films.loadbalancer.server.port: "5656"
-      traefik.http.routers.4k-films-router.rule: "Host(`4k-films.{{ DOMAIN }}`)"
-      traefik.http.routers.4k-films-router.entrypoints: "https"
-      #traefik.http.routers.4k-films-router.middlewares: "internal-ipallowlist@file"
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png?raw=true"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}/dashboard/"
+
+      # Dashboard configuration
+      traefik.http.routers.traefik-dashboard.rule: "Host(`proxy.{{ DOMAIN }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      traefik.http.routers.traefik-dashboard.entrypoints: "https"
+      traefik.http.routers.traefik-dashboard.service: "api@internal"
+      traefik.http.routers.traefik-dashboard.tls.certresolver: "letsencrypt"
+      traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
+      traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
+      traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
+
     log_driver: json-file
     log_options:
       max-file: "1"
