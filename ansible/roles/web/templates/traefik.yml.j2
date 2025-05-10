@@ -42,7 +42,7 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: "{{ EMAIL }}"
-      caServer: https://acme-v02.api.letsencrypt.org/directory  # TODO: https://acme-staging-v02.api.letsencrypt.org/directory
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory  # TODO: https://acme-v02.api.letsencrypt.org/directory
       storage: acme.json
       dnsChallenge:
         provider: cloudflare
