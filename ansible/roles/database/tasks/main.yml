@@ -14,10 +14,13 @@
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    name: redis-main
+    name: Redis
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
     restart_policy: "unless-stopped"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/juusujanar/unraid-templates/master/img/Redis-logo.png"
+      net.unraid.docker.managed: "dockerman"
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       start_period: 20s
@@ -38,9 +41,12 @@
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    name: postgres-main
+    name: Postgres
     image: docker.io/library/postgres:17-alpine
     restart_policy: "unless-stopped"
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/sgraaf/Unraid-Docker-Templates/main/postgresql17/icon.png"
+      net.unraid.docker.managed: "dockerman"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d postgres -U {{ postgres_admin_user }}"]
       start_period: 20s
