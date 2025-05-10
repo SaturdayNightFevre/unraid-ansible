@@ -7,13 +7,22 @@
     name: "{{ app.db_name }}"
     state: present
 
-- name: Create user for {{ app.name }} and grant privileges
+- name: Create user for {{ app.name }}
   community.postgresql.postgresql_user:
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
     login_password: "{{ PASSWORD }}"
-    db: "{{ app.db_name }}"  # Specify the database to connect to
     name: "{{ app.db_user }}"
     password: "{{ app.db_password }}"
-    priv: "ALL"  # Grant all privileges on the database specified in db parameter
+    state: present
+
+- name: Grant privileges to {{ app.name }} user
+  community.postgresql.postgresql_privs:
+    login_host: localhost
+    login_user: "{{ postgres_admin_user }}"
+    login_password: "{{ PASSWORD }}"
+    database: "{{ app.db_name }}"
+    role: "{{ app.db_user }}"
+    type: database
+    privileges: ALL
     state: present

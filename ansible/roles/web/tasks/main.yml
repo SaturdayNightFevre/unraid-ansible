@@ -1,6 +1,6 @@
 ---
-- name: Include SSL certificate tasks
-  import_tasks: ssl.yml
+#- name: Include SSL certificate tasks
+  #import_tasks: ssl.yml
 
 - name: Ensure the base Traefik directory exists
   ansible.builtin.file:
