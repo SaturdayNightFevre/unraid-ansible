@@ -61,7 +61,6 @@
   roles:
     - 4k-arrs
     - arrs
-    - audiobooks
     - plex
     - database
   vars_files:
