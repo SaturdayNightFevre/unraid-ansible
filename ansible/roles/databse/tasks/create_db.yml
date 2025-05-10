@@ -1,0 +1,19 @@
+---
+- name: Create database for {{ app.name }}
+  community.postgresql.postgresql_db:
+    login_host: localhost
+    login_user: "{{ postgres_admin_user }}"
+    login_password: "{{ postgres_admin_password }}"
+    name: "{{ app.db_name }}"
+    state: present
+
+- name: Create user for {{ app.name }}
+  community.postgresql.postgresql_user:
+    login_host: localhost
+    login_user: "{{ postgres_admin_user }}"
+    login_password: "{{ postgres_admin_password }}"
+    db: "{{ app.db_name }}"
+    name: "{{ app.db_user }}"
+    password: "{{ app.db_password }}"
+    priv: "ALL"
+    state: present

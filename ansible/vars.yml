@@ -4,6 +4,7 @@ media_dir:  /mnt/user/media
 dwnlds_dir: /mnt/user/downloads
 PUID: "99"
 PGID: "100"
+postgres_admin_user: "postgres-admin"
 media_pgid: "2000"
 timezone: Europe/London
 username: feves

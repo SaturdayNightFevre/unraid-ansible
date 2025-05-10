@@ -62,7 +62,11 @@
     - 4k-arrs
     - arrs
     - audiobooks
-    - ai
     - plex
+    - database
   vars_files:
     - vars.yml
+  pre_tasks:
+  - name: Loading environment variables
+    set_fact:
+      PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"

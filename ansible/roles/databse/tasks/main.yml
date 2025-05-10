@@ -1,0 +1,63 @@
+---
+- name: Set application database variables
+  set_fact:
+    applications:
+      - name: "authentik"
+        db_name: "authentik"
+        db_user: "authentik-db-user"
+        db_password: "{{ authentik_db_password | default('securepassword') }}"
+        config_dir: "authentik/psql"
+      # Add more applications as needed
+
+# 1. Create PostgreSQL container
+- name: Ensure PostgreSQL container is running
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: postgres-main
+    image: docker.io/library/postgres:17-alpine
+    restart_policy: "unless-stopped"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d postgres -U {{ postgres_admin_user }}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - "{{ app_data_dir }}/postgres:/var/lib/postgresql/data"
+      # Optional: You can mount an initialization script here
+      # - "{{ app_data_dir }}/postgres-init:/docker-entrypoint-initdb.d"
+    env:
+      TZ: "{{ timezone }}"
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
+      POSTGRES_PASSWORD: "{{ PASSWORD }}"
+      POSTGRES_USER: "{{ postgres_admin_user }}"
+    ports:
+      - "5432:5432"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+
+# 2. Wait for PostgreSQL to be ready
+- name: Wait for PostgreSQL to be ready
+  wait_for:
+    host: localhost
+    port: 5432
+    delay: 10
+    timeout: 60
+
+# 3. Create databases and users for each application
+- name: Create application databases and users
+  include_tasks: create_db.yml
+  loop: "{{ applications }}"
+  loop_control:
+    loop_var: app
+
+# 4. Register connection strings for applications to use
+- name: Set application connection strings
+  set_fact:
+    app_db_connections: "{{ app_db_connections | default({}) | combine({item.name: 'postgresql://' + item.db_user + ':' + item.db_password + '@postgres-main:5432/' + item.db_name}) }}"
+  loop: "{{ applications }}"
+  no_log: true  # Hide sensitive info from logs
