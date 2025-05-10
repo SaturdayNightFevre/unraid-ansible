@@ -7,24 +7,12 @@
     name: "{{ app.db_name }}"
     state: present
 
-- name: Create user for {{ app.name }}
+- name: Create user for {{ app.name }} and grant privileges
   community.postgresql.postgresql_user:
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
     login_password: "{{ PASSWORD }}"
-    database: "{{ app.db_name }}"  # Use 'database' instead of 'db'
     name: "{{ app.db_user }}"
     password: "{{ app.db_password }}"
-    # Use 'postgresql_privs' instead of embedding in 'priv' parameter
-    state: present
-
-- name: Grant privileges to user for {{ app.name }}
-  community.postgresql.postgresql_privs:
-    login_host: localhost
-    login_user: "{{ postgres_admin_user }}"
-    login_password: "{{ PASSWORD }}"
-    database: "{{ app.db_name }}"
-    role: "{{ app.db_user }}"
-    type: database
-    privs: ALL
+    priv: "{{ app.db_name }}:ALL"  # Proper format for database-level privileges
     state: present
