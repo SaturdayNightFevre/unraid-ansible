@@ -23,9 +23,11 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     {% raw -%}
-    defaultRule: 'Host(`{{ normalize .Name }}.johnflix.uk`)'
-    {%- endraw %}
+    defaultRule: 'Host(`{{ index .Labels "com.docker.compose.service" }}.johnflix.uk`)'
+{%- endraw %}
+    
     network: web
+
   file:
     directory: "/configs"
     watch: true
