@@ -24,6 +24,25 @@
     - common
   vars_files:
     - vars.yml
+
+- name: Deploy Security Layer
+  hosts: johnflix
+  become: false
+  pre_tasks:
+    - name: Loading environment variables
+      set_fact:
+        EMAIL: "{{ hostvars['localhost'].EMAIL }}"
+        DUCK_DNS_TOKEN: "{{ hostvars['localhost'].DUCK_DNS_TOKEN }}"
+        CF_KEY: "{{ hostvars['localhost'].CF_KEY }}"
+        DOMAIN: "{{ hostvars['localhost'].DOMAIN }}"
+        PASSWORD_HASH: "{{ hostvars['localhost'].PASSWORD_HASH}}"
+        PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"
+  roles:
+    - database
+    - security
+  vars_files:
+    - vars.yml
+
 - name: Deploy Web Layer
   hosts: johnflix
   become: false
@@ -62,7 +81,6 @@
     - 4k-arrs
     - arrs
     - plex
-    - database
   vars_files:
     - vars.yml
   pre_tasks:
