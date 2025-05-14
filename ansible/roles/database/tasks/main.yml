@@ -68,21 +68,21 @@
       max-file: "1"
       max-size: 10m
 
-# 2. Wait for PostgreSQL to be ready
-- name: Wait for PostgreSQL to be ready
-  wait_for:
-    host: localhost
-    port: 5432
-    delay: 10
-    timeout: 60
-
-# 3. Wait for Redis to be ready (adding this step)
-- name: Wait for Redis to be ready
-  wait_for:
-    host: localhost
-    port: 6379
-    delay: 5
-    timeout: 30
+## 2. Wait for PostgreSQL to be ready
+#- name: Wait for PostgreSQL to be ready
+  #wait_for:
+    #host: localhost
+    #port: 5432
+    #delay: 10
+    #timeout: 60
+#
+## 3. Wait for Redis to be ready (adding this step)
+#- name: Wait for Redis to be ready
+  #wait_for:
+    #host: localhost
+    #port: 6379
+    #delay: 5
+    #timeout: 30
 
 # 4. Create databases and users for each application
 - name: Create application databases and users
