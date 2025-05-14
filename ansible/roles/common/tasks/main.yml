@@ -57,14 +57,12 @@
 
 - name: Check if bridge network exists
   community.docker.docker_network_info:
-    names:
-      - bridge
+    name: bridge
   register: bridge_network_info
 
 - name: Check if web network exists
   community.docker.docker_network_info:
-    names:
-      - web
+    name: web
   register: web_network_info
 
 - name: Create web network (external) if it doesn't exist
