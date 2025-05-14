@@ -66,14 +66,16 @@
       - "no-new-privileges:true"
     labels:
       traefik.enable: "true"
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png?raw=true"
-      net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}}/dashboard"
+      traefik.http.routers.traefik-dashboard.rule: "Host(`proxy.{{ DOMAIN }}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
+      traefik.http.routers.traefik-dashboard.entrypoints: "https"
       traefik.http.routers.traefik-dashboard.service: "api@internal"
       traefik.http.routers.traefik-dashboard.tls.certresolver: "letsencrypt"
       traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
       traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
       traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png?raw=true"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}}"
     log_driver: "json-file"
     log_options:
       max-file: "1"
@@ -103,29 +105,30 @@
       net.unraid.docker.webui: "https://pihole.johnflix.uk"
 
       # Enable Traefik for Pi-hole container
-      traefik.enable: "false"
+      traefik.enable: "true"
 
-      ## Web Interface (HTTPS) Configuration
-      #traefik.http.routers.pihole-router.rule: "Host(`pihole.{{ DOMAIN }}`)"
-      #traefik.http.routers.pihole-router.entrypoints: "https"
-      #traefik.http.routers.pihole-router.tls.certresolver: "letsencrypt"
-      #traefik.http.services.pihole.loadbalancer.server.port: "82"  # Set Pi-hole’s internal web port
-      ##traefik.http.routers.pihole-router.middlewares: "internal-ipallowlist@file"
-#
-      ## Standard DNS over TCP (port 53)
-      #traefik.tcp.routers.dns.rule: "HostSNI(`*`)"  # Wildcard for regular DNS
-      #traefik.tcp.routers.dns.entrypoints: "dns"
-      #traefik.tcp.routers.dns.service: "pihole-tcp"
-#
-      ## Define the TCP service for DNS (port 53)
-      #traefik.tcp.services.pihole-tcp.loadbalancer.server.port: "53"
-#
-      ## Standard DNS over UDP (port 53)
-      #traefik.udp.routers.udpdns.entrypoints: "udpdns"
-      #traefik.udp.routers.udpdns.service: "pihole-udp"
-#
-      ## Define the UDP service for DNS (port 53)
-      #traefik.udp.services.pihole-udp.loadbalancer.server.port: "53"
+      # Web Interface (HTTPS) Configuration
+      traefik.http.routers.pihole-router.rule: "Host(`pihole.{{ DOMAIN }}`)"
+      traefik.http.routers.pihole-router.entrypoints: "https"
+      traefik.http.routers.pihole-router.tls.certresolver: "letsencrypt"
+      traefik.http.services.pihole.loadbalancer.server.port: "82"  # Set Pi-hole’s internal web port
+      #traefik.http.routers.pihole-router.middlewares: "internal-ipallowlist@file"
+
+      # Standard DNS over TCP (port 53)
+      traefik.tcp.routers.dns.rule: "HostSNI(`*`)"  # Wildcard for regular DNS
+      traefik.tcp.routers.dns.entrypoints: "dns"
+      traefik.tcp.routers.dns.service: "pihole-tcp"
+
+      # Define the TCP service for DNS (port 53)
+      traefik.tcp.services.pihole-tcp.loadbalancer.server.port: "53"
+
+      # Standard DNS over UDP (port 53)
+      traefik.udp.routers.udpdns.entrypoints: "udpdns"
+      traefik.udp.routers.udpdns.service: "pihole-udp"
+
+      # Define the UDP service for DNS (port 53)
+      traefik.udp.services.pihole-udp.loadbalancer.server.port: "53"
+      traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
@@ -172,3 +175,57 @@
     labels:
       net.unraid.docker.icon: "https://www.duckdns.org/img/ducky_icon.png"
       net.unraid.docker.managed: "dockerman"
+
+- name: Start requests container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: requests
+    image: linuxserver/overseerr:1.33.2
+    ports:
+      - "5055:5055/tcp"
+    env:
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
+      TZ: "{{ timezone }}"
+    networks:
+      - name: web
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/sct/overseerr/refs/heads/develop/public/android-chrome-192x192_maskable.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://requests.{{ DOMAIN }}"
+      #traefik.enable: "true"
+      #traefik.http.routers.requests.tls.certresolver: "letsencrypt"
+      #traefik.http.routers.requests-router.rule: "Host(`requests.{{ DOMAIN }}`)"
+      #traefik.http.routers.requests-router.entrypoints: "https"
+      #traefik.http.routers.requests-router.service: requests
+      #traefik.http.services.requests.loadbalancer.server.port: "5055"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    restart_policy: always
+    volumes:
+      - "{{ app_data_dir }}/overseerr:/config"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    ##read_only: true
+    ##tmpfs:
+      ##- "/run:exec"
+    memory: "1g"
+    cpus: 1
+      - no-new-privileges:true
+      - apparmor=docker-default
+    ##read_only: true
+    ##tmpfs:
+      ##- "/run:exec"
+    memory: "1g"
+    cpus: 1
+      - no-new-privileges:true
+      - apparmor=docker-default
+    ##read_only: true
+    ##tmpfs:
+      ##- "/run:exec"
+    memory: "1g"
+    cpus: 1

@@ -55,14 +55,21 @@
     msg: "Directory {{ app_data_dir }} does not exist. Please create it before continuing."
   when: not appdata_dir_check.stat.exists
 
-- name: Create bridge network (internal)
-  community.docker.docker_network:
-    name: bridge
-    internal: true
-    state: present
+- name: Check if bridge network exists
+  community.docker.docker_network_info:
+    names:
+      - bridge
+  register: bridge_network_info
 
-- name: Create web network (external)
+- name: Check if web network exists
+  community.docker.docker_network_info:
+    names:
+      - web
+  register: web_network_info
+
+- name: Create web network (external) if it doesn't exist
   community.docker.docker_network:
     name: web
     internal: false
     state: present
+  when: web_network_info.networks is not defined or web_network_info.networks | length == 0
