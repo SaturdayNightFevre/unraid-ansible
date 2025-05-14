@@ -59,6 +59,8 @@
   community.docker.docker_network_info:
     name: bridge
   register: bridge_network_info
+  debug:
+    var: bridge_network_info
 
 - name: Fail if bridge network does not exist
   ansible.builtin.fail:
