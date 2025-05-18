@@ -44,7 +44,7 @@
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
     login_password: "{{ PASSWORD }}"
-    db: "{{ app.db_name }}"
+    login_db: "{{ app.db_name }}"
     query: |
       ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO "{{ app.db_user }}";
       ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO "{{ app.db_user }}";
