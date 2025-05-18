@@ -29,8 +29,7 @@
       timeout: 3s
     volumes:
       - "{{ app_data_dir }}/redis:/data"
-    ports:
-      - "6379:6379"
+    published_ports: ["6379:6379"]
     log_driver: json-file
     log_options:
       max-file: "1"
@@ -61,21 +60,27 @@
       PGID: "{{ PGID }}"
       POSTGRES_PASSWORD: "{{ PASSWORD }}"
       POSTGRES_USER: "{{ postgres_admin_user }}"
-    ports:
-      - "5432:5432"
+    published_: ["5432:5432"]
     log_driver: json-file
     log_options:
       max-file: "1"
       max-size: 10m
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    command: >
+      - /bin/sh
+      - -c
+      - |
+        echo "listen_addresses = '*'" >> /var/lib/postgresql/data/postgresql.conf
 
-## 2. Wait for PostgreSQL to be ready
-#- name: Wait for PostgreSQL to be ready
-  #wait_for:
-    #host: localhost
-    #port: 5432
-    #delay: 10
-    #timeout: 60
-#
+# 2. Wait for PostgreSQL to be ready
+- name: Wait for PostgreSQL to be ready
+  wait_for:
+    host: localhost
+    port: 5432
+    delay: 10
+    timeout: 60
+
 ## 3. Wait for Redis to be ready (adding this step)
 #- name: Wait for Redis to be ready
   #wait_for:
