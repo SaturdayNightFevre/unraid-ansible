@@ -10,7 +10,7 @@
     restart_policy: "unless-stopped"
     env:
       AUTHENTIK_REDIS__HOST: "redis-main"  # Using your redis container name
-      AUTHENTIK_POSTGRESQL__HOST: "postgres-main"  # Using your postgres container name
+      AUTHENTIK_POSTGRESQL__HOST: "Postgres"  # Using your postgres container name
       AUTHENTIK_POSTGRESQL__USER: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_user') | first }}"
       AUTHENTIK_POSTGRESQL__NAME: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_name') | first }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_password') | first }}"
@@ -26,7 +26,7 @@
       - name: bridge  # Internal network
     labels:
       traefik.enable: "true"
-      traefik.http.routers.authentik.rule: "Host(`authentik.example.com`) || HostRegexp(`{subdomain:[A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])?}.example.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      traefik.http.routers.authentik.rule: "Host(`authentik.{{ DOMAIN }}`) || HostRegexp(`{subdomain:[A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])?}.example.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
       traefik.http.services.authentik.loadbalancer.server.port: "9000"
       traefik.docker.network: "proxy"
       traefik.http.middlewares.authentik.forwardauth.address: "http://authentik-proxy:9000/outpost.goauthentik.io/auth/traefik"
@@ -48,8 +48,8 @@
     user: root
     restart_policy: "unless-stopped"
     env:
-      AUTHENTIK_REDIS__HOST: "redis-main"  # Using your redis container name
-      AUTHENTIK_POSTGRESQL__HOST: "postgres-main"  # Using your postgres container name
+      AUTHENTIK_REDIS__HOST: "redis"  # Using your redis container name
+      AUTHENTIK_POSTGRESQL__HOST: "postgres"  # Using your postgres container name
       AUTHENTIK_POSTGRESQL__USER: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_user') | first }}"
       AUTHENTIK_POSTGRESQL__NAME: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_name') | first }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_password') | first }}"

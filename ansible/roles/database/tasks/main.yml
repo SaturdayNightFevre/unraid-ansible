@@ -14,7 +14,7 @@
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    name: Redis
+    name: redis
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
     restart_policy: "unless-stopped"
@@ -48,7 +48,7 @@
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    name: Postgres
+    name: postgres
     image: docker.io/library/postgres:17-alpine
     restart_policy: "unless-stopped"
     labels:
