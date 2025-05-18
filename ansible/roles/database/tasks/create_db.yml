@@ -26,3 +26,26 @@
     type: database
     privs: ALL
     state: present
+# Add this new task to grant schema privileges
+- name: Grant schema privileges to {{ app.name }} user
+  community.postgresql.postgresql_privs:
+    login_host: localhost
+    login_user: "{{ postgres_admin_user }}"
+    login_password: "{{ PASSWORD }}"
+    login_db: "{{ app.db_name }}"
+    role: "{{ app.db_user }}"
+    type: schema
+    obj: public
+    privs: ALL
+    state: present
+# Also add this to grant privileges on future objects in the schema
+- name: Grant default privileges to {{ app.name }} user
+  community.postgresql.postgresql_query:
+    login_host: localhost
+    login_user: "{{ postgres_admin_user }}"
+    login_password: "{{ PASSWORD }}"
+    db: "{{ app.db_name }}"
+    query: |
+      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO "{{ app.db_user }}";
+      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO "{{ app.db_user }}";
+      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO "{{ app.db_user }}";
