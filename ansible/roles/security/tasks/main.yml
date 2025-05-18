@@ -25,6 +25,9 @@
       - name: web  # External network
       - name: bridge  # Internal network
     labels:
+      net.unraid.docker.icon: "https://github.com/goauthentik/authentik/blob/main/website/static/img/icon.png?raw=true"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://authentik.{{ DOMAIN }}}"
       traefik.enable: "true"
       traefik.http.routers.authentik.rule: "Host(`authentik.{{ DOMAIN }}`) || HostRegexp(`{subdomain:[A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])?}.example.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
       traefik.http.services.authentik.loadbalancer.server.port: "9000"
@@ -48,6 +51,9 @@
     user: root
     restart_policy: "unless-stopped"
     env:
+      net.unraid.docker.icon: "https://github.com/goauthentik/authentik/blob/main/website/static/img/icon.png?raw=true"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://authentik.{{ DOMAIN }}}"
       AUTHENTIK_REDIS__HOST: "{{ local_ip }}"  # Using your redis container name
       AUTHENTIK_POSTGRESQL__HOST: "{{ local_ip }}"  # Using your postgres container name
       AUTHENTIK_POSTGRESQL__USER: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_user') | first }}"
