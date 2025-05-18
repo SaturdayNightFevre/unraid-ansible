@@ -23,7 +23,7 @@
       traefik.http.services.4k-films.loadbalancer.server.port: "5656"
       traefik.http.routers.4k-films-router.rule: "Host(`4k-films.{{ DOMAIN }}`)"
       traefik.http.routers.4k-films-router.entrypoints: "https"
-      traefik.http.routers.whoami.middlewares: "authentik@docker"
+      traefik.http.routers.4k-films-router.middlewares: "authentik@docker"
       #traefik.http.routers.4k-films-router.middlewares: "internal-ipallowlist@file"
     log_driver: json-file
     log_options:
