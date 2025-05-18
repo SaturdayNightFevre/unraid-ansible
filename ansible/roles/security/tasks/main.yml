@@ -22,8 +22,8 @@
       - "9000"
       - "9443"
     networks:
-      - name: proxy  # External network
-      - name: authentik-internal  # Internal network
+      - name: web  # External network
+      - name: bridge  # Internal network
     labels:
       traefik.enable: "true"
       traefik.http.routers.authentik.rule: "Host(`authentik.example.com`) || HostRegexp(`{subdomain:[A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])?}.example.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
