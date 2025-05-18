@@ -60,7 +60,7 @@
       PGID: "{{ PGID }}"
       POSTGRES_PASSWORD: "{{ PASSWORD }}"
       POSTGRES_USER: "{{ postgres_admin_user }}"
-    published_: ["5432:5432"]
+    published_ports: ["5432:5432"]
     log_driver: json-file
     log_options:
       max-file: "1"
