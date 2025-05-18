@@ -65,8 +65,8 @@
     log_options:
       max-file: "1"
       max-size: 10m
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
+    env:
+      #POSTGRES_HOST_AUTH_METHOD: trust
     command: >
       - /bin/sh
       - -c
