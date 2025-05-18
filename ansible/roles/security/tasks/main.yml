@@ -9,8 +9,8 @@
     command: server
     restart_policy: "unless-stopped"
     env:
-      AUTHENTIK_REDIS__HOST: "redis-main"  # Using your redis container name
-      AUTHENTIK_POSTGRESQL__HOST: "Postgres"  # Using your postgres container name
+      AUTHENTIK_REDIS__HOST: "redis"  # Using your redis container name
+      AUTHENTIK_POSTGRESQL__HOST: "postgres"  # Using your postgres container name
       AUTHENTIK_POSTGRESQL__USER: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_user') | first }}"
       AUTHENTIK_POSTGRESQL__NAME: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_name') | first }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_password') | first }}"

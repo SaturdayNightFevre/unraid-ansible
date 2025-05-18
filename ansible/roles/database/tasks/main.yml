@@ -101,7 +101,7 @@
 # 5. Register connection strings for applications to use
 - name: Set application connection strings
   set_fact:
-    app_db_connections: "{{ app_db_connections | default({}) | combine({item.name: 'postgresql://' + item.db_user + ':' + item.db_password + '@postgres-main:5432/' + item.db_name}) }}"
-    app_redis_connections: "{{ app_redis_connections | default({}) | combine({item.name: 'redis://redis-main:6379/0'}) if item.redis_enabled | default(false) else app_redis_connections | default({}) }}"
+    app_db_connections: "{{ app_db_connections | default({}) | combine({item.name: 'postgresql://' + item.db_user + ':' + item.db_password + '@postgres:5432/' + item.db_name}) }}"
+    app_redis_connections: "{{ app_redis_connections | default({}) | combine({item.name: 'redis://redis:6379/0'}) if item.redis_enabled | default(false) else app_redis_connections | default({}) }}"
   loop: "{{ applications }}"
   no_log: true # Hide sensitive info from logs
