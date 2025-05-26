@@ -3,12 +3,12 @@
   ansible.builtin.file:
     path: "/opt/ansible_venv"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Install Python venv module if not present
   ansible.builtin.command: python3 -m pip install virtualenv
   changed_when: false
-  ignore_errors: true  # Continue even if this fails
+  ignore_errors: true # Continue even if this fails
 
 - name: Create Python virtual environment
   ansible.builtin.command: python3 -m venv /opt/ansible_venv
@@ -16,14 +16,14 @@
     creates: /opt/ansible_venv/bin/python
   register: venv_created
 
-- name: Upgrade pip in virtual environment
-  ansible.builtin.command: /opt/ansible_venv/bin/pip install --upgrade pip
+- name: Ensure pip and setuptools are upgraded in virtual environment
+  ansible.builtin.command: /opt/ansible_venv/bin/python -m pip install --upgrade pip setuptools
   changed_when: true
   when: venv_created.changed
 
 - name: Install required Python packages in virtual environment
   ansible.builtin.pip:
-    name: 
+    name:
       - psycopg2-binary
       - requests==2.31.0
     state: present
