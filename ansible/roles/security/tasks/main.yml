@@ -51,7 +51,7 @@
     user: root
     restart_policy: "unless-stopped"
     env:
-      net.unraid.docker.icon: "https://github.com/goauthentik/authentik/blob/main/website/static/img/icon.png?raw=true"
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/ibracorp/app-logos/main/authentik-worker/authentik_worker.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://authentik.{{ DOMAIN }}}"
       AUTHENTIK_REDIS__HOST: "{{ local_ip }}"  # Using your redis container name
@@ -71,3 +71,40 @@
     log_options:
       max-file: "1"
       max-size: 10m
+
+
+# Create crowdsec container
+- name: Ensure crowdsec  container is running
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: crowdsec
+    ports:
+      - "9876:9876" #possibly 8080 External 8
+    exposed:
+      - 8080 # http api for bouncers
+      - 6060 # metrics endpoint for prometheus
+      - 7422 # appsec waf endpoint
+    image: "crowdsecurity/crowdsec:v1.6.8"
+    restart_policy: "unless-stopped"
+    env:
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
+      COLLECTIONS: "crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs"
+      CUSTOM_HOSTNAME: "johnflix-crowdsec"
+    volumes:
+    # crowdsec container data
+      - "{{ app_data_dir }}/crowdsec/data:/var/lib/crowdsec/data"
+      - "{{ app_data_dir }}/crowdsec/etc:/etc/crowdsec"
+      # log bind mounts into crowdsec
+      - "- /var/log/syslog:/var/log/syslog:ro"
+      - "{{ app_data_dir }}/traefik/logs:/var/log/traefik:ro"
+    networks:
+      - name: web  # External network
+      - name: bridge
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+
+

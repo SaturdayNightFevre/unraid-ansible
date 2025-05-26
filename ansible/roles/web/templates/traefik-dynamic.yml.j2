@@ -12,3 +12,21 @@ http:
           Strict-Transport-Security: "max-age=63072000; includeSubDomains; preload"
         sslRedirect: true
         sslForceHost: true
+
+  routers:
+    homeassistant:
+      entryPoints:
+        - https
+      rule: "Host(`homeassistant.johnflix.uk`)"
+      service: homeassistant
+      middlewares:
+        - default-hsts
+        - authentik@docker
+      tls:
+        certResolver: letsencrypt
+
+  services:
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://homeassistant.local:8123"

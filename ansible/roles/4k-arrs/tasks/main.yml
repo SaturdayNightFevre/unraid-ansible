@@ -4,91 +4,40 @@
   #vars:
     #target_dir: "{{ app_data_dir }}/radarr-4k"
 
-- name: Start 4k-films container
-  community.docker.docker_container:
-    image_name_mismatch: "recreate"
-    pull: "always"
-    name: 4k-films
-    image: linuxserver/radarr:5.14.0
-    env:
-    networks:
-      - name: web
-    published_ports: ["5656:5656"]
-    labels:
-      net.unraid.docker.icon: "https://user-images.githubusercontent.com/11823348/114629539-129b9100-9cb9-11eb-94a8-803fabc27d9e.png"
-      net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://4k-films.johnflix.uk"
-      traefik.enable: "true"
-      traefik.http.routers.4k-films.tls.certresolver: "letsencrypt"
-      traefik.http.services.4k-films.loadbalancer.server.port: "5656"
-      traefik.http.routers.4k-films-router.rule: "Host(`4k-films.{{ DOMAIN }}`)"
-      traefik.http.routers.4k-films-router.entrypoints: "https"
-      traefik.http.routers.4k-films-router.middlewares: "authentik@docker"
-      #traefik.http.routers.4k-films-router.middlewares: "internal-ipallowlist@file"
-    log_driver: json-file
-    log_options:
-      max-file: "1"
-      max-size: 10m
-    restart_policy: always
-    volumes:
-      - "{{ app_data_dir }}/radarr-4k:/config"
-      - "{{ dwnlds_dir }}:/downloads:rw"
-      - "{{ media_dir }}/4k-movies:/movies:rw"
-      - "{{ media_dir }}/old-4k:/old-4k"
-    security_opts:
-      - no-new-privileges:true
-      - apparmor=docker-default
-    read_only: true
-    tmpfs:
+- name: Configure 4k-films container
+  ansible.builtin.include_tasks: "../../../shared-tasks/docker-app.yml"
+  vars:
+    app_name: 4k-films
+    app_image: linuxserver/radarr:5.14.0
+    app_published_ports: ["5656:5656"]
+    app_icon_url: "https://user-images.githubusercontent.com/11823348/114629539-129b9100-9cb9-11eb-94a8-803fabc27d9e.png"
+    app_port: 5656
+    app_config_dir: radarr-4k
+    app_media_dir: "{{ media_dir }}/4k-movies"
+    app_media_mount: /movies
+    app_read_only: true
+    app_tmpfs:
       - "/run:exec"
-    memory: "1g"
-    cpus: 1
-
-
-
-- name: Start 4k-tv container
-  community.docker.docker_container:
-    image_name_mismatch: "recreate"
-    pull: "always"
-    name: 4k-tv
-    image: linuxserver/sonarr:4.0.10
-    published_ports: ["6767:6767"]
-    env:
-      PUID: "{{ PUID }}"
-      PGID: "{{ PGID }}"
-    ipc_mode: private
-    labels:
-      net.unraid.docker.icon: "https://github.com/themepark-dev/theme.park/blob/master/css/addons/sonarr/sonarr-4k-logo/sonarr-4k.png?raw=true"
-      net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://4k-tv.johnflix.uk"
-      traefik.enable: "true"
-      traefik.http.routers.4k-tv-router.middlewares: "authentik@docker"
-      traefik.http.routers.4k-tv.tls.certresolver: "letsencrypt"
-      traefik.http.services.4k-tv.loadbalancer.server.port: "6767"
-      traefik.http.routers.4k-tv-router.rule: "Host(`4k-tv.{{ DOMAIN }}`)"
-      traefik.http.routers.4k-tv-router.entrypoints: "https"
-      #traefik.http.routers.4k-tv-router.middlewares: "internal-ipallowlist@file"
-    log_driver: json-file
-    log_options:
-      max-file: "1"
-      max-size: 10m
-    networks:
-      - name: web
-    restart_policy: always
-    volumes:
-      - "{{ app_data_dir }}/sonarr-4k:/config"
-      - "{{ dwnlds_dir }}:/downloads:rw"
-      - "{{ media_dir }}/4k-tv-shows:/tv-shows:rw"
+    app_traefik_enable: true
+    app_volumes:
       - "{{ media_dir }}/old-4k:/old-4k"
-    working_dir: /
-    security_opts:
-      - no-new-privileges:true
-      - apparmor=docker-default
-    #read_only: true
-    #tmpfs:
-      #- "/run:exec"
-    memory: "1g"
-    cpus: 1
+
+- name: Configure 4k-tv container
+  ansible.builtin.include_tasks: "../../../shared-tasks/docker-app.yml"
+  vars:
+    app_name: 4k-tv
+    app_image: linuxserver/sonarr:4.0.10
+    app_published_ports: ["6767:6767"]
+    app_ipc_mode: private
+    app_icon_url: "https://github.com/themepark-dev/theme.park/blob/master/css/addons/sonarr/sonarr-4k-logo/sonarr-4k.png?raw=true"
+    app_port: 6767
+    app_config_dir: sonarr-4k
+    app_media_dir: "{{ media_dir }}/4k-tv-shows"
+    app_media_mount: /tv-shows
+    app_working_dir: /
+    app_traefik_enable: true
+    app_volumes:
+      - "{{ media_dir }}/old-4k:/old-4k"
 
 
 #- name: Set permissions for 4k-tv directory

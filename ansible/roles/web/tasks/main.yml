@@ -66,16 +66,19 @@
       - "no-new-privileges:true"
     labels:
       traefik.enable: "true"
-      traefik.http.routers.traefik-dashboard.rule: "Host(`proxy.{{ DOMAIN }}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
-      traefik.http.routers.traefik-dashboard.entrypoints: "https"
-      traefik.http.routers.traefik-dashboard.service: "api@internal"
-      traefik.http.routers.traefik-dashboard.tls.certresolver: "letsencrypt"
-      traefik.http.middlewares.traefik-auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
-      traefik.http.middlewares.traefik-dashboard-redirect.headers.customresponseheaders.X-Robots-Tag: "noindex,nofollow"
-      traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
+      # Simplified dashboard rule
+      traefik.http.routers.api.rule: "Host(`proxy.{{ DOMAIN }}`)"
+      traefik.http.routers.api.entrypoints: "https"
+      traefik.http.routers.api.service: "api@internal"
+      traefik.http.routers.api.tls.certresolver: "letsencrypt"
+      # Authentication middleware
+      traefik.http.middlewares.auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
+      # Apply middleware to router
+      traefik.http.routers.api.middlewares: "authentik@docker"
+      # Unraid-specific labels
       net.unraid.docker.icon: "https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png?raw=true"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}}"
+      net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}"
     log_driver: "json-file"
     log_options:
       max-file: "1"
@@ -128,7 +131,7 @@
 
       # Define the UDP service for DNS (port 53)
       traefik.udp.services.pihole-udp.loadbalancer.server.port: "53"
-      traefik.http.routers.traefik-dashboard.middlewares: "traefik-auth, traefik-dashboard-redirect"
+      traefik.http.routers.pihole-router.middlewares: "traefik-auth@docker,traefik-dashboard-redirect@docker"
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
@@ -208,20 +211,6 @@
     volumes:
       - "{{ app_data_dir }}/overseerr:/config"
     security_opts:
-      - no-new-privileges:true
-      - apparmor=docker-default
-    ##read_only: true
-    ##tmpfs:
-      ##- "/run:exec"
-    memory: "1g"
-    cpus: 1
-      - no-new-privileges:true
-      - apparmor=docker-default
-    ##read_only: true
-    ##tmpfs:
-      ##- "/run:exec"
-    memory: "1g"
-    cpus: 1
       - no-new-privileges:true
       - apparmor=docker-default
     ##read_only: true

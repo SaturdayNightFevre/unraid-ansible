@@ -2,6 +2,10 @@
 app_data_dir: /mnt/user/appdata
 media_dir:  /mnt/user/media
 dwnlds_dir: /mnt/user/downloads
+app_default_env:
+  PUID: "99"
+  PGID: "100"
+  timezone: Europe/London
 PUID: "99"
 PGID: "100"
 postgres_admin_user: "postgres-admin"
