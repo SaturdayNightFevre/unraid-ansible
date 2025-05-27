@@ -53,6 +53,8 @@
     ports:
       - "81:80"
       - "443:443"
+    dns:
+      - "192.168.1.1"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "{{ app_data_dir }}/traefik/traefik.yml:/traefik.yml:ro"
