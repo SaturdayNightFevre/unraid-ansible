@@ -18,7 +18,7 @@
     app_read_only: true
     app_tmpfs:
       - "/run:exec"
-    app_traefik_enable: true
+    app_traefik_enable: "true"
     app_volumes:
       - "{{ media_dir }}/old-4k:/old-4k"
 
@@ -35,7 +35,7 @@
     app_media_dir: "{{ media_dir }}/4k-tv-shows"
     app_media_mount: /tv-shows
     app_working_dir: /
-    app_traefik_enable: true
+    app_traefik_enable: "true"
     app_volumes:
       - "{{ media_dir }}/old-4k:/old-4k"
 
