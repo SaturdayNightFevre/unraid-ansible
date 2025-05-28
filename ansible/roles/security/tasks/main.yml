@@ -9,8 +9,8 @@
     command: server
     restart_policy: "unless-stopped"
     env:
-      AUTHENTIK_REDIS__HOST: "{{ local_ip }}"  # Using your redis container name
-      AUTHENTIK_POSTGRESQL__HOST: "{{ local_ip }}"  # Using your postgres container name
+      AUTHENTIK_REDIS__HOST: "{{ local_ip }}" # Using your redis container name
+      AUTHENTIK_POSTGRESQL__HOST: "{{ local_ip }}" # Using your postgres container name
       AUTHENTIK_POSTGRESQL__USER: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_user') | first }}"
       AUTHENTIK_POSTGRESQL__NAME: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_name') | first }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_password') | first }}"
@@ -22,8 +22,8 @@
       - "9000:9000"
       - "9443:9443"
     networks:
-      - name: web  # External network
-      - name: bridge  # Internal network
+      - name: web # External network
+      - name: bridge # Internal network
     labels:
       net.unraid.docker.icon: "https://github.com/goauthentik/authentik/blob/main/website/static/img/icon.png?raw=true"
       net.unraid.docker.managed: "dockerman"
@@ -54,8 +54,8 @@
       net.unraid.docker.icon: "https://raw.githubusercontent.com/ibracorp/app-logos/main/authentik-worker/authentik_worker.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://authentik.{{ DOMAIN }}}"
-      AUTHENTIK_REDIS__HOST: "{{ local_ip }}"  # Using your redis container name
-      AUTHENTIK_POSTGRESQL__HOST: "{{ local_ip }}"  # Using your postgres container name
+      AUTHENTIK_REDIS__HOST: "{{ local_ip }}" # Using your redis container name
+      AUTHENTIK_POSTGRESQL__HOST: "{{ local_ip }}" # Using your postgres container name
       AUTHENTIK_POSTGRESQL__USER: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_user') | first }}"
       AUTHENTIK_POSTGRESQL__NAME: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_name') | first }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_password') | first }}"
@@ -65,13 +65,12 @@
       - "{{ app_data_dir }}/authentik/media:/media"
       - "{{ app_data_dir }}/authentik/custom-templates:/templates"
     networks:
-      - name: web  # External network
+      - name: web # External network
       - name: bridge
     log_driver: json-file
     log_options:
       max-file: "1"
       max-size: 10m
-
 
 # Create crowdsec container
 - name: Ensure crowdsec  container is running
@@ -80,11 +79,9 @@
     pull: "always"
     name: crowdsec
     ports:
-      - "9876:9876" #possibly 8080 External 8
-    exposed:
-      - 8080 # http api for bouncers
-      - 6060 # metrics endpoint for prometheus
-      - 7422 # appsec waf endpoint
+      - "9876:8080" # http api for bouncers
+      - "6060:6060" # metrics endpoint for prometheus
+      - "7422:7422" # appsec waf endpoint
     image: "crowdsecurity/crowdsec:v1.6.8"
     restart_policy: "unless-stopped"
     env:
@@ -93,17 +90,15 @@
       COLLECTIONS: "crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs"
       CUSTOM_HOSTNAME: "johnflix-crowdsec"
     volumes:
-    # crowdsec container data
+      # crowdsec container data
       - "{{ app_data_dir }}/crowdsec/data:/var/lib/crowdsec/data"
       - "{{ app_data_dir }}/crowdsec/etc:/etc/crowdsec"
       # log bind mounts into crowdsec
       - "{{ app_data_dir }}/traefik/logs:/var/log/traefik:ro"
     networks:
-      - name: web  # External network
+      - name: web # External network
       - name: bridge
     log_driver: json-file
     log_options:
       max-file: "1"
       max-size: 10m
-
-
