@@ -1,30 +1,29 @@
 ---
 #- name: Include SSL certificate tasks
-  #import_tasks: ssl.yml
+#import_tasks: ssl.yml
 
 - name: Ensure the base Traefik directory exists
   ansible.builtin.file:
     path: "{{ app_data_dir }}/traefik"
     state: directory
-    mode: '0755'
-
+    mode: "0755"
 
 - name: Deploy the Traefik configuration using a template
   ansible.builtin.template:
     src: "traefik.yml.j2"
-    dest: "{{ app_data_dir }}/traefik/traefik.yml"  # This is a file, not a directory
+    dest: "{{ app_data_dir }}/traefik/traefik.yml" # This is a file, not a directory
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
     backup: false
 
 - name: Deploy the Traefik dynamic configuration using a template
   ansible.builtin.template:
     src: "traefik-dynamic.yml.j2"
-    dest: "{{ app_data_dir }}/traefik/configs/traefik_dynamic.yml"  # This is a file, not a directory
+    dest: "{{ app_data_dir }}/traefik/configs/traefik_dynamic.yml" # This is a file, not a directory
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
     backup: false
 
 - name: Check if the acme.json file exists
@@ -34,11 +33,11 @@
 
 - name: Create the acme.json file if it doesn't exist
   ansible.builtin.file:
-    path: "{{ app_data_dir }}/traefik/acme.json"  # Ensure this is a file
-    state: touch  # This ensures it is a file, not a directory
+    path: "{{ app_data_dir }}/traefik/acme.json" # Ensure this is a file
+    state: touch # This ensures it is a file, not a directory
     owner: root
     group: root
-    mode: '0600'
+    mode: "0600"
   when: not acme_file_stat.stat.exists
 
 - name: Ensure Traefik container is running
@@ -86,78 +85,79 @@
       max-file: "1"
       max-size: "10m"
 
-- name: Ensure Pi-hole container is running
-  community.docker.docker_container:
-    name: pihole
-    image: pihole/pihole:2024.07.0
-    pull: "always"
-    hostname: "pihole.{{ DOMAIN }}"
-    restart_policy: unless-stopped
-    networks:
-      - name: web
-    ports:
-      - "82:80/tcp"
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "853:853/udp"
-    volumes:
-      - "{{ app_data_dir }}/pihole/etc-pihole:/etc/pihole"
-      - "{{ app_data_dir }}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
-    labels:
-      # Unraid-specific labels
-      net.unraid.docker.icon: "https://github.com/binhex/docker-templates/blob/master/binhex/images/official-pihole-icon.png?raw=true"
-      net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://pihole.johnflix.uk"
-
-      # Enable Traefik for Pi-hole container
-      traefik.enable: "true"
-
-      # Web Interface (HTTPS) Configuration
-      traefik.http.routers.pihole-router.rule: "Host(`pihole.{{ DOMAIN }}`)"
-      traefik.http.routers.pihole-router.entrypoints: "https"
-      traefik.http.routers.pihole-router.tls.certresolver: "letsencrypt"
-      traefik.http.services.pihole.loadbalancer.server.port: "82"  # Set Pi-hole’s internal web port
-      #traefik.http.routers.pihole-router.middlewares: "internal-ipallowlist@file"
-
-      # Standard DNS over TCP (port 53)
-      traefik.tcp.routers.dns.rule: "HostSNI(`*`)"  # Wildcard for regular DNS
-      traefik.tcp.routers.dns.entrypoints: "dns"
-      traefik.tcp.routers.dns.service: "pihole-tcp"
-
-      # Define the TCP service for DNS (port 53)
-      traefik.tcp.services.pihole-tcp.loadbalancer.server.port: "53"
-
-      # Standard DNS over UDP (port 53)
-      traefik.udp.routers.udpdns.entrypoints: "udpdns"
-      traefik.udp.routers.udpdns.service: "pihole-udp"
-
-      # Define the UDP service for DNS (port 53)
-      traefik.udp.services.pihole-udp.loadbalancer.server.port: "53"
-      traefik.http.routers.pihole-router.middlewares: "traefik-auth@docker,traefik-dashboard-redirect@docker"
-    env:
-      PUID: "{{ PUID }}"
-      PGID: "{{ PGID }}"
-      TZ: "{{ timezone }}"
-      WEBPASSWORD: "test"
-      FTLCONF_LOCAL_IPV4: "{{ local_ip }}"
-      IPV6: "false"
-      VIRTUAL_HOST: "pihole.{{ DOMAIN }}"
-      PIHOLE_LOGLEVEL: "debug"
-    capabilities :
-      - NET_ADMIN  # Added for network capabilities
-    log_driver: "json-file"
-    log_options:
-      max-file: "1"
-      max-size: "10m"
+#- name: Ensure Pi-hole container is running
+  #community.docker.docker_container:
+    #name: pihole
+    #image: pihole/pihole:2024.07.0
+    #pull: "always"
+    #hostname: "pihole.{{ DOMAIN }}"
+    #restart_policy: unless-stopped
+    #networks:
+      #- name: web
+    #ports:
+      #- "82:80/tcp"
+      #- "53:53/tcp"
+      #- "53:53/udp"
+      #- "853:853/udp"
+    #volumes:
+      #- "{{ app_data_dir }}/pihole/etc-pihole:/etc/pihole"
+      #- "{{ app_data_dir }}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
+    #labels:
+      ## Unraid-specific labels
+      #net.unraid.docker.icon: "https://github.com/binhex/docker-templates/blob/master/binhex/images/official-pihole-icon.png?raw=true"
+      #net.unraid.docker.managed: "dockerman"
+      #net.unraid.docker.webui: "https://pihole.johnflix.uk"
+#
+      ## Enable Traefik for Pi-hole container
+      #traefik.enable: "true"
+#
+      ## Web Interface (HTTPS) Configuration
+      #traefik.http.routers.pihole-router.rule: "Host(`pihole.{{ DOMAIN }}`)"
+      #traefik.http.routers.pihole-router.entrypoints: "https"
+      #traefik.http.routers.pihole-router.tls.certresolver: "letsencrypt"
+      #traefik.http.services.pihole.loadbalancer.server.port: "82" # Set Pi-hole’s internal web port
+      ##traefik.http.routers.pihole-router.middlewares: "internal-ipallowlist@file"
+#
+      ## Standard DNS over TCP (port 53)
+      #traefik.tcp.routers.dns.rule: "HostSNI(`*`)" # Wildcard for regular DNS
+      #traefik.tcp.routers.dns.entrypoints: "dns"
+      #traefik.tcp.routers.dns.service: "pihole-tcp"
+#
+      ## Define the TCP service for DNS (port 53)
+      #traefik.tcp.services.pihole-tcp.loadbalancer.server.port: "53"
+#
+      ## Standard DNS over UDP (port 53)
+      #traefik.udp.routers.udpdns.entrypoints: "udpdns"
+      #traefik.udp.routers.udpdns.service: "pihole-udp"
+#
+      ## Define the UDP service for DNS (port 53)
+      #traefik.udp.services.pihole-udp.loadbalancer.server.port: "53"
+      #traefik.http.routers.pihole-router.middlewares: "traefik-auth@docker,traefik-dashboard-redirect@docker"
+    #env:
+      #PUID: "{{ PUID }}"
+      #PGID: "{{ PGID }}"
+      #TZ: "{{ timezone }}"
+      #WEBPASSWORD: "test"
+      #FTLCONF_LOCAL_IPV4: "{{ local_ip }}"
+      #IPV6: "false"
+      #VIRTUAL_HOST: "pihole.{{ DOMAIN }}"
+      #PIHOLE_LOGLEVEL: "debug"
+      #INTERFACE: "br0" # Limit Pi-hole to listen only on br0
+    #capabilities:
+      #- NET_ADMIN # Added for network capabilities
+    #log_driver: "json-file"
+    #log_options:
+      #max-file: "1"
+      #max-size: "10m"
 
 #- name: Deploy the johnflix local dns config configuration using a template
-  #ansible.builtin.template:
-    #src: "pi-hole-johnflix-local-dns.conf.j2"
-    #dest: "{{ app_data_dir }}/pihole/etc-dnsmasq.d/03-johflix.conf"  # This is a file, not a directory
-    #owner: root
-    #group: root
-    #mode: '0755'
-    #backup: false
+#ansible.builtin.template:
+#src: "pi-hole-johnflix-local-dns.conf.j2"
+#dest: "{{ app_data_dir }}/pihole/etc-dnsmasq.d/03-johflix.conf"  # This is a file, not a directory
+#owner: root
+#group: root
+#mode: '0755'
+#backup: false
 
 - name: Set up DuckDNS container
   community.docker.docker_container:
@@ -217,6 +217,6 @@
       - apparmor=docker-default
     ##read_only: true
     ##tmpfs:
-      ##- "/run:exec"
+    ##- "/run:exec"
     memory: "1g"
     cpus: 1
