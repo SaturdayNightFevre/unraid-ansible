@@ -66,3 +66,4 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
           OPENVPN_USER: ${{ secrets.OPENVPN_USER }}
           OPENVPN_PASSWORD: ${{ secrets.OPENVPN_PASSWORD }}
+          CROWDSEC_API: ${{ secrets.CROWDSEC_API }}

@@ -16,6 +16,7 @@
         PASSWORD: "{{ lookup('env', 'PASSWORD') }}"
         OPENVPN_USER: "{{ lookup('env', 'OPENVPN_USER') }}"
         OPENVPN_PASSWORD: "{{ lookup('env', 'OPENVPN_PASSWORD') }}"
+        CROWDSEC_API: "{{ lookup('env', 'CROWDSEC_API') }}"
 
 - name: Ensure Docker and Networks
   hosts: johnflix
@@ -37,6 +38,7 @@
         DOMAIN: "{{ hostvars['localhost'].DOMAIN }}"
         PASSWORD_HASH: "{{ hostvars['localhost'].PASSWORD_HASH}}"
         PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"
+        CROWDSEC_API: "{{ hostvars['localhost'].CROWDSEC_API }}"
   roles:
     - database
     - security

@@ -1,5 +1,27 @@
 http:
   middlewares:
+    crowdsec:
+      plugin:
+        bouncer:
+          enabled: true
+          defaultDecisionSeconds: 60
+          crowdsecMode: live
+          crowdsecAppsecEnabled: false # <--- here you can enable appsec waf
+          crowdsecAppsecHost: crowdsec:7422
+          crowdsecAppsecFailureBlock: true
+          crowdsecAppsecUnreachableBlock: true
+          crowdsecLapiKey: FIXME-LAPI-KEY # <--- replace this
+          crowdsecLapiHost: crowdsec:8080
+          crowdsecLapiScheme: http
+          crowdsecLapiTLSInsecureVerify: false
+          forwardedHeadersTrustedIPs:
+            # private class ranges
+            - {{ wg_subnet }}
+            - {{ subnet }}
+          clientTrustedIPs:
+            - {{ wg_subnet }}
+            - {{ subnet }}
+
     internal-ipallowlist:
       ipAllowList:
         sourceRange:
