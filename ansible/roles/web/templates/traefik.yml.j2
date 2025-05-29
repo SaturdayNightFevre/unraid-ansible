@@ -40,10 +40,8 @@ entryPoints:
   https:
     address: ":443"
     http:
-      tls: {}
     forwardedHeaders:
       trustedIPs: *trustedIps
-    http:
       tls:
         # Generate a wildcard domain certificate
         certResolver: myresolver
