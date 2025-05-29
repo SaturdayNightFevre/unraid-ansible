@@ -75,6 +75,7 @@
       # Authentication middleware
       traefik.http.middlewares.auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
       # Apply middleware to router
+      traefik.http.routers.my-router.middlewares: "crowdsec@file, authentik@docker"
       # Unraid-specific labels
       net.unraid.docker.icon: "https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png?raw=true"
       net.unraid.docker.managed: "dockerman"

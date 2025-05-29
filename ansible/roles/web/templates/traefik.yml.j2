@@ -43,9 +43,6 @@ entryPoints:
       tls: {}
     forwardedHeaders:
       trustedIPs: *trustedIps
-    middlewares:
-       - crowdsec@file # reference to a dynamic middleware for enabling crowdsec bouncer
-       - authentik@docker
 
 providers:
   docker:
