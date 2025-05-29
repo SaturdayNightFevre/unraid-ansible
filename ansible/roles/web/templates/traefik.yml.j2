@@ -1,20 +1,20 @@
 api:
   dashboard: true
 
+experimental:
+  plugins:
+    crowdsec-bouncer-traefik-plugin:
+      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version: "v1.4.2"
+
 entryPoints:
   http:
     address: ":80"
     forwardedHeaders:
-      trustedIPs:
+      trustedIPs: &trustedIps
         - 192.168.1.0/16
         - 10.253.0.0/24
-
-  https:
-    address: ":443"
-    http:
-      tls: {}
-    forwardedHeaders:
-      trustedIPs:
+        # Start of Cloudflare's public IP list
         - 173.245.48.0/20
         - 103.21.244.0/22
         - 103.22.200.0/22
@@ -30,8 +30,19 @@ entryPoints:
         - 104.24.0.0/14
         - 172.64.0.0/13
         - 131.0.72.0/22
-        - 192.168.1.0/16
-        - 10.253.0.0/24
+        # End of Cloudflare's public IP list
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+
+  https:
+    address: ":443"
+    http:
+      tls: {}
+    forwardedHeaders:
+      trustedIPs: *trustedIps
 
 providers:
   docker:
@@ -88,4 +99,15 @@ accessLog:
 
 log:
   filePath: "/logs/traefik.log"
-  level: DEBUG
+    format: json
+  filters:
+    statusCodes:
+      - "200-299" # log successful http requests
+      - "400-599" # log failed http requests
+  # collect logs as in-memory buffer before writing into log file
+  bufferingSize: 0
+  fields:
+    headers:
+      defaultMode: drop # drop all headers per default
+      names:
+          User-Agent: keep # log user agent strings
