@@ -40,17 +40,12 @@ entryPoints:
   https:
     address: ":443"
     http:
+      tls: {}
     forwardedHeaders:
       trustedIPs: *trustedIps
-      tls:
-        # Generate a wildcard domain certificate
-        certResolver: myresolver
-        domains:
-          - main: {{ domain }} # change this to your proxy domain
-            sans:
-              - '*.{{ domain }}' # change this to your proxy domain
-      middlewares:
-        - crowdsec@file # reference to a dynamic middleware for enabling crowdsec bouncer
+    middlewares:
+       - crowdsec@file # reference to a dynamic middleware for enabling crowdsec bouncer
+       - authentik@docker
 
 providers:
   docker:
