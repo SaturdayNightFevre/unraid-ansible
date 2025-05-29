@@ -72,6 +72,15 @@
       max-file: "1"
       max-size: 10m
 
+- name: Deploy the acquis configuration using a template
+  ansible.builtin.template:
+    src: "acquis.yml.j2"
+    dest: "{{ app_data_dir }}/crowdsec/acquis.yaml" # This is a file, not a directory
+    owner: root
+    group: root
+    mode: "0644"
+    backup: false
+
 # Create crowdsec container
 - name: Ensure crowdsec  container is running
   community.docker.docker_container:
