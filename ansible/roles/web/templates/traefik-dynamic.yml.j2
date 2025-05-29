@@ -18,9 +18,11 @@ http:
             # private class ranges
             - {{ wg_subnet }}
             - {{ subnet }}
+            - 172.16.0.0/12
           clientTrustedIPs:
             - {{ wg_subnet }}
             - {{ subnet }}
+            - 172.16.0.0/12
 
     internal-ipallowlist:
       ipAllowList:
