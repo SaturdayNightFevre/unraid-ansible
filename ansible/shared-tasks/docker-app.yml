@@ -18,7 +18,6 @@
         ('traefik.http.services.' + app_name + '.loadbalancer.server.port'): app_port,
         ('traefik.http.routers.' + app_name + '-router.rule'): 'Host(`' + app_name + '.' + DOMAIN + '`)',
         ('traefik.http.routers.' + app_name + '-router.entrypoints'): 'https',
-        ('traefik.http.routers.' + app_name + '-router.middlewares'): 'crowdsec@file'
       } | combine(app_extra_labels | default({})) }}
     log_driver: json-file
     log_options:
