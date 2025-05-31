@@ -7,11 +7,11 @@ http:
           defaultDecisionSeconds: 60
           crowdsecMode: live
           crowdsecAppsecEnabled: true # <--- here you can enable appsec waf
-          crowdsecAppsecHost: crowdsec:7422
+          crowdsecAppsecHost: {{ local_ip }}:7422
           crowdsecAppsecFailureBlock: true
           crowdsecAppsecUnreachableBlock: true
           crowdsecLapiKey: {{ CROWDSEC_API }}
-          crowdsecLapiHost: crowdsec:8080
+          crowdsecLapiHost: {{ local_ip }}:8080
           crowdsecLapiScheme: http
           crowdsecLapiTLSInsecureVerify: false
           forwardedHeadersTrustedIPs:
