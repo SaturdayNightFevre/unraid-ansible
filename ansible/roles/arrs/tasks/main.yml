@@ -22,6 +22,7 @@
     app_restart_policy: always
     app_volumes:
       - "{{ app_data_dir }}/radarr/config:/config"
+      - "{{ dwnlds_dir }}:/downloads"
       - "{{ media_dir }}/Films:/movies"
     app_security_opts:
       - no-new-privileges:true
