@@ -1,12 +1,12 @@
 #- name: Set permissions for Downloads config
-  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  #vars:
-    #target_dir: "{{ app_data_dir }}/deluge"
+#ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+#vars:
+#target_dir: "{{ app_data_dir }}/deluge"
 #
 #- name: Set permissions for Downloads directory
-  #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
-  #vars:
-    #target_dir: "{{ dwnlds_dir }}"
+#ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
+#vars:
+#target_dir: "{{ dwnlds_dir }}"
 
 - name: Start Gluetun container
   community.docker.docker_container:
@@ -25,7 +25,7 @@
       OPENVPN_PASSWORD: "{{ OPENVPN_PASSWORD }}"
       SERVER_REGIONS: "Netherlands"
       VPN_PORT_FORWARDING: "on"
-      FIREWALL_OUTBOUND_SUBNETS:  "{{ subnet }}"
+      FIREWALL_OUTBOUND_SUBNETS: "{{ subnet }}"
       BLOCK_MALICIOUS: "on"
       BLOCK_SURVEILLANCE: "on"
       BLOCK_ADS: "on"
@@ -35,7 +35,17 @@
       - "9696:9696"
       - "58846:58846"
     labels:
-      traefik.enable: "false"
+      traefik.enable: "true"
+      # Deluge Traefik Labels
+      traefik.http.routers.deluge.rule: "Host(`downloads.{{ domain }}`)"
+      traefik.http.routers.deluge.entrypoints: "websecure"
+      traefik.http.services.deluge.loadbalancer.server.port: "8112"
+      traefik.http.routers.deluge.middlewares: "authentik@docker"
+      # Prowlarr Traefik Labels
+      traefik.http.routers.prowlarr.rule: "Host(`torrents.{{ domain }}`)"
+      traefik.http.routers.prowlarr.entrypoints: "websecure"
+      traefik.http.services.prowlarr.loadbalancer.server.port: "9696"
+      traefik.http.routers.prowlarr.middlewares: "authentik@docker"
 
       # Unraid Labels
       net.unraid.docker.icon: "https://raw.githubusercontent.com/qdm12/gluetun/master/doc/logo_256.png"
@@ -61,7 +71,7 @@
     labels:
       net.unraid.docker.icon: "https://deluge-torrent.org/images/deluge_logo.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://downloads.{{ DOMAIN }}"
+      net.unraid.docker.webui: "https://downloads.{{ domain }}"
 
 - name: Start Gluetun Deluge Port Manager container
   community.docker.docker_container:
@@ -91,4 +101,4 @@
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/prowlarr-banner.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://torrents.{{ DOMAIN }}"
+      net.unraid.docker.webui: "https://torrents.{{ domain }}"
