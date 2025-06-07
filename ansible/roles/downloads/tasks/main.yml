@@ -45,7 +45,6 @@
     app_name: deluge
     app_image: linuxserver/deluge:2.1.1
     app_network_mode: "container:gluetun"
-    app_published_ports: []
     app_env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
@@ -67,11 +66,11 @@
   ansible.builtin.include_tasks: "../../../shared-tasks/docker-app.yml"
   vars:
     app_name: gluetun-deluge-port-manager
+    app_image: plaexmstr/gluetun-deluge-port-manager
     app_volumes:
       - "{{ app_data_dir }}/gluetun:/gluetun"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     app_network_mode: "container:gluetun"
-    app_published_ports: []
     app_env:
       DELUGE_PORT: "8112"
       PORT_FORWARDED: "/tmp/gluetun/piaportforward.json"
@@ -83,7 +82,6 @@
     app_name: torrents
     app_image: lscr.io/linuxserver/prowlarr:1.25.4
     app_network_mode: "container:gluetun"
-    app_published_ports: []
     app_env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
