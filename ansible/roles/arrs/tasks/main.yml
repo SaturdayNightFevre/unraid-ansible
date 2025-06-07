@@ -67,7 +67,7 @@
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://tv.{{ DOMAIN }}"
       traefik.enable: "true"
-      traefik.http.routers.tv.tls.certresolver: "letsencrypt"
+      traefik.http.routers.tv-router.tls.certresolver: "letsencrypt"
       traefik.http.services.tv.loadbalancer.server.port: "8989"
       traefik.http.routers.tv-router.rule: "Host(`tv.{{ DOMAIN }}`)"
       traefik.http.routers.tv-router.entrypoints: "https"
@@ -93,5 +93,3 @@
       #- "/run:exec"
     memory: "1g"
     cpus: 1
-
-
