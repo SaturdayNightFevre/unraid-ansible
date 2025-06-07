@@ -40,6 +40,42 @@
     memory: "1g"
     cpus: 1
 
+- name: Start Huntarr container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: huntarr
+    image: huntarr/huntarr:7.6.0
+    published_ports: ["9705:9705"]
+    env:
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
+      TZ: "{{ timezone }}"
+    networks:
+      - name: web
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/huntarr/huntarr/main/logo.png" # Placeholder, find actual icon if available
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://huntarr.{{ domain }}"
+      traefik.enable: "true"
+      traefik.http.routers.huntarr-router.tls.certresolver: "letsencrypt"
+      traefik.http.services.huntarr.loadbalancer.server.port: "9705"
+      traefik.http.routers.huntarr-router.rule: "Host(`huntarr.{{ domain }}`)"
+      traefik.http.routers.huntarr-router.entrypoints: "https"
+      traefik.http.routers.huntarr-router.middlewares: "authentik@docker"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    restart_policy: always
+    volumes:
+      - "{{ app_data_dir }}/huntarr:/config"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    memory: "1g"
+    cpus: 1
+
 #- name: Set permissions for sonarr directory
   #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
   #vars:
