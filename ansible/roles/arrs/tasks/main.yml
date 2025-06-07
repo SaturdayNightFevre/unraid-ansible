@@ -21,6 +21,7 @@
       traefik.http.services.films.loadbalancer.server.port: "7878"
       traefik.http.routers.films-router.rule: "Host(`films.{{ DOMAIN }}`)"
       traefik.http.routers.films-router.entrypoints: "https"
+      traefik.http.routers.films-router.middlewares: "authentik@docker"
     log_driver: json-file
     log_options:
       max-file: "1"
@@ -70,6 +71,7 @@
       traefik.http.services.tv.loadbalancer.server.port: "8989"
       traefik.http.routers.tv-router.rule: "Host(`tv.{{ DOMAIN }}`)"
       traefik.http.routers.tv-router.entrypoints: "https"
+      traefik.http.routers.tv-router.middlewares: "authentik@docker"
     log_driver: json-file
     log_options:
       max-file: "1"

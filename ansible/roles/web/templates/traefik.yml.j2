@@ -40,8 +40,6 @@ entryPoints:
   https:
     address: ":443"
     http:
-      middlewares:
-        - authentik@docker
       tls: {}
     forwardedHeaders:
       trustedIPs: *trustedIps
