@@ -43,12 +43,14 @@
       traefik.http.routers.deluge-router.entrypoints: "https"
       traefik.http.routers.deluge-router.middlewares: "authentik@docker"
       traefik.http.routers.deluge-router.tls.certresolver: "letsencrypt"
+      traefik.http.routers.deluge-router.service: "deluge"
       # Prowlarr Traefik Labels
+      traefik.http.services.prowlarr.loadbalancer.server.port: "9696"
       traefik.http.routers.prowlarr-router.rule: "Host(`torrents.{{ domain }}`)"
       traefik.http.routers.prowlarr-router.entrypoints: "https"
-      traefik.http.services.prowlarr.loadbalancer.server.port: "9696"
       traefik.http.routers.prowlarr-router.middlewares: "authentik@docker"
       traefik.http.routers.prowlarr-router.tls.certresolver: "letsencrypt"
+      traefik.http.routers.prowlarr-router.service: "prowlarr"
       # Unraid Labels
       net.unraid.docker.icon: "https://raw.githubusercontent.com/qdm12/gluetun/master/doc/logo_256.png"
       net.unraid.docker.managed: "dockerman"
