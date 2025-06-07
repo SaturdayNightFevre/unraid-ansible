@@ -53,6 +53,7 @@
       DELUGE_LOGLEVEL: "warn"
     app_volumes:
       - "{{ app_data_dir }}/deluge:/config"
+      - "{{ dwnlds_dir }}:/downloads"
     app_security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
