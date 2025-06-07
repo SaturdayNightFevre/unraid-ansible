@@ -9,17 +9,17 @@
     #target_dir: "{{ dwnlds_dir }}"
 
 - name: Start Gluetun container
-  community.docker.docker_container:
-    name: gluetun
-    image: qmcgaw/gluetun:v3
-    restart_policy: always
-    networks:
+  ansible.builtin.include_tasks: "../../../shared-tasks/docker-app.yml"
+  vars:
+    app_name: gluetun
+    app_image: qmcgaw/gluetun:v3
+    app_networks:
       - name: web
-    capabilities:
+    app_capabilities:
       - NET_ADMIN
-    volumes:
+    app_volumes:
       - "{{ app_data_dir }}/gluetun:/gluetun"
-    env:
+    app_env:
       VPN_SERVICE_PROVIDER: "private internet access"
       OPENVPN_USER: "{{ OPENVPN_USER }}"
       OPENVPN_PASSWORD: "{{ OPENVPN_PASSWORD }}"
@@ -30,65 +30,66 @@
       BLOCK_SURVEILLANCE: "on"
       BLOCK_ADS: "on"
       UPDATER_PERIOD: "24h"
-    ports:
+    app_published_ports:
       - "8112:8112"
       - "9696:9696"
       - "58846:58846"
-    labels:
-      traefik.enable: "false"
-
-      # Unraid Labels
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/qdm12/gluetun/master/doc/logo_256.png"
+    app_traefik_enable: "false"
+    app_icon_url: "https://raw.githubusercontent.com/qdm12/gluetun/master/doc/logo_256.png"
+    app_extra_labels:
       net.unraid.docker.managed: "dockerman"
 
 - name: Start Deluge container
-  community.docker.docker_container:
-    name: deluge
-    image: linuxserver/deluge:2.1.1
-    restart_policy: always
-    network_mode: "container:gluetun"
-    env:
+  ansible.builtin.include_tasks: "../../../shared-tasks/docker-app.yml"
+  vars:
+    app_name: deluge
+    app_image: linuxserver/deluge:2.1.1
+    app_network_mode: "container:gluetun"
+    app_env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       TZ:  "{{ timezone }}"
-      DELUGE_LOGLEVEL: "warn"   # Optional
-    volumes:
+      DELUGE_LOGLEVEL: "warn"
+    app_volumes:
       - "{{ app_data_dir }}/deluge:/config"
       - "{{ dwnlds_dir }}:/downloads"
-    security_opts:
+    app_security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    labels:
-      net.unraid.docker.icon: "https://deluge-torrent.org/images/deluge_logo.png"
+    app_icon_url: "https://deluge-torrent.org/images/deluge_logo.png"
+    app_extra_labels:
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://downloads.{{ DOMAIN }}"
+    app_traefik_enable: "false"
 
 - name: Start Gluetun Deluge Port Manager container
-  community.docker.docker_container:
-    name: gluetun-deluge-port-manager
-    image: plaexmstr/gluetun-deluge-port-manager
-    restart_policy: always
-    volumes:
+  ansible.builtin.include_tasks: "../../../shared-tasks/docker-app.yml"
+  vars:
+    app_name: gluetun-deluge-port-manager
+    app_image: plaexmstr/gluetun-deluge-port-manager
+    app_volumes:
       - "{{ app_data_dir }}/gluetun:/gluetun"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    network_mode: "container:gluetun"
-    env:
+    app_network_mode: "container:gluetun"
+    app_env:
       DELUGE_PORT: "8112"
       PORT_FORWARDED: "/tmp/gluetun/piaportforward.json"
+    app_traefik_enable: "false"
 
 - name: Start Prowlarr container
-  community.docker.docker_container:
-    name: torrents
-    image: lscr.io/linuxserver/prowlarr:1.25.4
-    restart_policy: always
-    network_mode: "container:gluetun"
-    env:
+  ansible.builtin.include_tasks: "../../../shared-tasks/docker-app.yml"
+  vars:
+    app_name: torrents
+    app_image: lscr.io/linuxserver/prowlarr:1.25.4
+    app_network_mode: "container:gluetun"
+    app_env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       TZ: "{{ timezone }}"
-    volumes:
+    app_volumes:
       - "{{ app_data_dir }}/prowlarr:/config"
-    labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/prowlarr-banner.png"
+    app_icon_url: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/prowlarr-banner.png"
+    app_extra_labels:
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://torrents.{{ DOMAIN }}"
+    app_traefik_enable: "false"

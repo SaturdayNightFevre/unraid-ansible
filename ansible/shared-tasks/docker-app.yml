@@ -1,5 +1,48 @@
 ---
-- name: Start {{ app_name }} container
+- name: Start {{ app_name }} container (with network_mode)
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: "{{ app_name }}"
+    image: "{{ app_image }}"
+    env: "{{ app_default_env | default({}) | combine(app_env | default({})) }}"
+    network_mode: "{{ app_network_mode }}"
+    published_ports: "{{ app_published_ports }}"
+    labels: >-
+      {{
+        {
+          'net.unraid.docker.icon': app_icon_url,
+          'net.unraid.docker.managed': 'dockerman'
+        } | combine(
+          {
+            'net.unraid.docker.webui': 'https://' + app_name + '.' + DOMAIN,
+            'traefik.enable': 'true',
+            ('traefik.http.routers.' + app_name + '-router.tls.certresolver'): 'letsencrypt',
+            ('traefik.http.services.' + app_name + '.loadbalancer.server.port'): app_port,
+            ('traefik.http.routers.' + app_name + '-router.rule'): 'Host(`' + app_name + '.' + DOMAIN + '`)',
+            ('traefik.http.routers.' + app_name + '-router.entrypoints'): 'https',
+            ('traefik.http.routers.' + app_name + '-router.middlewares'): 'authentik@docker'
+          } if (app_traefik_enable | default(false) | bool) else {}
+        ) | combine(app_extra_labels | default({}))
+      }}
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    restart_policy: always
+    volumes: "{{ app_volumes | default([]) }}"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    read_only: "{{ app_read_only | default(false) }}"
+    tmpfs: "{{ app_tmpfs | default([]) }}"
+    memory: "1g"
+    cpus: 1
+    ipc_mode: "{{ app_ipc_mode | default(omit) }}"
+    working_dir: "{{ app_working_dir | default(omit) }}"
+  when: app_network_mode is defined
+
+- name: Start {{ app_name }} container (with networks)
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
@@ -9,30 +52,28 @@
     networks: "{{ (app_networks | default([])) | union([{'name': 'web'}] if (app_traefik_enable | default(true) | bool) else []) }}"
     published_ports: "{{ app_published_ports }}"
     labels: >-
-      {{ {
-        'net.unraid.docker.icon': app_icon_url,
-        'net.unraid.docker.managed': 'dockerman',
-        'net.unraid.docker.webui': 'https://' + app_name + '.' + DOMAIN,
-        'traefik.enable': app_traefik_enable | default(true),
-        ('traefik.http.routers.' + app_name + '-router.tls.certresolver'): 'letsencrypt',
-        ('traefik.http.services.' + app_name + '.loadbalancer.server.port'): app_port,
-        ('traefik.http.routers.' + app_name + '-router.rule'): 'Host(`' + app_name + '.' + DOMAIN + '`)',
-        ('traefik.http.routers.' + app_name + '-router.entrypoints'): 'https',
-        ('traefik.http.routers.' + app_name + '-router.middlewares'): 'authentik@docker'
-      } | combine(app_extra_labels | default({})) }}
+      {{
+        {
+          'net.unraid.docker.icon': app_icon_url,
+          'net.unraid.docker.managed': 'dockerman'
+        } | combine(
+          {
+            'net.unraid.docker.webui': 'https://' + app_name + '.' + DOMAIN,
+            'traefik.enable': 'true',
+            ('traefik.http.routers.' + app_name + '-router.tls.certresolver'): 'letsencrypt',
+            ('traefik.http.services.' + app_name + '.loadbalancer.server.port'): app_port,
+            ('traefik.http.routers.' + app_name + '-router.rule'): 'Host(`' + app_name + '.' + DOMAIN + '`)',
+            ('traefik.http.routers.' + app_name + '-router.entrypoints'): 'https',
+            ('traefik.http.routers.' + app_name + '-router.middlewares'): 'authentik@docker'
+          } if (app_traefik_enable | default(false) | bool) else {}
+        ) | combine(app_extra_labels | default({}))
+      }}
     log_driver: json-file
     log_options:
       max-file: "1"
       max-size: 10m
     restart_policy: always
-    volumes: >-
-      {{
-        (
-          ([app_data_dir + '/' + app_config_dir + ':/config'] if app_config_dir is defined else []) +
-          ([dwnlds_dir + ':/downloads:rw'] if dwnlds_dir is defined else []) +
-          ([app_media_dir + ':' + app_media_mount + ':rw'] if app_media_dir is defined and app_media_mount is defined else [])
-        ) | union(app_volumes | default([]))
-      }}
+    volumes: "{{ app_volumes | default([]) }}"
     security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
