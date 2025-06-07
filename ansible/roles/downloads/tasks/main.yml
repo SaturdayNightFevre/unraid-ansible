@@ -30,10 +30,11 @@
       BLOCK_SURVEILLANCE: "on"
       BLOCK_ADS: "on"
       UPDATER_PERIOD: "24h"
-    ports:
-      - "8112:8112"
-      - "9696:9696"
-      - "58846:58846"
+    #ports:
+      #- "8112:8112"
+      #- "9696:9696"
+      #- "58846:58846"
+    published_ports: ["8112:8112", "9696:9696", "58846:58846"]
     labels:
       traefik.enable: "true"
       # Deluge Traefik Labels
