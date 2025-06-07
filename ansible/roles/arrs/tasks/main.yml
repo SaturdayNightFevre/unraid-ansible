@@ -1,44 +1,34 @@
 ---
 - name: Start films container
-  community.docker.docker_container:
-    image_name_mismatch: "recreate"
-    pull: "always"
-    name: films
-    image: linuxserver/radarr:5.14.0
-    env:
+  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
+  vars:
+    app_name: films
+    app_image: linuxserver/radarr:5.14.0
+    app_env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-    networks:
+    app_networks:
       - name: web
-    published_ports: ["7878:7878"]
-    labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr-logo.png"
-      net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://films.{{ DOMAIN }}"
-      traefik.enable: "true"
-      traefik.http.routers.films.tls.certresolver: "letsencrypt"
-      traefik.http.services.films.loadbalancer.server.port: "7878"
-      traefik.http.routers.films-router.rule: "Host(`films.{{ DOMAIN }}`)"
-      traefik.http.routers.films-router.entrypoints: "https"
-      traefik.http.routers.films-router.middlewares: "authentik@docker"
-    log_driver: json-file
-    log_options:
+    app_published_ports: ["7878:7878"]
+    app_icon_url: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr-logo.png"
+    app_webui_url: "https://films.{{ DOMAIN }}"
+    app_traefik_enable: true
+    app_port: 7878
+    app_log_driver: json-file
+    app_log_options:
       max-file: "1"
       max-size: 10m
-    restart_policy: always
-    volumes:
+    app_restart_policy: always
+    app_volumes:
       - "{{ app_data_dir }}/radarr/config:/config"
       - "{{ dwnlds_dir }}:/downloads"
       - "{{ media_dir }}/Films:/movies"
-    security_opts:
+    app_security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    ##read_only: true
-    ##tmpfs:
-      ##- "/run:exec"
-    memory: "1g"
-    cpus: 1
+    app_memory: "1g"
+    app_cpus: 1
 
 #- name: Set permissions for sonarr directory
   #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
@@ -51,47 +41,35 @@
     #target_dir: "{{ media_dir }}/TV Shows"
 
 - name: Start tv container
-  community.docker.docker_container:
-    image_name_mismatch: "recreate"
-    pull: "always"
-    name: tv
-    image: linuxserver/sonarr:4.0.10
-    published_ports: ["8989:8989"]
-    env:
+  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
+  vars:
+    app_name: tv
+    app_image: linuxserver/sonarr:4.0.10
+    app_published_ports: ["8989:8989"]
+    app_env:
       PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-    ipc_mode: private
-    labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/sonarr-icon.png"
-      net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://tv.{{ DOMAIN }}"
-      traefik.enable: "true"
-      traefik.http.routers.tv.tls.certresolver: "letsencrypt"
-      traefik.http.services.tv.loadbalancer.server.port: "8989"
-      traefik.http.routers.tv-router.rule: "Host(`tv.{{ DOMAIN }}`)"
-      traefik.http.routers.tv-router.entrypoints: "https"
-      traefik.http.routers.tv-router.middlewares: "authentik@docker"
-    log_driver: json-file
-    log_options:
+    app_ipc_mode: private
+    app_icon_url: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/sonarr-icon.png"
+    app_webui_url: "https://tv.{{ DOMAIN }}"
+    app_traefik_enable: true
+    app_port: 8989
+    app_log_driver: json-file
+    app_log_options:
       max-file: "1"
       max-size: 10m
-    networks:
+    app_networks:
       - name: web
-    restart_policy: always
-    volumes:
+    app_restart_policy: always
+    app_volumes:
     - "{{ app_data_dir }}/sonarr/dev/rtc:/dev/rtc:ro"
     - "{{ app_data_dir }}/sonarr:/config"
     - "{{ dwnlds_dir }}:/downloads"
     - "{{ media_dir }}/TV Shows:/tv"
-    working_dir: /
-    security_opts:
+    app_working_dir: /
+    app_security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    #read_only: true
-    #tmpfs:
-      #- "/run:exec"
-    memory: "1g"
-    cpus: 1
-
-
+    app_memory: "1g"
+    app_cpus: 1

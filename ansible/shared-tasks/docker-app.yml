@@ -1,30 +1,28 @@
 ---
 - name: Start {{ app_name }} container
   community.docker.docker_container:
-    image_name_mismatch: "recreate"
-    pull: "always"
     name: "{{ app_name }}"
     image: "{{ app_image }}"
+    state: "{{ app_state | default('started') }}"
+    image_name_mismatch: "{{ app_image_name_mismatch | default('recreate') }}"
+    pull: "{{ app_pull | default('always') }}"
     env: "{{ app_default_env | default({}) | combine(app_env | default({})) }}"
     networks: "{{ (app_networks | default([])) | union([{'name': 'web'}] if (app_traefik_enable | default(true) | bool) else []) }}"
-    published_ports: "{{ app_published_ports }}"
+    published_ports: "{{ app_published_ports | default(omit) }}"
     labels: >-
       {{ {
-        'net.unraid.docker.icon': app_icon_url,
+        'net.unraid.docker.icon': app_icon_url | default(omit),
         'net.unraid.docker.managed': 'dockerman',
-        'net.unraid.docker.webui': 'https://' + app_name + '.' + DOMAIN,
-        'traefik.enable': app_traefik_enable | default(true),
+        'net.unraid.docker.webui': app_webui_url | default(('https://' + app_name + '.' + DOMAIN) if DOMAIN is defined else omit),
+        'traefik.enable': app_traefik_enable | default(true) | string,
         ('traefik.http.routers.' + app_name + '-router.tls.certresolver'): 'letsencrypt',
-        ('traefik.http.services.' + app_name + '.loadbalancer.server.port'): app_port,
-        ('traefik.http.routers.' + app_name + '-router.rule'): 'Host(`' + app_name + '.' + DOMAIN + '`)',
+        ('traefik.http.services.' + app_name + '.loadbalancer.server.port'): app_port | default(omit) | string,
+        ('traefik.http.routers.' + app_name + '-router.rule'): 'Host(`' + app_name + '.' + DOMAIN + '`)' if DOMAIN is defined else omit,
         ('traefik.http.routers.' + app_name + '-router.entrypoints'): 'https',
-        ('traefik.http.routers.' + app_name + '-router.middlewares'): 'authentik@docker'
-      } | combine(app_extra_labels | default({})) }}
-    log_driver: json-file
-    log_options:
-      max-file: "1"
-      max-size: 10m
-    restart_policy: always
+      } | combine({'traefik.http.routers.' + app_name + '-router.middlewares': 'authentik@docker'} if (app_traefik_enable | default(true) | bool) and app_name not in ['authentik', 'authentik-worker'] else {}) | combine(app_extra_labels | default({})) }}
+    log_driver: "{{ app_log_driver | default('json-file') }}"
+    log_options: "{{ app_log_options | default({'max-file': '1', 'max-size': '10m'}) }}"
+    restart_policy: "{{ app_restart_policy | default('always') }}"
     volumes: >-
       {{
         (
@@ -33,12 +31,24 @@
           ([app_media_dir + ':' + app_media_mount + ':rw'] if app_media_dir is defined and app_media_mount is defined else [])
         ) | union(app_volumes | default([]))
       }}
-    security_opts:
-      - no-new-privileges:true
-      - apparmor=docker-default
+    security_opts: "{{ app_security_opts | default(['no-new-privileges:true', 'apparmor=docker-default']) }}"
     read_only: "{{ app_read_only | default(false) }}"
-    tmpfs: "{{ app_tmpfs | default([]) }}"
-    memory: "1g"
-    cpus: 1
+    tmpfs: "{{ app_tmpfs | default(omit) }}"
+    memory: "{{ app_memory | default(omit) }}"
+    cpus: "{{ app_cpus | default(omit) }}"
     ipc_mode: "{{ app_ipc_mode | default(omit) }}"
     working_dir: "{{ app_working_dir | default(omit) }}"
+    network_mode: "{{ app_network_mode | default(omit) }}"
+    capabilities: "{{ app_capabilities | default(omit) }}"
+    sysctls: "{{ app_sysctls | default(omit) }}"
+    ulimits: "{{ app_ulimits | default(omit) }}"
+    command: "{{ app_command | default(omit) }}"
+    entrypoint: "{{ app_entrypoint | default(omit) }}"
+    healthcheck: "{{ app_healthcheck | default(omit) }}"
+    hostname: "{{ app_hostname | default(omit) }}"
+    user: "{{ app_user | default(omit) }}"
+    group: "{{ app_group | default(omit) }}"
+    container_default_behavior: "{{ app_container_default_behavior | default(omit) }}"
+    runtime: "{{ app_runtime | default(omit) }}"
+    etc_hosts: "{{ app_etc_hosts | default(omit) }}"
+    dns_servers: "{{ app_dns_servers | default(omit) }}"

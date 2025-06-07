@@ -1,16 +1,15 @@
 ---
 - name: Ensure new Plex container is running
-  community.docker.docker_container:
-    image_name_mismatch: "recreate"
-    pull: "always"
-    name: plex
-    runtime: nvidia
-    image: lscr.io/linuxserver/plex:1.41.2
-    security_opts:
+  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
+  vars:
+    app_name: plex
+    app_image: lscr.io/linuxserver/plex:1.41.2
+    app_runtime: nvidia
+    app_security_opts:
       - "label=disable"
-    network_mode: "host"
-    restart_policy: "unless-stopped"
-    env:
+    app_network_mode: "host"
+    app_restart_policy: "unless-stopped"
+    app_env:
       TZ: "{{ timezone }}"
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
@@ -24,14 +23,13 @@
       TERM: "bash"
       LANG: "en_GB.UTF-8"
       VERSION: "docker"
-    volumes:
+    app_volumes:
       - "{{ app_data_dir }}/plex:/config"
       - "{{ media_dir }}:/media"
-    labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/plex-icon.png"
-      net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "http://[IP]:[PORT:32400]/web/index.html"
-    log_driver: json-file
-    log_options:
+    app_icon_url: "https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/plex-icon.png"
+    app_webui_url: "http://[IP]:[PORT:32400]/web/index.html"
+    app_log_driver: json-file
+    app_log_options:
       max-file: "1"
       max-size: 10m
+    app_traefik_enable: false

@@ -11,69 +11,59 @@
       # Add more applications as needed
 
 - name: Ensure Redis container is running
-  community.docker.docker_container:
-    image_name_mismatch: "recreate"
-    pull: "always"
-    name: redis
-    image: docker.io/library/redis:alpine
-    command: --save 60 1 --loglevel warning
-    restart_policy: "unless-stopped"
-    labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/juusujanar/unraid-templates/master/img/Redis-logo.png"
-      net.unraid.docker.managed: "dockerman"
-    healthcheck:
+  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
+  vars:
+    app_name: redis
+    app_image: docker.io/library/redis:alpine
+    app_command: >
+      /bin/sh -c "redis-server --save 60 1 --loglevel warning; echo \"vm.overcommit_memory = 1\" >> /etc/sysctl.conf; sysctl vm.overcommit_memory=1"
+    app_restart_policy: "unless-stopped"
+    app_icon_url: "https://raw.githubusercontent.com/juusujanar/unraid-templates/master/img/Redis-logo.png"
+    app_log_driver: json-file
+    app_log_options:
+      max-file: "1"
+      max-size: 10m
+    app_healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
       start_period: 20s
       interval: 30s
       retries: 5
       timeout: 3s
-    volumes:
+    app_volumes:
       - "{{ app_data_dir }}/redis:/data"
-    ports:
+    app_published_ports:
       - "6379:6379"
-    log_driver: json-file
-    log_options:
-      max-file: "1"
-      max-size: 10m
-    command:
-      - /bin/sh
-      - -c
-      - |
-        redis-server --save 60 1 --loglevel warning;
-        echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf;
-        sysctl vm.overcommit_memory=1
+    app_traefik_enable: false
 
 # 1. Create PostgreSQL container
 - name: Ensure PostgreSQL container is running
-  community.docker.docker_container:
-    image_name_mismatch: "recreate"
-    pull: "always"
-    name: postgres
-    image: docker.io/library/postgres:17-alpine
-    restart_policy: "unless-stopped"
-    labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/sgraaf/Unraid-Docker-Templates/main/postgresql17/icon.png"
-      net.unraid.docker.managed: "dockerman"
-    healthcheck:
+  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
+  vars:
+    app_name: postgres
+    app_image: docker.io/library/postgres:17-alpine
+    app_restart_policy: "unless-stopped"
+    app_icon_url: "https://raw.githubusercontent.com/sgraaf/Unraid-Docker-Templates/main/postgresql17/icon.png"
+    app_log_driver: json-file
+    app_log_options:
+      max-file: "1"
+      max-size: 10m
+    app_healthcheck:
       test: ["CMD-SHELL", "pg_isready -d postgres -U {{ postgres_admin_user }}"]
       start_period: 20s
       interval: 30s
       retries: 5
       timeout: 5s
-    volumes:
+    app_volumes:
       - "{{ app_data_dir }}/postgres:/var/lib/postgresql/data"
-    env:
+    app_env:
       TZ: "{{ timezone }}"
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       POSTGRES_PASSWORD: "{{ PASSWORD }}"
       POSTGRES_USER: "{{ postgres_admin_user }}"
-    ports:
+    app_published_ports:
       - "5432:5432"
-    log_driver: json-file
-    log_options:
-      max-file: "1"
-      max-size: 10m
+    app_traefik_enable: false
 
 # 2. Wait for PostgreSQL to be ready
 - name: Wait for PostgreSQL to be ready
