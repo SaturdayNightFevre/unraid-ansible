@@ -12,13 +12,14 @@
     app_published_ports: ["5656:5656"]
     app_icon_url: "https://user-images.githubusercontent.com/11823348/114629539-129b9100-9cb9-11eb-94a8-803fabc27d9e.png"
     app_port: 5656
+    app_config_dir: radarr-4k
+    app_media_dir: "{{ media_dir }}/4k-movies"
+    app_media_mount: /movies
     app_read_only: true
     app_tmpfs:
       - "/run:exec"
     app_traefik_enable: "true"
     app_volumes:
-      - "{{ app_data_dir }}/radarr-4k:/config"
-      - "{{ media_dir }}/4k-movies:/movies:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
 
 - name: Configure 4k-tv container
@@ -30,11 +31,12 @@
     app_ipc_mode: private
     app_icon_url: "https://github.com/themepark-dev/theme.park/blob/master/css/addons/sonarr/sonarr-4k-logo/sonarr-4k.png?raw=true"
     app_port: 6767
+    app_config_dir: sonarr-4k
+    app_media_dir: "{{ media_dir }}/4k-tv-shows"
+    app_media_mount: /tv-shows
     app_working_dir: /
     app_traefik_enable: "true"
     app_volumes:
-      - "{{ app_data_dir }}/sonarr-4k:/config"
-      - "{{ media_dir }}/4k-tv-shows:/tv-shows:rw"
       - "{{ media_dir }}/old-4k:/old-4k"
 
 
