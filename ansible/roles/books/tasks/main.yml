@@ -10,40 +10,44 @@
     #target_dir: "{{ app_data_dir }}/custom-scripts/"
 
 - name: Start library container
-  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
-  vars:
-    app_name: library
-    app_image: linuxserver/calibre-web:0.6.21
-    app_networks:
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: library
+    image: linuxserver/calibre-web:0.6.21
+    networks:
       - name: web
-    app_env:
+    env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       TZ: "{{timezone}}"
       DOCKER_MODS: "linuxserver/mods:universal-calibre"
       OAUTHLIB_RELAX_TOKEN_SCOPE: "1"
-    app_icon_url: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-web-logo.png"
-    app_webui_url: "http://[IP]:[PORT:8083]"
-    app_log_driver: json-file
-    app_log_options:
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/calibre-web-logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8083]"
+    log_driver: json-file
+    log_options:
       max-file: "1"
       max-size: 10m
-    app_published_ports:
+    ports:
       - "8083:8083/tcp"
-    app_volumes:
+    volumes:
       - "{{ app_data_dir }}/calibre-web:/config"
       - "{{ media_dir }}/Books/Calibre Library:/books"
       - "{{ app_data_dir }}/custom-scripts/calibre-web:/custom-cont-init.d:ro"
       - "{{ app_data_dir }}/calibre-web/gmail.json:/gmail.json:ro"
-    app_restart_policy: unless-stopped
-    app_working_dir: "/"
-    app_security_opts:
+    restart_policy: unless-stopped
+    working_dir: "/"
+    security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    app_memory: "1g"
-    app_cpus: 1
-    app_traefik_enable: true
-    app_port: 8083
+    #read_only: true
+    #tmpfs:
+      #- "/run:exec"
+    memory: "1g"
+    cpus: 1
 
 #- name: Set permissions for book directory
   #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
@@ -56,36 +60,40 @@
     #target_dir: "{{ app_data_dir }}/readarr/"
 
 - name: Start books container
-  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
-  vars:
-    app_name: books
-    app_image: lscr.io/linuxserver/readarr:0.3.17-develop
-    app_networks:
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: books
+    image: lscr.io/linuxserver/readarr:0.3.17-develop
+    networks:
       - name: web
-    app_env:
+    env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       TZ: "{{timezone}}"
-    app_volumes:
+    volumes:
       - "{{ app_data_dir }}/readarr/:/config"
       - "{{ media_dir }}/Books/Calibre Library:/books"
       - "{{ dwnlds_dir }}:/downloads"
-    app_published_ports:
+    ports:
       - "8787:8787"
-    app_restart_policy: unless-stopped
-    app_log_driver: json-file
-    app_log_options:
+    restart_policy: unless-stopped
+    log_driver: json-file
+    log_options:
       max-file: "1"
       max-size: 10m
-    app_icon_url: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/readarr-logo.png"
-    app_webui_url: "http://[IP]:[PORT:8787]"
-    app_security_opts:
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/readarr-logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8787]"
+    security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    app_memory: "1g"
-    app_cpus: 1
-    app_traefik_enable: true
-    app_port: 8787
+    #read_only: true
+    #tmpfs:
+      #- "/run:exec"
+    memory: "1g"
+    cpus: 1
 
 #- name: Set permissions for book config
   #ansible.builtin.include_tasks: "../../../shared-tasks/permissions.yml"
@@ -93,35 +101,40 @@
     #target_dir: "{{ app_data_dir }}/calibre/"
 
 - name: Start calibre container
-  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
-  vars:
-    app_name: calibre
-    app_image: linuxserver/calibre:7.5.1
-    app_env:
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: calibre
+    image: linuxserver/calibre:7.5.1
+    env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       TZ: "{{timezone}}"
-    app_volumes:
+    volumes:
       - "{{ app_data_dir }}/calibre/config:/config"
       - "{{ app_data_dir }}/calibre/upload:/uploads"
       - "{{ app_data_dir }}/calibre/plugins:/plugins"
       - "{{ media_dir }}/Books/Calibre Library:/Calibre_Library"
-    app_published_ports:
+    ports:
       - "8080:8087"
       - "8081:8081"
-    app_restart_policy: unless-stopped
-    app_log_driver: json-file
-    app_log_options:
+    restart_policy: unless-stopped
+    log_driver: json-file
+    log_options:
       max-file: "1"
       max-size: 10m
-    app_networks:
+    networks:
       - name: web
-    app_icon_url: "https://raw.githubusercontent.com/kovidgoyal/calibre/master/resources/images/lt.png?raw=true"
-    app_webui_url: "http://[IP]:[PORT:8080]"
-    app_security_opts:
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/kovidgoyal/calibre/master/resources/images/lt.png?raw=true"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "http://[IP]:[PORT:8080]"
+    security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    app_memory: "1g"
-    app_cpus: 1
-    app_traefik_enable: true
-    app_port: 8080
+    #read_only: true
+    #tmpfs:
+      #- "/run:exec"
+    memory: "1g"
+    cpus: 1
+

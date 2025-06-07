@@ -41,65 +41,181 @@
   when: not acme_file_stat.stat.exists
 
 - name: Ensure Traefik container is running
-  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
-  vars:
-    app_name: traefik
-    app_image: traefik:v3.1.7
-    app_pull: "always"
-    app_read_only: true
-    app_restart_policy: always
-    app_networks:
+  community.docker.docker_container:
+    name: traefik
+    image: traefik:v3.1.7
+    pull: "always"
+    read_only: true
+    restart_policy: always
+    networks:
       - name: web
-    app_published_ports:
+    ports:
       - "81:80"
       - "443:443"
-    app_dns_servers:
+    dns_servers:
       - "192.168.1.1"
-    app_volumes:
+    volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "{{ app_data_dir }}/traefik/traefik.yml:/traefik.yml:ro"
       - "{{ app_data_dir }}/traefik/configs:/configs:ro"
       - "{{ app_data_dir }}/traefik/acme.json:/acme.json:rw"
       - "{{ app_data_dir }}/traefik/logs:/logs:rw"
-    app_env:
+    env:
       TZ: "{{ timezone }}"
       CF_DNS_API_TOKEN: "{{ CF_KEY }}"
-    app_security_opts:
+    security_opts:
       - "no-new-privileges:true"
-    app_extra_labels:
+    labels:
       traefik.enable: "true"
+      # Simplified dashboard rule
       traefik.http.routers.api.rule: "Host(`proxy.{{ DOMAIN }}`)"
       traefik.http.routers.api.entrypoints: "https"
       traefik.http.routers.api.service: "api@internal"
       traefik.http.routers.api.tls.certresolver: "letsencrypt"
+      # Authentication middleware
       traefik.http.middlewares.auth.basicauth.users: "{{ username }}:{{ PASSWORD_HASH }}"
       traefik.http.routers.api.middlewares: "authentik@docker"
-    app_icon_url: "https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png?raw=true"
-    app_webui_url: "https://proxy.{{ DOMAIN }}"
-    app_log_driver: "json-file"
-    app_log_options:
+      # Unraid-specific labels
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo-dark.png?raw=true"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://proxy.{{ DOMAIN }}"
+    log_driver: "json-file"
+    log_options:
       max-file: "1"
       max-size: "10m"
-    app_traefik_enable: true
+
+#- name: Ensure Pi-hole container is running
+  #community.docker.docker_container:
+    #name: pihole
+    #image: pihole/pihole:2024.07.0
+    #pull: "always"
+    #hostname: "pihole.{{ DOMAIN }}"
+    #restart_policy: unless-stopped
+    #networks:
+      #- name: web
+    #ports:
+      #- "82:80/tcp"
+      #- "53:53/tcp"
+      #- "53:53/udp"
+      #- "853:853/udp"
+    #volumes:
+      #- "{{ app_data_dir }}/pihole/etc-pihole:/etc/pihole"
+      #- "{{ app_data_dir }}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
+    #labels:
+      ## Unraid-specific labels
+      #net.unraid.docker.icon: "https://github.com/binhex/docker-templates/blob/master/binhex/images/official-pihole-icon.png?raw=true"
+      #net.unraid.docker.managed: "dockerman"
+      #net.unraid.docker.webui: "https://pihole.johnflix.uk"
+#
+      ## Enable Traefik for Pi-hole container
+      #traefik.enable: "true"
+#
+      ## Web Interface (HTTPS) Configuration
+      #traefik.http.routers.pihole-router.rule: "Host(`pihole.{{ DOMAIN }}`)"
+      #traefik.http.routers.pihole-router.entrypoints: "https"
+      #traefik.http.routers.pihole-router.tls.certresolver: "letsencrypt"
+      #traefik.http.services.pihole.loadbalancer.server.port: "82" # Set Pi-hole’s internal web port
+      ##traefik.http.routers.pihole-router.middlewares: "internal-ipallowlist@file"
+#
+      ## Standard DNS over TCP (port 53)
+      #traefik.tcp.routers.dns.rule: "HostSNI(`*`)" # Wildcard for regular DNS
+      #traefik.tcp.routers.dns.entrypoints: "dns"
+      #traefik.tcp.routers.dns.service: "pihole-tcp"
+#
+      ## Define the TCP service for DNS (port 53)
+      #traefik.tcp.services.pihole-tcp.loadbalancer.server.port: "53"
+#
+      ## Standard DNS over UDP (port 53)
+      #traefik.udp.routers.udpdns.entrypoints: "udpdns"
+      #traefik.udp.routers.udpdns.service: "pihole-udp"
+#
+      ## Define the UDP service for DNS (port 53)
+      #traefik.udp.services.pihole-udp.loadbalancer.server.port: "53"
+      #traefik.http.routers.pihole-router.middlewares: "traefik-auth@docker,traefik-dashboard-redirect@docker"
+    #env:
+      #PUID: "{{ PUID }}"
+      #PGID: "{{ PGID }}"
+      #TZ: "{{ timezone }}"
+      #WEBPASSWORD: "test"
+      #FTLCONF_LOCAL_IPV4: "{{ local_ip }}"
+      #IPV6: "false"
+      #VIRTUAL_HOST: "pihole.{{ DOMAIN }}"
+      #PIHOLE_LOGLEVEL: "debug"
+      #INTERFACE: "br0" # Limit Pi-hole to listen only on br0
+    #capabilities:
+      #- NET_ADMIN # Added for network capabilities
+    #log_driver: "json-file"
+    #log_options:
+      #max-file: "1"
+      #max-size: "10m"
+
+#- name: Deploy the johnflix local dns config configuration using a template
+#ansible.builtin.template:
+#src: "pi-hole-johnflix-local-dns.conf.j2"
+#dest: "{{ app_data_dir }}/pihole/etc-dnsmasq.d/03-johflix.conf"  # This is a file, not a directory
+#owner: root
+#group: root
+#mode: '0755'
+#backup: false
 
 - name: Set up DuckDNS container
-  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
-  vars:
-    app_name: duckdns
-    app_image: lscr.io/linuxserver/duckdns:latest
-    app_env:
+  community.docker.docker_container:
+    name: duckdns
+    image: lscr.io/linuxserver/duckdns:latest
+    env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       TZ: "{{ timezone }}"
       SUBDOMAINS: "johnflix"
       TOKEN: "{{ DUCK_DNS_TOKEN }}"
       UPDATE_IP: "ipv4"
-    app_volumes:
+    volumes:
       - "{{ app_data_dir }}/duckdns/config:/config "
-    app_restart_policy: unless-stopped
-    app_log_driver: "json-file"
-    app_log_options:
+    restart_policy: unless-stopped
+    log_driver: "json-file"
+    log_options:
       max-file: "1"
       max-size: "10m"
-    app_icon_url: "https://www.duckdns.org/img/ducky_icon.png"
-    app_traefik_enable: false
+    labels:
+      net.unraid.docker.icon: "https://www.duckdns.org/img/ducky_icon.png"
+      net.unraid.docker.managed: "dockerman"
+
+- name: Start requests container
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: requests
+    image: linuxserver/overseerr:1.33.2
+    ports:
+      - "5055:5055/tcp"
+    env:
+      PUID: "{{ PUID }}"
+      PGID: "{{ PGID }}"
+      TZ: "{{ timezone }}"
+    networks:
+      - name: web
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/sct/overseerr/refs/heads/develop/public/android-chrome-192x192_maskable.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://requests.{{ DOMAIN }}"
+      #traefik.enable: "true"
+      #traefik.http.routers.requests.tls.certresolver: "letsencrypt"
+      #traefik.http.routers.requests-router.rule: "Host(`requests.{{ DOMAIN }}`)"
+      #traefik.http.routers.requests-router.entrypoints: "https"
+      #traefik.http.routers.requests-router.service: requests
+      #traefik.http.services.requests.loadbalancer.server.port: "5055"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: 10m
+    restart_policy: always
+    volumes:
+      - "{{ app_data_dir }}/overseerr:/config"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    ##read_only: true
+    ##tmpfs:
+    ##- "/run:exec"
+    memory: "1g"
+    cpus: 1

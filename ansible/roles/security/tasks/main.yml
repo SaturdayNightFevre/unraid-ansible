@@ -1,72 +1,74 @@
 ---
 # Create authentik-proxy container
 - name: Ensure Authentik proxy container is running
-  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
-  vars:
-    app_name: authentik
-    app_image: "ghcr.io/goauthentik/server:{{ AUTHENTIK_VERSION | default('2025.4') }}"
-    app_command: server
-    app_restart_policy: "unless-stopped"
-    app_env:
-      AUTHENTIK_REDIS__HOST: "{{ local_ip }}"
-      AUTHENTIK_POSTGRESQL__HOST: "{{ local_ip }}"
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: authentik
+    image: "ghcr.io/goauthentik/server:{{ AUTHENTIK_VERSION | default('2025.4') }}"
+    command: server
+    restart_policy: "unless-stopped"
+    env:
+      AUTHENTIK_REDIS__HOST: "{{ local_ip }}" # Using your redis container name
+      AUTHENTIK_POSTGRESQL__HOST: "{{ local_ip }}" # Using your postgres container name
       AUTHENTIK_POSTGRESQL__USER: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_user') | first }}"
       AUTHENTIK_POSTGRESQL__NAME: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_name') | first }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_password') | first }}"
       AUTHENTIK_SECRET_KEY: "{{ AUTHENTIK_SECRET_KEY | default('authentiksupersecretkey') }}"
-    app_volumes:
+    volumes:
       - "{{ app_data_dir }}/authentik/media:/media"
       - "{{ app_data_dir }}/authentik/custom-templates:/templates"
-    app_published_ports:
+    ports:
       - "9000:9000"
       - "9443:9443"
-    app_networks:
-      - name: web
-      - name: bridge
-    app_icon_url: "https://github.com/goauthentik/authentik/blob/main/website/static/img/icon.png?raw=true"
-    app_webui_url: "https://authentik.{{ DOMAIN }}"
-    app_traefik_enable: true
-    app_port: 9000
-    app_extra_labels:
+    networks:
+      - name: web # External network
+      - name: bridge # Internal network
+    labels:
+      net.unraid.docker.icon: "https://github.com/goauthentik/authentik/blob/main/website/static/img/icon.png?raw=true"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://authentik.{{ DOMAIN }}}"
+      traefik.enable: "true"
       traefik.http.routers.authentik.rule: "Host(`authentik.{{ DOMAIN }}`) || HostRegexp(`{subdomain:[A-Za-z0-9](?:[A-Za-z0-9\\-]{0,61}[A-Za-z0-9])?}.example.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
       traefik.http.services.authentik.loadbalancer.server.port: "9000"
       traefik.docker.network: "web"
       traefik.http.middlewares.authentik.forwardauth.address: "http://{{ local_ip }}:9000/outpost.goauthentik.io/auth/traefik"
       traefik.http.middlewares.authentik.forwardauth.trustForwardHeader: "true"
       traefik.http.middlewares.authentik.forwardauth.authResponseHeaders: "X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
-    app_log_driver: json-file
-    app_log_options:
+    log_driver: json-file
+    log_options:
       max-file: "1"
       max-size: 10m
 
 # Create authentik-worker container
 - name: Ensure Authentik worker container is running
-  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
-  vars:
-    app_name: authentik-worker
-    app_image: "ghcr.io/goauthentik/server:{{ AUTHENTIK_VERSION | default('2025.4') }}"
-    app_command: worker
-    app_user: root
-    app_restart_policy: "unless-stopped"
-    app_env:
-      AUTHENTIK_REDIS__HOST: "{{ local_ip }}"
-      AUTHENTIK_POSTGRESQL__HOST: "{{ local_ip }}"
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: authentik-worker
+    image: "ghcr.io/goauthentik/server:{{ AUTHENTIK_VERSION | default('2025.4') }}"
+    command: worker
+    user: root
+    restart_policy: "unless-stopped"
+    env:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/ibracorp/app-logos/main/authentik-worker/authentik_worker.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://authentik.{{ DOMAIN }}}"
+      AUTHENTIK_REDIS__HOST: "{{ local_ip }}" # Using your redis container name
+      AUTHENTIK_POSTGRESQL__HOST: "{{ local_ip }}" # Using your postgres container name
       AUTHENTIK_POSTGRESQL__USER: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_user') | first }}"
       AUTHENTIK_POSTGRESQL__NAME: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_name') | first }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ applications | selectattr('name', 'equalto', 'authentik') | map(attribute='db_password') | first }}"
       AUTHENTIK_SECRET_KEY: "{{ AUTHENTIK_SECRET_KEY | default('authentiksupersecretkey') }}"
-    app_volumes:
+    volumes:
       - "{{ app_data_dir }}/authentik/certs:/certs"
       - "{{ app_data_dir }}/authentik/media:/media"
       - "{{ app_data_dir }}/authentik/custom-templates:/templates"
-    app_networks:
-      - name: web
+    networks:
+      - name: web # External network
       - name: bridge
-    app_icon_url: "https://raw.githubusercontent.com/ibracorp/app-logos/main/authentik-worker/authentik_worker.png"
-    app_webui_url: "https://authentik.{{ DOMAIN }}" # Even if not directly exposed, for consistency
-    app_traefik_enable: false
-    app_log_driver: json-file
-    app_log_options:
+    log_driver: json-file
+    log_options:
       max-file: "1"
       max-size: 10m
 
@@ -81,29 +83,31 @@
 
 # Create crowdsec container
 - name: Ensure crowdsec  container is running
-  ansible.builtin.include_tasks: ../../../shared-tasks/docker-app.yml
-  vars:
-    app_name: crowdsec
-    app_image: "crowdsecurity/crowdsec:v1.6.8"
-    app_published_ports:
-      - "9876:8080"
-      - "6060:6060"
-      - "7422:7422"
-    app_restart_policy: "unless-stopped"
-    app_env:
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: "always"
+    name: crowdsec
+    ports:
+      - "9876:8080" # http api for bouncers
+      - "6060:6060" # metrics endpoint for prometheus
+      - "7422:7422" # appsec waf endpoint
+    image: "crowdsecurity/crowdsec:v1.6.8"
+    restart_policy: "unless-stopped"
+    env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       COLLECTIONS: "crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs"
       CUSTOM_HOSTNAME: "johnflix-crowdsec"
-    app_volumes:
+    volumes:
+      # crowdsec container data
       - "{{ app_data_dir }}/crowdsec/data:/var/lib/crowdsec/data"
       - "{{ app_data_dir }}/crowdsec/etc:/etc/crowdsec"
+      # log bind mounts into crowdsec
       - "{{ app_data_dir }}/traefik/logs:/var/log/traefik:ro"
-    app_networks:
-      - name: web
+    networks:
+      - name: web # External network
       - name: bridge
-    app_traefik_enable: false
-    app_log_driver: json-file
-    app_log_options:
+    log_driver: json-file
+    log_options:
       max-file: "1"
       max-size: 10m
