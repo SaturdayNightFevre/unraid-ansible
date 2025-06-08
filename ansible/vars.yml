@@ -22,4 +22,9 @@ local_dns: [
   "films",
   "proxy",
 ]
-
+authelia_users:
+  - username: feves
+    displayname: "John"
+    password: "{{ hostvars['localhost'].PASSWORD}}"
+    email: "{{ hostvars['localhost'].EMAIL }}"
+    groups: ["admins"]

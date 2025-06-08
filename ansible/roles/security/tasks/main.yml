@@ -72,6 +72,64 @@
       max-file: "1"
       max-size: 10m
 
+- name: Deploy Authelia config
+  ansible.builtin.template:
+    src: "config_auth.yml.j2"
+    dest: "{{ app_data_dir }}/authelia/config/configuration.yml"
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Hash Authelia user passwords
+  ansible.builtin.set_fact:
+    authelia_hashed_users: "{{ authelia_hashed_users | default([]) + [hashed_user] }}"
+  vars:
+    hashed_password: "{{ lookup('pipe', 'docker run --rm authelia/authelia authelia hash-password \'' ~ item.password ~ '\'') }}"
+    hashed_user: "{{ item | combine({'password': hashed_password}) }}"
+  loop: "{{ authelia_users }}"
+
+- name: Deploy Authelia users_database.yml
+  ansible.builtin.template:
+    src: "users_database_auth.yml.j2"
+    dest: "{{ app_data_dir }}/authelia/config/users_database.yml"
+    mode: "0600"
+    owner: root
+    group: root
+
+
+# Create Authelia container
+- name: Ensure Authelia container is running
+  community.docker.docker_container:
+    image_name_mismatch: "recreate"
+    pull: always
+    name: authelia
+    image: "authelia/authelia:4.39"
+    restart_policy: unless-stopped
+    env:
+      TZ: "{{ timezone }}"
+    volumes:
+      - "{{ app_data_dir }}/authelia/config:/config"
+      - "{{ app_data_dir }}/authelia:/var/lib/authelia"
+    ports:
+      - "9091:9091"  # Only required if not using Traefik as reverse proxy
+    networks:
+      - name: web
+      - name: bridge
+    labels:
+      net.unraid.docker.icon: "https://www.authelia.com/images/branding/logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://auth.{{ DOMAIN }}"
+      traefik.enable: "true"
+      traefik.http.routers.authelia.rule: "Host(`auth.{{ DOMAIN }}`)"
+      traefik.http.routers.authelia.entrypoints: "websecure"
+      traefik.http.routers.authelia.tls: "true"
+      traefik.http.services.authelia.loadbalancer.server.port: "9091"
+      traefik.docker.network: "web"
+    log_driver: json-file
+    log_options:
+      max-file: "1"
+      max-size: "10m"
+
 - name: Deploy the acquis configuration using a template
   ansible.builtin.template:
     src: "acquis.yml.j2"
