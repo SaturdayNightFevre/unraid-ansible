@@ -72,6 +72,15 @@
       max-file: "1"
       max-size: 10m
 
+- name: Ensure Authelia config directory exists
+  ansible.builtin.file:
+    path: "{{ app_data_dir }}/authelia/config"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+
 - name: Deploy Authelia config
   ansible.builtin.template:
     src: "config_auth.yml.j2"
