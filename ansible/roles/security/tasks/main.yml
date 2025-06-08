@@ -84,7 +84,7 @@
   ansible.builtin.set_fact:
     authelia_hashed_users: "{{ authelia_hashed_users | default([]) + [hashed_user] }}"
   vars:
-    hashed_password: "{{ lookup('pipe', 'docker run --rm authelia/authelia authelia hash-password \'' ~ item.password ~ '\'') }}"
+    hashed_password: "{{ lookup('pipe', 'docker run --rm authelia/authelia authelia hash-password \"' ~ item.password ~ '\"') }}"
     hashed_user: "{{ item | combine({'password': hashed_password}) }}"
   loop: "{{ authelia_users }}"
 
