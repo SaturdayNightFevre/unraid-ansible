@@ -17,7 +17,7 @@ access_control:
 
 session:
   name: authelia_session
-  secret: "{{ AUTHELIA_SESSION_SECRET }}"
+  secret: "{{ PASSWORD_HASH }}"
   expiration: 3600
   domain: "{{ DOMAIN }}"
 
