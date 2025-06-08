@@ -129,9 +129,9 @@
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://auth.{{ DOMAIN }}"
       traefik.enable: "true"
+      traefik.http.routers.authelia.tls.certresolver: "letsencrypt"
       traefik.http.routers.authelia.rule: "Host(`auth.{{ DOMAIN }}`)"
       traefik.http.routers.authelia.entrypoints: "https"
-      traefik.http.routers.authelia.tls: "true"
       traefik.http.services.authelia.loadbalancer.server.port: "9091"
       traefik.docker.network: "web"
       ## Setup Authelia ForwardAuth Middlewares
