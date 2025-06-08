@@ -58,14 +58,14 @@
 - name: Start Deluge container
   community.docker.docker_container:
     name: deluge
-    image: linuxserver/deluge:2.1.1
+    image: linuxserver/deluge:2.2.0
     restart_policy: always
     network_mode: "container:gluetun"
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
       TZ:  "{{ timezone }}"
-      DELUGE_LOGLEVEL: "warn"   # Optional
+      DELUGE_LOGLEVEL: "debug"   # Optional
     volumes:
       - "{{ app_data_dir }}/deluge:/config"
       - "{{ dwnlds_dir }}:/downloads"
