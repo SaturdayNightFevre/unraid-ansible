@@ -17,6 +17,9 @@
         OPENVPN_USER: "{{ lookup('env', 'OPENVPN_USER') }}"
         OPENVPN_PASSWORD: "{{ lookup('env', 'OPENVPN_PASSWORD') }}"
         CROWDSEC_API: "{{ lookup('env', 'CROWDSEC_API') }}"
+        DELUGE_PASSWORD: "{{ lookup('env', 'DELUGE_PASSWORD') }}"
+        SONARR_API_KEY: "{{ lookup('env', 'SONARR_API_KEY') }}"
+        RADARR_API_KEY: "{{ lookup('env', 'RADARR_API_KEY') }}"
 
 - name: Ensure Docker and Networks
   hosts: johnflix
@@ -89,3 +92,6 @@
   - name: Loading environment variables
     set_fact:
       PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"
+      DELUGE_PASSWORD: "{{ hostvars['localhost'].DELUGE_PASSWORD}}"
+      SONARR_API_KEY: "{{ hostvars['localhost'].SONARR_API_KEY}}"
+      RADARR_API_KEY: "{{ hostvars['localhost'].RADARR_API_KEY}}"

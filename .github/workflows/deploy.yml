@@ -69,3 +69,6 @@ jobs:
           OPENVPN_USER: ${{ secrets.OPENVPN_USER }}
           OPENVPN_PASSWORD: ${{ secrets.OPENVPN_PASSWORD }}
           CROWDSEC_API: ${{ secrets.CROWDSEC_API }}
+          SONARR_API_KEY: ${{ secrets.SONARR_API_KEY }}
+          RADARR_API_KEY: ${{ secrets.RADARR_API_KEY }}
+          DELUGE_PASSWORD: ${{ secrets.DELUGE_PASSWORD }}
