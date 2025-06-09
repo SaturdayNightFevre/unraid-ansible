@@ -173,7 +173,7 @@
       # Download Client (qBittorrent, Transmission, Deluge) Configuration
       DELUGE__URL_BASE: ""
       DELUGE__URL: "http://{{ local_ip }}:8112"
-      DELUGE__PASSWORD: "{{ DELUGE__PASSWORD }}"
+      DELUGE__PASSWORD: "{{ DELUGE_PASSWORD }}"
 
       # Arr Apps (Sonarr, Radarr, Lidarr) Configuration
       SONARR__INSTANCES__0__APIKEY: "{{ SONARR_API_KEY }}"
