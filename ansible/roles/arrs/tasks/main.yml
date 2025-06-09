@@ -54,7 +54,7 @@
     networks:
       - name: web
     labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/huntarr/huntarr/main/logo.png" # Placeholder, find actual icon if available
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/plexguide/Huntarr.io/main/frontend/static/logo/512.png" # Placeholder, find actual icon if available
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://huntarr.{{ domain }}"
       traefik.enable: "true"

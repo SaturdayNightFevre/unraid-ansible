@@ -54,12 +54,6 @@ providers:
     watch: true
 
 certificatesResolvers:
-  http:
-    acme:
-      email: "{{ EMAIL }}"
-      storage: acme.json
-      httpChallenge:
-        entryPoint: http
   letsencrypt:
     acme:
       email: "{{ EMAIL }}"
@@ -76,6 +70,12 @@ serversTransport:
   insecureSkipVerify: false
 
 tls:
+  stores:
+    default:
+      defaultGeneratedCert:
+        resolver: letsencrypt
+        domain:
+          main: {{ DOMAIN }}
   options:
     default:
       minVersion: VersionTLS12

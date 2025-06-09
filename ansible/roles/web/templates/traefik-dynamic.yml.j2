@@ -1,5 +1,11 @@
 http:
   middlewares:
+    secure:
+      chain:
+        middlewares:
+          - default-hsts
+          - ratelimit
+          - authentik@docker
     crowdsec:
       plugin:
         bouncer:
@@ -37,6 +43,14 @@ http:
         sslRedirect: true
         sslForceHost: true
 
+    ratelimit:
+      rateLimit:
+        average: 100
+        burst: 50
+        sourceCriterion:
+        ipStrategy:
+          depth: 1
+
   routers:
     homeassistant:
       entryPoints:
@@ -45,6 +59,7 @@ http:
       service: homeassistant
       middlewares:
         - default-hsts
+        - rateLimit
         - authentik@docker
       tls:
         certResolver: letsencrypt
@@ -54,3 +69,4 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.1.11:8123"
+        passHostHeader: true
