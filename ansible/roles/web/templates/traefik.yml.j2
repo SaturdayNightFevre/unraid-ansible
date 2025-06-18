@@ -40,6 +40,9 @@ entryPoints:
   https:
     address: ":443"
     http:
+      middlewares:
+        - secure@file
+        - crowdsec@file
       tls: {}
     forwardedHeaders:
       trustedIPs: *trustedIps
