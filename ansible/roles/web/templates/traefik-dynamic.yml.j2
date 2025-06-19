@@ -55,24 +55,18 @@ http:
     homeassistant:
       entryPoints:
         - https
-      rule: "Host(`homeassistant.{{ domain }}`)"
+      rule: "Host(`homeassistant.johnflix.uk`)"
       service: homeassistant
-      tls:
-        certResolver: letsencrypt
-    homeassistant-app-auth:
-      rule: "Host(`homeassistant.{{ domain }}`) && ( (PathPrefix(`/auth/`)) && !(PathPrefix(`/auth/token`)) )"
-      service: homeassistant
-      tls: true
-      entryPoints:
-        - https
       middlewares:
-        - authentik@docker
         - default-hsts
         - rateLimit
+        - authentik@docker
+      tls:
+        certResolver: letsencrypt
 
   services:
     homeassistant:
       loadBalancer:
         servers:
           - url: "http://192.168.1.11:8123"
-        passHostHeader: false
+        passHostHeader: true
