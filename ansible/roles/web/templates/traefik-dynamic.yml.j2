@@ -59,7 +59,6 @@ http:
       service: homeassistant
       middlewares:
         - default-hsts
-        - rateLimit
         - authentik@docker
       tls:
         certResolver: letsencrypt
