@@ -47,7 +47,6 @@ http:
       rateLimit:
         average: 100
         burst: 50
-        sourceCriterion:
         ipStrategy:
           depth: 1
 
@@ -68,7 +67,7 @@ http:
       middlewares:
         - authentik@docker
         - default-hsts
-        - rateLimit
+        - ratelimit
 
   services:
     homeassistant:
