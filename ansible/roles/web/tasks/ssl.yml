@@ -1,52 +1,53 @@
 ---
-    - name: Ensure SSL directory exists
-      file:
-        path: /etc/ssl/johnflix
-        state: directory
-        mode: '0755'
+- name: Ensure SSL directory exists
+  ansible.builtin.file:
+    path: /etc/ssl/johnflix
+    state: directory
+    mode: '0755'
 
-    - name: Check if wildcard certificate exists
-      stat:
-        path: /etc/ssl/johnflix/wildcard.johnflix.uk.crt
-      register: cert_stat
+- name: Check if wildcard certificate exists
+  ansible.builtin.stat:
+    path: /etc/ssl/johnflix/wildcard.johnflix.uk.crt
+  register: cert_stat
 
-    - name: Get certificate expiration date
-      command: "openssl x509 -enddate -noout -in /etc/ssl/johnflix/wildcard.johnflix.uk.crt"
-      register: cert_expiry
-      when: cert_stat.stat.exists
-      changed_when: false
-      ignore_errors: true
+- name: Get certificate expiration date
+  ansible.builtin.command: "openssl x509 -enddate -noout -in /etc/ssl/johnflix/wildcard.johnflix.uk.crt"
+  register: cert_expiry
+  when: cert_stat.stat.exists
+  changed_when: false
+  ignore_errors: true
 
-    - name: Parse expiration date
-      set_fact:
-        cert_expiry_date: "{{ cert_expiry.stdout | regex_replace('notAfter=', '') | trim }}"
-      when: cert_expiry.stdout is defined
+- name: Parse expiration date
+  ansible.builtin.set_fact:
+    cert_expiry_date: "{{ cert_expiry.stdout | regex_replace('notAfter=', '') | trim }}"
+  when: cert_expiry.stdout is defined
 
-    - name: Convert expiration date to epoch
-      command: "date -d '{{ cert_expiry_date }}' +%s"
-      register: cert_expiry_epoch
-      when: cert_expiry_date is defined
-      changed_when: false
+- name: Convert expiration date to epoch
+  ansible.builtin.command: "date -d '{{ cert_expiry_date }}' +%s"
+  register: cert_expiry_epoch
+  when: cert_expiry_date is defined
+  changed_when: false
 
-    - name: Get current date in epoch
-      command: "date +%s"
-      register: current_date_epoch
-      changed_when: false
+- name: Get current date in epoch
+  ansible.builtin.command: "date +%s"
+  register: current_date_epoch
+  changed_when: false
 
-    - name: Calculate days until expiration
-      set_fact:
-        days_until_expiry: "{{ ((cert_expiry_epoch.stdout | int) - (current_date_epoch.stdout | int)) // 86400 }}"
-      when: cert_expiry_epoch.stdout is defined and current_date_epoch.stdout is defined
+- name: Calculate days until expiration
+  ansible.builtin.set_fact:
+    days_until_expiry: "{{ ((cert_expiry_epoch.stdout | int) - (current_date_epoch.stdout | int)) // 86400 }}"
+  when: cert_expiry_epoch.stdout is defined and current_date_epoch.stdout is defined
 
-    - name: Display certificate expiration status
-      debug:
-        msg: "Wildcard certificate expires in {{ days_until_expiry }} days."
-      when: days_until_expiry is defined
-    
-    - name: Create OpenSSL configuration for SAN
-      copy:
-        dest: "/tmp/openssl_san.cnf"
-        content: |
+- name: Display certificate expiration status
+  ansible.builtin.debug:
+    msg: "Wildcard certificate expires in {{ days_until_expiry }} days."
+  when: days_until_expiry is defined
+
+- name: Create OpenSSL configuration for SAN
+  ansible.builtin.copy:
+    dest: "/tmp/openssl_san.cnf"
+    mode: '0644'
+    content: |
           [ req ]
           default_bits       = 4096
           prompt            = no
@@ -66,19 +67,20 @@
           {% for prefix in local_dns %}
           DNS.{{ loop.index + 2 }} = {{ prefix }}.johnflix.uk
           {% endfor %}
-      when: not cert_stat.stat.exists or (days_until_expiry is defined and days_until_expiry | int <= 30)
+  when: not cert_stat.stat.exists or (days_until_expiry is defined and days_until_expiry | int <= 30)
 
-    - name: Generate new certificate if missing or expiring within 30 days
-      shell: >
-        openssl req -x509 -nodes -newkey rsa:4096 -keyout /etc/ssl/johnflix/wildcard.johnflix.uk.key
-        -out /etc/ssl/johnflix/wildcard.johnflix.uk.crt -days 365
-        -config /tmp/openssl_san.cnf
-      when: not cert_stat.stat.exists or (days_until_expiry is defined and days_until_expiry | int <= 30)
+- name: Generate new certificate if missing or expiring within 30 days
+  ansible.builtin.shell: >
+    openssl req -x509 -nodes -newkey rsa:4096 -keyout /etc/ssl/johnflix/wildcard.johnflix.uk.key
+    -out /etc/ssl/johnflix/wildcard.johnflix.uk.crt -days 365
+    -config /tmp/openssl_san.cnf
+  when: not cert_stat.stat.exists or (days_until_expiry is defined and days_until_expiry | int <= 30)
+  changed_when: true
 
 
-    - name: Display certificate paths
-      debug:
-        msg: |
+- name: Display certificate paths
+  ansible.builtin.debug:
+    msg: |
           The self-signed wildcard certificate has been created successfully!
           You can download it from:
             Certificate: /etc/ssl/johnflix/wildcard.{{ domain }}.crt

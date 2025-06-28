@@ -6,12 +6,12 @@
     owner: "{{ app_owner | default('nobody')}}"
     group: "{{ app_group | default('users') }}"
     mode: "{{ dir_mode | default('0775') }}"
-    recurse: yes
+    recurse: true
 
 - name: Find all files in the specified directory
   ansible.builtin.find:
     paths: "{{ target_dir }}"
-    recurse: yes
+    recurse: true
     file_type: file
   register: found_files
 

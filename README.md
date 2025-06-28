@@ -15,7 +15,7 @@ Ansible playbooks for deploying and managing a homelab environment on Unraid, in
 ## Setup & Core Infrastructure
 - [x] Common infrastructure setup (Python venv, Docker check, appdata dir, web network)
 - [x] Database services deployed (PostgreSQL, Redis)
-  - [ ] Ensure "Wait for Redis to be ready" task is uncommented/reviewed in `ansible/roles/database/tasks/main.yml`
+- [ ] Ensure "Wait for Redis to be ready" task is uncommented/reviewed in `ansible/roles/database/tasks/main.yml`
 - [x] Ansible Runner setup (Docker SDK)
 
 ## Web & Network Services
@@ -24,7 +24,7 @@ Ansible playbooks for deploying and managing a homelab environment on Unraid, in
 - [ ] Pi-hole DNS server deployed and configured (currently commented out in `ansible/roles/web/tasks/main.yml`)
 - [ ] SSL certificates & internal dns resolution to setup block list better (SSL tasks commented out in `ansible/roles/web/tasks/main.yml`)
 - [ ] Overseerr (requests) Traefik integration enabled (labels commented out in `ansible/roles/web/tasks/main.yml`)
-- [ ] Auto pull domain names from Ansible job 
+- [ ] Auto pull domain names from Ansible job
 
 ## Security Layer
 - [x] Authentik (Identity Provider) deployed (server and worker)

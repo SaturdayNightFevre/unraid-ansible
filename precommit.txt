@@ -1,0 +1,1319 @@
+Check YAML syntax........................................................[41mFailed[m
+[2m- hook id: check-yaml[m
+[2m- exit code: 1[m
+
+while constructing a mapping
+  in "ansible/roles/database/tasks/main.yml", line 15, column 5
+found duplicate key "command" with value "[]" (original value: "--save 60 1 --loglevel warning")
+  in "ansible/roles/database/tasks/main.yml", line 38, column 5
+
+To suppress this check see:
+    https://yaml.dev/doc/ruamel.yaml/api/#Duplicate_keys
+
+fix end of files.........................................................[42mPassed[m
+trim trailing whitespace.................................................[42mPassed[m
+check for merge conflicts................................................[42mPassed[m
+Lint YAML files..........................................................[41mFailed[m
+[2m- hook id: yamllint[m
+[2m- exit code: 2[m
+
+[4m.pre-commit-config.yaml[0m
+  [2m35:5[0m      [33mwarning[0m  wrong indentation: expected 6 but found 4  [2m(indentation)[0m
+
+[4mansible/playbook.yml[0m
+  [2m77:4[0m      [33mwarning[0m  wrong indentation: expected 4 but found 3  [2m(indentation)[0m
+  [2m92:3[0m      [33mwarning[0m  wrong indentation: expected 4 but found 2  [2m(indentation)[0m
+
+[4mansible/roles/database/tasks/main.yml[0m
+  [2m38:5[0m      [31merror[0m    duplication of key "command" in mapping  [2m(key-duplicates)[0m
+  [2m104:121[0m   [33mwarning[0m  line too long (179 > 120 characters)  [2m(line-length)[0m
+  [2m105:121[0m   [33mwarning[0m  line too long (197 > 120 characters)  [2m(line-length)[0m
+
+[4mansible/roles/downloads/tasks/main.yml[0m
+  [2m67:11[0m     [33mwarning[0m  too many spaces after colon  [2m(colons)[0m
+
+[4mansible/roles/web/tasks/ssl.yml[0m
+  [2m2:5[0m       [33mwarning[0m  wrong indentation: expected 0 but found 4  [2m(indentation)[0m
+  [2m63:121[0m    [33mwarning[0m  line too long (122 > 120 characters)  [2m(line-length)[0m
+
+[4mansible/vars.yml[0m
+  [2m3:12[0m      [33mwarning[0m  too many spaces after colon  [2m(colons)[0m
+
+[4mansible/shared-tasks/docker-app.yml[0m
+  [2m9:121[0m     [33mwarning[0m  line too long (132 > 120 characters)  [2m(line-length)[0m
+  [2m33:121[0m    [33mwarning[0m  line too long (126 > 120 characters)  [2m(line-length)[0m
+
+[4mansible/roles/arrs/tasks/main.yml[0m
+  [2m57:121[0m    [33mwarning[0m  line too long (165 > 120 characters)  [2m(line-length)[0m
+
+[4mansible/roles/web/tasks/main.yml[0m
+  [2m106:121[0m   [33mwarning[0m  line too long (135 > 120 characters)  [2m(line-length)[0m
+
+[4mansible/roles/security/tasks/main.yml[0m
+  [2m14:121[0m    [33mwarning[0m  line too long (134 > 120 characters)  [2m(line-length)[0m
+  [2m15:121[0m    [33mwarning[0m  line too long (134 > 120 characters)  [2m(line-length)[0m
+  [2m16:121[0m    [33mwarning[0m  line too long (142 > 120 characters)  [2m(line-length)[0m
+  [2m32:121[0m    [33mwarning[0m  line too long (206 > 120 characters)  [2m(line-length)[0m
+  [2m35:121[0m    [33mwarning[0m  line too long (126 > 120 characters)  [2m(line-length)[0m
+  [2m59:121[0m    [33mwarning[0m  line too long (134 > 120 characters)  [2m(line-length)[0m
+  [2m60:121[0m    [33mwarning[0m  line too long (134 > 120 characters)  [2m(line-length)[0m
+  [2m61:121[0m    [33mwarning[0m  line too long (142 > 120 characters)  [2m(line-length)[0m
+  [2m96:121[0m    [33mwarning[0m  line too long (129 > 120 characters)  [2m(line-length)[0m
+  [2m170:121[0m   [33mwarning[0m  line too long (236 > 120 characters)  [2m(line-length)[0m
+
+Lint Ansible playbooks...................................................[41mFailed[m
+[2m- hook id: ansible-lint[m
+[2m- exit code: 2[m
+
+[2mINFO     Identified [0m[2;34m/Users/john/Developer/unraid-ansible[0m[2m as project root due [0m[1;2m.git directory[0m[2m.[0m
+[2mINFO     Collection paths was patched to include extra directories /Users/john/.ansible/collections,/usr/share/ansible/collections,/Users/john/.cache/pre-commit/repo_odkn22e/py_env-python3.13/lib/python3.13/site-packages[0m
+[2mINFO     Set ANSIBLE_LIBRARY=/Users/john/Developer/unraid-ansible/.ansible/modules:/Users/john/.ansible/plugins/modules:/usr/share/ansible/plugins/modules[0m
+[2mINFO     Set ANSIBLE_COLLECTIONS_PATH=/Users/john/Developer/unraid-ansible/.ansible/collections:/Users/john/.ansible/collections:/usr/share/ansible/collections:/Users/john/.cache/pre-commit/repo_odkn22e/py_env-python3.13/lib/python3.13/site-packages[0m
+[2mINFO     Set ANSIBLE_ROLES_PATH=/Users/john/Developer/unraid-ansible/.ansible/roles:/Users/john/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles[0m
+[2mINFO     Loading ignores from .gitignore[0m
+[2mINFO     Excluded: .DS_Store[0m
+[2mINFO     Excluded: .git[0m
+[2mINFO     Excluded: .vscode[0m
+[2mINFO     Collection paths was patched to include extra directories /Users/john/.ansible/collections,/usr/share/ansible/collections,/Users/john/.cache/pre-commit/repo_odkn22e/py_env-python3.13/lib/python3.13/site-packages[0m
+[2mINFO     Set ANSIBLE_LIBRARY=/Users/john/Developer/unraid-ansible/.ansible/modules:/Users/john/.ansible/plugins/modules:/usr/share/ansible/plugins/modules[0m
+[2mINFO     Set ANSIBLE_COLLECTIONS_PATH=/Users/john/Developer/unraid-ansible/.ansible/collections:/Users/john/.ansible/collections:/usr/share/ansible/collections:/Users/john/.cache/pre-commit/repo_odkn22e/py_env-python3.13/lib/python3.13/site-packages[0m
+[2mINFO     Set ANSIBLE_ROLES_PATH=/Users/john/Developer/unraid-ansible/.ansible/roles:/Users/john/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles[0m
+[2mINFO     Loading ignores from .gitignore[0m
+[2mINFO     Excluded: .DS_Store[0m
+[2mINFO     Excluded: .git[0m
+[2mINFO     Excluded: .vscode[0m
+[2mINFO     Executing syntax check on role ansible/roles/media-managment (0.88s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/plex (0.88s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/books (0.88s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/arrs (0.88s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/4k-arrs (0.89s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/homeassistant (0.90s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/runner (0.90s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/common (0.91s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/web (0.92s)[0m
+[2mINFO     Executing syntax check on playbook ansible/playbook.yml (0.92s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/ai (0.46s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/downloads (0.48s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/security (0.47s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/audiobooks (0.48s)[0m
+[2mINFO     Executing syntax check on role ansible/roles/database (0.51s)[0m
+[2mWARNING  Unable to load module community.docker.docker_network_info at ansible/roles/common/tasks/main.yml:58 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_network_info at ansible/roles/common/tasks/main.yml:63 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_network at ansible/roles/common/tasks/main.yml:68 for options validation[0m
+[2mWARNING  Unable to resolve FQCN for module community.docker.docker_network_info[0m
+[2mWARNING  Unable to resolve FQCN for module community.docker.docker_network[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/shared-tasks/docker-app.yml:2 for options validation[0m
+[2mWARNING  Unable to resolve FQCN for module community.docker.docker_container[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/security/tasks/main.yml:3 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/security/tasks/main.yml:44 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/security/tasks/main.yml:110 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/security/tasks/main.yml:156 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/downloads/tasks/main.yml:11 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/downloads/tasks/main.yml:58 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/downloads/tasks/main.yml:80 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/downloads/tasks/main.yml:93 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/plex/tasks/main.yml:2 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/media-managment/tasks/main.yml:2 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/web/tasks/main.yml:43 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/web/tasks/main.yml:161 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/web/tasks/main.yml:183 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/books/tasks/main.yml:12 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/books/tasks/main.yml:62 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/books/tasks/main.yml:103 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/arrs/tasks/main.yml:2 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/arrs/tasks/main.yml:43 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/arrs/tasks/main.yml:79 for options validation[0m
+[2mWARNING  Unable to load module community.postgresql.postgresql_db at ansible/roles/database/tasks/create_db.yml:2 for options validation[0m
+[2mWARNING  Unable to load module community.postgresql.postgresql_user at ansible/roles/database/tasks/create_db.yml:10 for options validation[0m
+[2mWARNING  Unable to load module community.postgresql.postgresql_privs at ansible/roles/database/tasks/create_db.yml:19 for options validation[0m
+[2mWARNING  Unable to load module community.postgresql.postgresql_privs at ansible/roles/database/tasks/create_db.yml:30 for options validation[0m
+[2mWARNING  Unable to load module community.postgresql.postgresql_query at ansible/roles/database/tasks/create_db.yml:42 for options validation[0m
+[2mWARNING  Unable to resolve FQCN for module community.postgresql.postgresql_db[0m
+[2mWARNING  Unable to resolve FQCN for module community.postgresql.postgresql_user[0m
+[2mWARNING  Unable to resolve FQCN for module community.postgresql.postgresql_privs[0m
+[2mWARNING  Unable to resolve FQCN for module community.postgresql.postgresql_query[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/audiobooks/tasks/main.yml:7 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/audiobooks/tasks/main.yml:52 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/ai/tasks/main.yml:2 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/ai/tasks/main.yml:39 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/database/tasks/main.yml:13 for options validation[0m
+[2mWARNING  Unable to load module community.docker.docker_container at ansible/roles/database/tasks/main.yml:47 for options validation[0m
+[2mWARNING  /Users/john/.cache/pre-commit/repo_odkn22e/py_env-python3.13/lib/python3.13/site-packages/ansible/parsing/yaml/constructor.py:74 AnsibleWarning While constructing a mapping from <unicode string>, line 15, column 5, found a duplicate dict key (command). Using last defined value only.[0m
+[2mWARNING  /Users/john/.cache/pre-commit/repo_odkn22e/py_env-python3.13/lib/python3.13/site-packages/ansible/parsing/yaml/constructor.py:74 AnsibleWarning While constructing a mapping from /Users/john/Developer/unraid-ansible/ansible/roles/database/tasks/main.yml, line 15, column 5, found a duplicate dict key (command). Using last defined value only.[0m
+[2mWARNING  Listing 374 violation(s) that are fatal[0m
+]8;id=656088;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[indentation][0m]8;;\[2m:[0m [91mWrong indentation: expected 6 but found 4[0m
+[34m.pre-commit-config.yaml[0m:35
+
+]8;id=675246;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (set_fact).[0m
+[34mansible/playbook.yml[0m:9 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+
+]8;id=842200;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (CF_KEY) (set_fact: CF_KEY)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=440994;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (CROWDSEC_API) (set_fact: CROWDSEC_API)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=887111;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (DELUGE_PASSWORD) (set_fact: DELUGE_PASSWORD)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=380682;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (DOMAIN) (set_fact: DOMAIN)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=162298;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (DUCK_DNS_TOKEN) (set_fact: DUCK_DNS_TOKEN)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=966789;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (EMAIL) (set_fact: EMAIL)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=745313;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (OPENVPN_PASSWORD) (set_fact: OPENVPN_PASSWORD)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=939236;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (OPENVPN_USER) (set_fact: OPENVPN_USER)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=203687;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (PASSWORD) (set_fact: PASSWORD)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=791637;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (PASSWORD_HASH) (set_fact: PASSWORD_HASH)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=3307;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (RADARR_API_KEY) (set_fact: RADARR_API_KEY)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=774306;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (SONARR_API_KEY) (set_fact: SONARR_API_KEY)[0m
+[34mansible/playbook.yml[0m:11 [2mTask/Handler: Set Ansible facts from environment variables[0m
+
+]8;id=321313;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (set_fact).[0m
+[34mansible/playbook.yml[0m:36 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+
+]8;id=866187;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{ hostvars['localhost'].PASSWORD_HASH}} -> {{ hostvars['localhost'].PASSWORD_HASH }}[0m [2;33m(warning)[0m
+[34mansible/playbook.yml[0m:38 [2mJinja2 template rewrite recommendation: `{{ hostvars['localhost'].PASSWORD_HASH }}`.[0m
+
+]8;id=83715;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{ hostvars['localhost'].PASSWORD}} -> {{ hostvars['localhost'].PASSWORD }}[0m [2;33m(warning)[0m
+[34mansible/playbook.yml[0m:38 [2mJinja2 template rewrite recommendation: `{{ hostvars['localhost'].PASSWORD }}`.[0m
+
+]8;id=473767;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (CF_KEY) (set_fact: CF_KEY)[0m
+[34mansible/playbook.yml[0m:38 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=73591;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (CROWDSEC_API) (set_fact: CROWDSEC_API)[0m
+[34mansible/playbook.yml[0m:38 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=905540;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (DOMAIN) (set_fact: DOMAIN)[0m
+[34mansible/playbook.yml[0m:38 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=879350;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (DUCK_DNS_TOKEN) (set_fact: DUCK_DNS_TOKEN)[0m
+[34mansible/playbook.yml[0m:38 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=492104;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (EMAIL) (set_fact: EMAIL)[0m
+[34mansible/playbook.yml[0m:38 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=573330;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (PASSWORD) (set_fact: PASSWORD)[0m
+[34mansible/playbook.yml[0m:38 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=886414;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (PASSWORD_HASH) (set_fact: PASSWORD_HASH)[0m
+[34mansible/playbook.yml[0m:38 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=949570;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (set_fact).[0m
+[34mansible/playbook.yml[0m:55 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+
+]8;id=373906;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{ hostvars['localhost'].PASSWORD_HASH}} -> {{ hostvars['localhost'].PASSWORD_HASH }}[0m [2;33m(warning)[0m
+[34mansible/playbook.yml[0m:57 [2mJinja2 template rewrite recommendation: `{{ hostvars['localhost'].PASSWORD_HASH }}`.[0m
+
+]8;id=571162;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{ hostvars['localhost'].PASSWORD}} -> {{ hostvars['localhost'].PASSWORD }}[0m [2;33m(warning)[0m
+[34mansible/playbook.yml[0m:57 [2mJinja2 template rewrite recommendation: `{{ hostvars['localhost'].PASSWORD }}`.[0m
+
+]8;id=570532;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (CF_KEY) (set_fact: CF_KEY)[0m
+[34mansible/playbook.yml[0m:57 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=216274;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (DOMAIN) (set_fact: DOMAIN)[0m
+[34mansible/playbook.yml[0m:57 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=62288;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (DUCK_DNS_TOKEN) (set_fact: DUCK_DNS_TOKEN)[0m
+[34mansible/playbook.yml[0m:57 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=548163;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (EMAIL) (set_fact: EMAIL)[0m
+[34mansible/playbook.yml[0m:57 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=78774;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (PASSWORD) (set_fact: PASSWORD)[0m
+[34mansible/playbook.yml[0m:57 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=744451;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (PASSWORD_HASH) (set_fact: PASSWORD_HASH)[0m
+[34mansible/playbook.yml[0m:57 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=564808;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (set_fact).[0m
+[34mansible/playbook.yml[0m:72 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+
+]8;id=290617;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (OPENVPN_PASSWORD) (set_fact: OPENVPN_PASSWORD)[0m
+[34mansible/playbook.yml[0m:74 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=54920;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (OPENVPN_USER) (set_fact: OPENVPN_USER)[0m
+[34mansible/playbook.yml[0m:74 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=831548;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[indentation][0m]8;;\[2m:[0m [91mWrong indentation: expected 4 but found 3[0m
+[34mansible/playbook.yml[0m:77
+
+]8;id=329824;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (set_fact).[0m
+[34mansible/playbook.yml[0m:92 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+
+]8;id=802643;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[indentation][0m]8;;\[2m:[0m [91mWrong indentation: expected 4 but found 2[0m
+[34mansible/playbook.yml[0m:92
+
+]8;id=725971;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{ hostvars['localhost'].DELUGE_PASSWORD}} -> {{ hostvars['localhost'].DELUGE_PASSWORD }}[0m [2;33m(warning)[0m
+[34mansible/playbook.yml[0m:94 [2mJinja2 template rewrite recommendation: `{{ hostvars['localhost'].DELUGE_PASSWORD }}`.[0m
+
+]8;id=296311;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{ hostvars['localhost'].PASSWORD}} -> {{ hostvars['localhost'].PASSWORD }}[0m [2;33m(warning)[0m
+[34mansible/playbook.yml[0m:94 [2mJinja2 template rewrite recommendation: `{{ hostvars['localhost'].PASSWORD }}`.[0m
+
+]8;id=708922;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{ hostvars['localhost'].RADARR_API_KEY}} -> {{ hostvars['localhost'].RADARR_API_KEY }}[0m [2;33m(warning)[0m
+[34mansible/playbook.yml[0m:94 [2mJinja2 template rewrite recommendation: `{{ hostvars['localhost'].RADARR_API_KEY }}`.[0m
+
+]8;id=557155;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{ hostvars['localhost'].SONARR_API_KEY}} -> {{ hostvars['localhost'].SONARR_API_KEY }}[0m [2;33m(warning)[0m
+[34mansible/playbook.yml[0m:94 [2mJinja2 template rewrite recommendation: `{{ hostvars['localhost'].SONARR_API_KEY }}`.[0m
+
+]8;id=90702;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (DELUGE_PASSWORD) (set_fact: DELUGE_PASSWORD)[0m
+[34mansible/playbook.yml[0m:94 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=208459;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (PASSWORD) (set_fact: PASSWORD)[0m
+[34mansible/playbook.yml[0m:94 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=801607;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (RADARR_API_KEY) (set_fact: RADARR_API_KEY)[0m
+[34mansible/playbook.yml[0m:94 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=327962;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\[1;91mvar-naming[pattern][0m]8;;\[2m:[0m [91mVariables names should match ^[a-z_][a-z0-9_]*$ regex. (SONARR_API_KEY) (set_fact: SONARR_API_KEY)[0m
+[34mansible/playbook.yml[0m:94 [2mTask/Handler: Loading environment variables[0m
+
+]8;id=641635;https://ansible.readthedocs.io/projects/lint/rules/role-name/\[1;91mrole-name[0m]8;;\[2m:[0m [91mRole name 4k-arrs does not match ``^[a-z][a-z0-9_]*$`` pattern.[0m
+[34mansible/roles/4k-arrs[0m:1
+
+]8;id=152068;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/4k-arrs/tasks/main.yml[0m:2
+
+]8;id=761003;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/4k-arrs/tasks/main.yml[0m:3
+
+]8;id=107205;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/4k-arrs/tasks/main.yml[0m:4
+
+]8;id=741341;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/4k-arrs/tasks/main.yml[0m:5
+
+]8;id=192797;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/4k-arrs/tasks/main.yml[0m:43
+
+]8;id=280350;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/4k-arrs/tasks/main.yml[0m:44
+
+]8;id=987213;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/4k-arrs/tasks/main.yml[0m:45
+
+]8;id=665351;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/4k-arrs/tasks/main.yml[0m:46
+
+]8;id=178776;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/ai/tasks/main.yml[0m:2:3
+
+]8;id=194995;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:19
+
+]8;id=443897;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:20
+
+]8;id=283603;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:21
+
+]8;id=542146;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:22
+
+]8;id=552295;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:23
+
+]8;id=992335;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:24
+
+]8;id=229028;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:32
+
+]8;id=354245;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:33
+
+]8;id=58848;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:34
+
+]8;id=25385;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:35
+
+]8;id=779778;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:36
+
+]8;id=235633;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:37
+
+]8;id=884071;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:56
+
+]8;id=130774;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:57
+
+]8;id=498042;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:58
+
+]8;id=570257;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:59
+
+]8;id=445676;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:60
+
+]8;id=779419;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:61
+
+]8;id=169130;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:70
+
+]8;id=968347;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:71
+
+]8;id=354072;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:72
+
+]8;id=221362;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:73
+
+]8;id=552865;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:74
+
+]8;id=477972;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:75
+
+]8;id=288427;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:76
+
+]8;id=331703;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/ai/tasks/main.yml[0m:77
+
+]8;id=430152;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/arrs/tasks/main.yml[0m:2:3
+
+]8;id=173584;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/arrs/tasks/main.yml[0m:37
+
+]8;id=336345;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/arrs/tasks/main.yml[0m:38
+
+]8;id=245521;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/arrs/tasks/main.yml[0m:39
+
+]8;id=926620;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[line-length][0m]8;;\[2m:[0m [91mLine too long (165 > 160 characters)[0m
+[34mansible/roles/arrs/tasks/main.yml[0m:57
+
+]8;id=493899;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/arrs/tasks/main.yml[0m:149
+
+]8;id=856069;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:2
+
+]8;id=551912;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:3
+
+]8;id=725035;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:4
+
+]8;id=599722;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:5
+
+]8;id=796409;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:7:3
+
+]8;id=236963;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:27
+
+]8;id=65598;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:36
+
+]8;id=755608;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:37
+
+]8;id=791704;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:38
+
+]8;id=487533;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:42
+
+]8;id=232734;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:43
+
+]8;id=384449;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:44
+
+]8;id=648672;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:45
+
+]8;id=117019;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:47
+
+]8;id=942765;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:48
+
+]8;id=336502;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:49
+
+]8;id=678648;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:50
+
+]8;id=266077;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:73
+
+]8;id=753032;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:74
+
+]8;id=378991;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:75
+
+]8;id=264105;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:76
+
+]8;id=225640;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:77
+
+]8;id=176684;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:78
+
+]8;id=77795;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:87
+
+]8;id=958245;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:88
+
+]8;id=522827;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/audiobooks/tasks/main.yml[0m:89
+
+]8;id=127550;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:2
+
+]8;id=413381;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:3
+
+]8;id=779907;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:4
+
+]8;id=2862;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:5
+
+]8;id=946563;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:7
+
+]8;id=993479;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:8
+
+]8;id=854037;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:9
+
+]8;id=730453;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:10
+
+]8;id=165132;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/books/tasks/main.yml[0m:12:3
+
+]8;id=780979;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{timezone}} -> {{ timezone }}[0m [2;33m(warning)[0m
+[34mansible/roles/books/tasks/main.yml[0m:21 [2mJinja2 template rewrite recommendation: `{{ timezone }}`.[0m
+
+]8;id=233743;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:46
+
+]8;id=486543;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:47
+
+]8;id=54557;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:48
+
+]8;id=963733;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:52
+
+]8;id=514215;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:53
+
+]8;id=262450;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:54
+
+]8;id=712047;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:55
+
+]8;id=131730;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:57
+
+]8;id=66833;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:58
+
+]8;id=389099;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:59
+
+]8;id=705907;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:60
+
+]8;id=929483;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{timezone}} -> {{ timezone }}[0m [2;33m(warning)[0m
+[34mansible/roles/books/tasks/main.yml[0m:71 [2mJinja2 template rewrite recommendation: `{{ timezone }}`.[0m
+
+]8;id=435634;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:92
+
+]8;id=970047;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:93
+
+]8;id=852195;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:94
+
+]8;id=627886;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:98
+
+]8;id=606346;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:99
+
+]8;id=738150;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:100
+
+]8;id=155631;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:101
+
+]8;id=14528;https://ansible.readthedocs.io/projects/lint/rules/jinja/\[1;33mjinja[spacing][0m]8;;\[2m:[0m [33mJinja2 spacing could be improved: {{timezone}} -> {{ timezone }}[0m [2;33m(warning)[0m
+[34mansible/roles/books/tasks/main.yml[0m:110 [2mJinja2 template rewrite recommendation: `{{ timezone }}`.[0m
+
+]8;id=57188;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:135
+
+]8;id=146895;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:136
+
+]8;id=832196;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/books/tasks/main.yml[0m:137
+
+]8;id=136276;https://ansible.readthedocs.io/projects/lint/rules/ignore-errors/\[1;91mignore-errors[0m]8;;\[2m:[0m [91mUse failed_when and specify error conditions instead of using ignore_errors.[0m
+[34mansible/roles/common/tasks/main.yml[0m:8 [2mTask/Handler: Install Python venv module if not present[0m
+
+]8;id=439399;https://ansible.readthedocs.io/projects/lint/rules/no-handler/\[1;91mno-handler[0m]8;;\[2m:[0m [91mTasks that run when changed should likely be handlers.[0m
+[34mansible/roles/common/tasks/main.yml[0m:19 [2mTask/Handler: Ensure pip and setuptools are upgraded in virtual environment[0m
+
+]8;id=913183;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_network_info'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/common/tasks/main.yml[0m:58:3
+
+]8;id=139044;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:1
+
+]8;id=53711;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:2
+
+]8;id=474851;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:3
+
+]8;id=321987;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:4
+
+]8;id=12322;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:5
+
+]8;id=1176;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:6
+
+]8;id=440;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:7
+
+]8;id=991466;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:9
+
+]8;id=60021;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:10
+
+]8;id=594655;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:11
+
+]8;id=197210;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:12
+
+]8;id=833107;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:13
+
+]8;id=423651;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:14
+
+]8;id=590088;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:15
+
+]8;id=666059;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:16
+
+]8;id=526175;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:17
+
+]8;id=377219;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:18
+
+]8;id=647928;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:20
+
+]8;id=312372;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:21
+
+]8;id=120665;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:22
+
+]8;id=883537;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:23
+
+]8;id=491643;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:24
+
+]8;id=975057;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:25
+
+]8;id=54401;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:26
+
+]8;id=616645;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:27
+
+]8;id=361801;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:28
+
+]8;id=442247;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:29
+
+]8;id=933924;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:31
+
+]8;id=873982;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:32
+
+]8;id=518705;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:33
+
+]8;id=768617;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:34
+
+]8;id=670868;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:35
+
+]8;id=5459;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:36
+
+]8;id=461029;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:37
+
+]8;id=647942;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:38
+
+]8;id=328770;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:39
+
+]8;id=800763;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:40
+
+]8;id=786117;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:42
+
+]8;id=257665;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:43
+
+]8;id=824283;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:44
+
+]8;id=579568;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:45
+
+]8;id=821909;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:46
+
+]8;id=661225;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:47
+
+]8;id=748914;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:48
+
+]8;id=581818;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:49
+
+]8;id=692886;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:50
+
+]8;id=277449;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:51
+
+]8;id=460950;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:54
+
+]8;id=916783;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:55
+
+]8;id=535395;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:56
+
+]8;id=195879;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:57
+
+]8;id=953007;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:58
+
+]8;id=229702;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:59
+
+]8;id=612545;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:60
+
+]8;id=130757;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:61
+
+]8;id=845504;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:62
+
+]8;id=944256;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:64
+
+]8;id=439741;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:65
+
+]8;id=239090;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:66
+
+]8;id=124452;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:67
+
+]8;id=982306;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:68
+
+]8;id=342640;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:69
+
+]8;id=348023;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:71
+
+]8;id=860731;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:72
+
+]8;id=109953;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:73
+
+]8;id=991824;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:74
+
+]8;id=613146;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:75
+
+]8;id=940227;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:78
+
+]8;id=900170;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:79
+
+]8;id=510004;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:80
+
+]8;id=52155;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:81
+
+]8;id=22185;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:82
+
+]8;id=7231;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:83
+
+]8;id=518847;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:84
+
+]8;id=841280;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:86
+
+]8;id=773840;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:87
+
+]8;id=675009;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:88
+
+]8;id=694050;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:89
+
+]8;id=48104;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:90
+
+]8;id=982784;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:91
+
+]8;id=104322;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:93
+
+]8;id=499539;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:94
+
+]8;id=225470;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:95
+
+]8;id=136312;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:96
+
+]8;id=240513;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/common/tasks/permissions.yml[0m:97
+
+]8;id=704771;https://ansible.readthedocs.io/projects/lint/rules/name/\[1;91mname[template][0m]8;;\[2m:[0m [91mJinja templates should only be at the end of 'name'[0m
+[34mansible/roles/database/tasks/create_db.yml[0m:19 [2mTask/Handler: Grant privileges to {{ app.name }} user[0m
+
+]8;id=704435;https://ansible.readthedocs.io/projects/lint/rules/name/\[1;91mname[template][0m]8;;\[2m:[0m [91mJinja templates should only be at the end of 'name'[0m
+[34mansible/roles/database/tasks/create_db.yml[0m:30 [2mTask/Handler: Grant schema privileges to {{ app.name }} user[0m
+
+]8;id=189952;https://ansible.readthedocs.io/projects/lint/rules/name/\[1;91mname[template][0m]8;;\[2m:[0m [91mJinja templates should only be at the end of 'name'[0m
+[34mansible/roles/database/tasks/create_db.yml[0m:42 [2mTask/Handler: Grant default privileges to {{ app.name }} user[0m
+
+]8;id=696738;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (set_fact).[0m
+[34mansible/roles/database/tasks/main.yml[0m:2 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+
+]8;id=318753;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/database/tasks/main.yml[0m:13:3
+
+]8;id=888836;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[key-duplicates][0m]8;;\[2m:[0m [91mDuplication of key "command" in mapping[0m
+[34mansible/roles/database/tasks/main.yml[0m:38
+
+]8;id=401487;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (wait_for).[0m
+[34mansible/roles/database/tasks/main.yml[0m:79 [2mUse `ansible.builtin.wait_for` or `ansible.legacy.wait_for` instead.[0m
+
+]8;id=660449;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/database/tasks/main.yml[0m:87
+
+]8;id=83752;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/database/tasks/main.yml[0m:88
+
+]8;id=572589;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/database/tasks/main.yml[0m:89
+
+]8;id=277159;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/database/tasks/main.yml[0m:90
+
+]8;id=845956;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/database/tasks/main.yml[0m:91
+
+]8;id=960345;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/database/tasks/main.yml[0m:92
+
+]8;id=392421;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (include_tasks).[0m
+[34mansible/roles/database/tasks/main.yml[0m:95 [2mUse `ansible.builtin.include_tasks` or `ansible.legacy.include_tasks` instead.[0m
+
+]8;id=575302;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (set_fact).[0m
+[34mansible/roles/database/tasks/main.yml[0m:102 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+
+]8;id=852613;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[line-length][0m]8;;\[2m:[0m [91mLine too long (179 > 160 characters)[0m
+[34mansible/roles/database/tasks/main.yml[0m:104
+
+]8;id=536366;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[line-length][0m]8;;\[2m:[0m [91mLine too long (197 > 160 characters)[0m
+[34mansible/roles/database/tasks/main.yml[0m:105
+
+]8;id=266755;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:1
+
+]8;id=434039;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:2
+
+]8;id=82376;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:3
+
+]8;id=55858;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:4
+
+]8;id=476500;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:6
+
+]8;id=952669;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:7
+
+]8;id=607105;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:8
+
+]8;id=233753;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:9
+
+]8;id=736593;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:11:3
+
+]8;id=706216;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:33
+
+]8;id=97058;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:34
+
+]8;id=525177;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:35
+
+]8;id=696522;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:36
+
+]8;id=88418;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[colons][0m]8;;\[2m:[0m [91mToo many spaces after colon[0m
+[34mansible/roles/downloads/tasks/main.yml[0m:67
+
+]8;id=180900;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/homeassistant/tasks/main.yml[0m:1
+
+]8;id=294823;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/homeassistant/tasks/main.yml[0m:2
+
+]8;id=938697;https://ansible.readthedocs.io/projects/lint/rules/role-name/\[1;91mrole-name[0m]8;;\[2m:[0m [91mRole name media-managment does not match ``^[a-z][a-z0-9_]*$`` pattern.[0m
+[34mansible/roles/media-managment[0m:1
+
+]8;id=69322;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:2:3
+
+]8;id=7065;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:20
+
+]8;id=658271;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:21
+
+]8;id=56950;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:22
+
+]8;id=32694;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:23
+
+]8;id=394523;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:24
+
+]8;id=219956;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:25
+
+]8;id=6685;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:36
+
+]8;id=663323;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:37
+
+]8;id=992673;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/media-managment/tasks/main.yml[0m:38
+
+]8;id=380316;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/plex/tasks/main.yml[0m:2:3
+
+]8;id=554705;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/security/tasks/main.yml[0m:3:3
+
+]8;id=55465;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[line-length][0m]8;;\[2m:[0m [91mLine too long (206 > 160 characters)[0m
+[34mansible/roles/security/tasks/main.yml[0m:32
+
+]8;id=777517;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[line-length][0m]8;;\[2m:[0m [91mLine too long (301 > 160 characters)[0m
+[34mansible/roles/security/tasks/main.yml[0m:37
+
+]8;id=964604;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[line-length][0m]8;;\[2m:[0m [91mLine too long (236 > 160 characters)[0m
+[34mansible/roles/security/tasks/main.yml[0m:170
+
+]8;id=583184;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:2
+
+]8;id=419392;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:3
+
+]8;id=726076;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\[1;91msyntax-check[unknown-module][0m]8;;\[2m:[0m [91mcouldn't resolve module/action 'community.docker.docker_container'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[34mansible/roles/web/tasks/main.yml[0m:43:3
+
+]8;id=341668;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:87
+
+]8;id=918455;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:88
+
+]8;id=395162;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:89
+
+]8;id=740343;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:90
+
+]8;id=47106;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:91
+
+]8;id=825516;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:92
+
+]8;id=385411;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:93
+
+]8;id=666748;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:94
+
+]8;id=243251;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:95
+
+]8;id=241368;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:96
+
+]8;id=388727;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:97
+
+]8;id=234010;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:98
+
+]8;id=64798;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:99
+
+]8;id=858472;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:100
+
+]8;id=877485;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:101
+
+]8;id=61216;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:102
+
+]8;id=409965;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:103
+
+]8;id=492933;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:104
+
+]8;id=813926;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:106
+
+]8;id=319882;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:107
+
+]8;id=127447;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:108
+
+]8;id=404353;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:111
+
+]8;id=921492;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:114
+
+]8;id=258317;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:115
+
+]8;id=746795;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:116
+
+]8;id=950335;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:117
+
+]8;id=852273;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:118
+
+]8;id=792918;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:121
+
+]8;id=916076;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:122
+
+]8;id=814929;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:123
+
+]8;id=7272;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:126
+
+]8;id=716173;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:129
+
+]8;id=2177;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:130
+
+]8;id=513224;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:133
+
+]8;id=706389;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:134
+
+]8;id=444677;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:135
+
+]8;id=714373;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:136
+
+]8;id=550888;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:137
+
+]8;id=339408;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:138
+
+]8;id=802984;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:139
+
+]8;id=973010;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:140
+
+]8;id=316954;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:141
+
+]8;id=70681;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:142
+
+]8;id=414244;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:143
+
+]8;id=476395;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:144
+
+]8;id=384623;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:145
+
+]8;id=539448;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:146
+
+]8;id=773182;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:147
+
+]8;id=521796;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:148
+
+]8;id=24823;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:149
+
+]8;id=507180;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:150
+
+]8;id=869703;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:152
+
+]8;id=848368;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:153
+
+]8;id=268816;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:154
+
+]8;id=258752;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:155
+
+]8;id=877569;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:156
+
+]8;id=759796;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:157
+
+]8;id=375937;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:158
+
+]8;id=610708;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:159
+
+]8;id=757527;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:201
+
+]8;id=443570;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:202
+
+]8;id=449286;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:203
+
+]8;id=920568;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:204
+
+]8;id=101497;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:205
+
+]8;id=531760;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:206
+
+]8;id=592993;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:217
+
+]8;id=804854;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:218
+
+]8;id=90504;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[comments][0m]8;;\[2m:[0m [91mMissing starting space in comment[0m
+[34mansible/roles/web/tasks/main.yml[0m:219
+
+]8;id=596290;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (file).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:2 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+
+]8;id=606605;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[indentation][0m]8;;\[2m:[0m [91mWrong indentation: expected 0 but found 4[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:2
+
+]8;id=978907;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (stat).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:8 [2mUse `ansible.builtin.stat` or `ansible.legacy.stat` instead.[0m
+
+]8;id=77278;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (command).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:13 [2mUse `ansible.builtin.command` or `ansible.legacy.command` instead.[0m
+
+]8;id=294828;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (set_fact).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:20 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+
+]8;id=829288;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (command).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:25 [2mUse `ansible.builtin.command` or `ansible.legacy.command` instead.[0m
+
+]8;id=790100;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (command).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:31 [2mUse `ansible.builtin.command` or `ansible.legacy.command` instead.[0m
+
+]8;id=846988;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (set_fact).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:36 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+
+]8;id=839031;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (debug).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:41 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+
+]8;id=2785;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (copy).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:46 [2mUse `ansible.builtin.copy` or `ansible.legacy.copy` instead.[0m
+
+]8;id=883101;https://ansible.readthedocs.io/projects/lint/rules/risky-file-permissions/\[1;91mrisky-file-permissions[0m]8;;\[2m:[0m [91mFile permissions unset or incorrect.[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:46 [2mTask/Handler: Create OpenSSL configuration for SAN[0m
+
+]8;id=565857;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (shell).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:71 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+
+]8;id=890611;https://ansible.readthedocs.io/projects/lint/rules/no-changed-when/\[1;91mno-changed-when[0m]8;;\[2m:[0m [91mCommands should not change things if nothing needs doing.[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:71 [2mTask/Handler: Generate new certificate if missing or expiring within 30 days[0m
+
+]8;id=108884;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\[1;91mfqcn[action-core][0m]8;;\[2m:[0m [91mUse FQCN for builtin module actions (debug).[0m
+[34mansible/roles/web/tasks/ssl.yml[0m:79 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+
+]8;id=156731;https://ansible.readthedocs.io/projects/lint/rules/name/\[1;91mname[template][0m]8;;\[2m:[0m [91mJinja templates should only be at the end of 'name'[0m
+[34mansible/shared-tasks/docker-app.yml[0m:2 [2mTask/Handler: Start {{ app_name }} container[0m
+
+]8;id=59341;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[truthy][0m]8;;\[2m:[0m [91mTruthy value should be one of [false, true][0m
+[34mansible/shared-tasks/permissions.yml[0m:9
+
+]8;id=310022;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[truthy][0m]8;;\[2m:[0m [91mTruthy value should be one of [false, true][0m
+[34mansible/shared-tasks/permissions.yml[0m:14
+
+]8;id=528726;https://ansible.readthedocs.io/projects/lint/rules/yaml/\[1;91myaml[colons][0m]8;;\[2m:[0m [91mToo many spaces after colon[0m
+[34mansible/vars.yml[0m:3
+
+Read ]8;id=217382;https://ansible.readthedocs.io/projects/lint/configuring/#ignoring-rules-for-entire-files\documentation]8;;\ for instructions on how to ignore specific rule violations.
+
+[3m                          Rule Violation Summary                          [0m
+[1m [0m[1mcount[0m[1m [0m[1mtag                         [0m[1m [0m[1mprofile   [0m[1m [0m[1mrule associated tags      [0m[1m [0m
+[31m [0m[31m   11[0m[31m [0m]8;id=703803;https://ansible.readthedocs.io/projects/lint/rules/syntax-check\[31msyntax-check[unknown-module][0m]8;;\[31m [0m[31mmin       [0m[31m [0m[31mcore, unskippable         [0m[31m [0m
+[33m [0m[33m   11[0m[33m [0m]8;id=493284;https://ansible.readthedocs.io/projects/lint/rules/jinja\[33mjinja[spacing][0m]8;;\[33m              [0m[33m [0m[33mbasic     [0m[33m [0m[33mformatting (warning)      [0m[33m [0m
+[31m [0m[31m    2[0m[31m [0m]8;id=65647;https://ansible.readthedocs.io/projects/lint/rules/role-name\[31mrole-name[0m]8;;\[31m                   [0m[31m [0m[31mbasic     [0m[31m [0m[31mdeprecations, metadata    [0m[31m [0m
+[31m [0m[31m   31[0m[31m [0m]8;id=999143;https://ansible.readthedocs.io/projects/lint/rules/var-naming\[31mvar-naming[pattern][0m]8;;\[31m         [0m[31m [0m[31mbasic     [0m[31m [0m[31midiom                     [0m[31m [0m
+[31m [0m[31m    2[0m[31m [0m]8;id=732906;https://ansible.readthedocs.io/projects/lint/rules/yaml\[31myaml[colons][0m]8;;\[31m                [0m[31m [0m[31mbasic     [0m[31m [0m[31mformatting, yaml          [0m[31m [0m
+[31m [0m[31m  276[0m[31m [0m]8;id=577548;https://ansible.readthedocs.io/projects/lint/rules/yaml\[31myaml[comments][0m]8;;\[31m              [0m[31m [0m[31mbasic     [0m[31m [0m[31mformatting, yaml          [0m[31m [0m
+[31m [0m[31m    4[0m[31m [0m]8;id=76287;https://ansible.readthedocs.io/projects/lint/rules/yaml\[31myaml[indentation][0m]8;;\[31m           [0m[31m [0m[31mbasic     [0m[31m [0m[31mformatting, yaml          [0m[31m [0m
+[31m [0m[31m    1[0m[31m [0m]8;id=421861;https://ansible.readthedocs.io/projects/lint/rules/yaml\[31myaml[key-duplicates][0m]8;;\[31m        [0m[31m [0m[31mbasic     [0m[31m [0m[31mformatting, yaml          [0m[31m [0m
+[31m [0m[31m    6[0m[31m [0m]8;id=470244;https://ansible.readthedocs.io/projects/lint/rules/yaml\[31myaml[line-length][0m]8;;\[31m           [0m[31m [0m[31mbasic     [0m[31m [0m[31mformatting, yaml          [0m[31m [0m
+[31m [0m[31m    2[0m[31m [0m]8;id=444589;https://ansible.readthedocs.io/projects/lint/rules/yaml\[31myaml[truthy][0m]8;;\[31m                [0m[31m [0m[31mbasic     [0m[31m [0m[31mformatting, yaml          [0m[31m [0m
+[31m [0m[31m    4[0m[31m [0m]8;id=294115;https://ansible.readthedocs.io/projects/lint/rules/name\[31mname[template][0m]8;;\[31m              [0m[31m [0m[31mmoderate  [0m[31m [0m[31midiom                     [0m[31m [0m
+[31m [0m[31m    1[0m[31m [0m]8;id=783590;https://ansible.readthedocs.io/projects/lint/rules/risky-file-permissions\[31mrisky-file-permissions[0m]8;;\[31m      [0m[31m [0m[31msafety    [0m[31m [0m[31munpredictability          [0m[31m [0m
+[31m [0m[31m    1[0m[31m [0m]8;id=548666;https://ansible.readthedocs.io/projects/lint/rules/ignore-errors\[31mignore-errors[0m]8;;\[31m               [0m[31m [0m[31mshared    [0m[31m [0m[31munpredictability          [0m[31m [0m
+[31m [0m[31m    1[0m[31m [0m]8;id=512601;https://ansible.readthedocs.io/projects/lint/rules/no-changed-when\[31mno-changed-when[0m]8;;\[31m             [0m[31m [0m[31mshared    [0m[31m [0m[31mcommand-shell, idempotency[0m[31m [0m
+[31m [0m[31m    1[0m[31m [0m]8;id=867077;https://ansible.readthedocs.io/projects/lint/rules/no-handler\[31mno-handler[0m]8;;\[31m                  [0m[31m [0m[31mshared    [0m[31m [0m[31midiom                     [0m[31m [0m
+[31m [0m[31m   20[0m[31m [0m]8;id=178638;https://ansible.readthedocs.io/projects/lint/rules/fqcn\[31mfqcn[action-core][0m]8;;\[31m           [0m[31m [0m[31mproduction[0m[31m [0m[31mformatting                [0m[31m [0m
+
+[1;31mFailed[0m: [1;36m363[0m [1;35mfailure[0m[1m([0ms[1m)[0m, [1;36m11[0m [1;35mwarning[0m[1m([0ms[1m)[0m on [1;36m49[0m files.
+
+Check for Linting error on Jinja2 templates..............................[41mFailed[m
+[2m- hook id: j2lint[m
+[2m- exit code: 2[m
+
+[92m────────────────────────────── [0m[1;31mJINJA2 LINT ERRORS[0m[92m ──────────────────────────────[0m
+ansible/roles/security/templates/users_database_auth.yml.j2
+├── [32mansible/roles/security/templates/users_database_auth.yml.j2[0m:[31m8[0m Bad
+│   Indentation, expected 5, got 1[34m (jinja-statements-indentation)[0m
+└── [32mansible/roles/security/templates/users_database_auth.yml.j2[0m:[31m10[0m Bad
+    Indentation, expected 5, got 1[34m (jinja-statements-indentation)[0m
+ansible/roles/web/templates/traefik-dynamic.yml.j2
+└── [32mansible/roles/web/templates/traefik-dynamic.yml.j2[0m:[31m19[0m All variables should
+    use lower case: '{{ variable }}': CROWDSEC_API[34m (jinja-variable-lower-case)[0m
+ansible/roles/security/templates/config_auth.yml.j2
+├── [32mansible/roles/security/templates/config_auth.yml.j2[0m:[31m15[0m All variables should
+│   use lower case: '{{ variable }}': DOMAIN[34m (jinja-variable-lower-case)[0m
+├── [32mansible/roles/security/templates/config_auth.yml.j2[0m:[31m20[0m All variables should
+│   use lower case: '{{ variable }}': PASSWORD_HASH[34m (jinja-variable-lower-case)[0m
+└── [32mansible/roles/security/templates/config_auth.yml.j2[0m:[31m22[0m All variables should
+    use lower case: '{{ variable }}': DOMAIN[34m (jinja-variable-lower-case)[0m
+ansible/roles/web/templates/pi-hole-johnflix-local-dns.conf.j2
+└── [32mansible/roles/web/templates/pi-hole-johnflix-local-dns.conf.j2[0m:[31m3[0m All
+    variables should use lower case: '{{ variable }}': DOMAIN[34m [0m
+    [34m(jinja-variable-lower-case)[0m
+ansible/roles/web/templates/traefik.yml.j2
+├── [32mansible/roles/web/templates/traefik.yml.j2[0m:[31m59[0m All variables should use lower
+│   case: '{{ variable }}': EMAIL[34m (jinja-variable-lower-case)[0m
+└── [32mansible/roles/web/templates/traefik.yml.j2[0m:[31m78[0m All variables should use lower
+    case: '{{ variable }}': DOMAIN[34m (jinja-variable-lower-case)[0m
+
+Jinja2 linting finished with [1;36m9[0m [1;35merror[0m[1m([0ms[1m)[0m and [1;36m0[0m [1;35mwarning[0m[1m([0ms[1m)[0m
