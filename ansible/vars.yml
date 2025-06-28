@@ -25,6 +25,6 @@ local_dns: [
 authelia_users:
   - username: feves
     displayname: "John"
-    password: "{{ hostvars['localhost'].PASSWORD }}"
+    password: "{{ hostvars['localhost'].PASSWORD}}"
     email: "{{ hostvars['localhost'].EMAIL }}"
     groups: ["admins"]

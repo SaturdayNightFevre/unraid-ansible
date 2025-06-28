@@ -15,11 +15,11 @@
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/radarr-logo.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://films.{{ domain }}"
+      net.unraid.docker.webui: "https://films.{{ DOMAIN }}"
       traefik.enable: "true"
       traefik.http.services.films.loadbalancer.server.port: "7878"
       traefik.http.routers.films-router.tls.certresolver: "letsencrypt"
-      traefik.http.routers.films-router.rule: "Host(`films.{{ domain }}`)"
+      traefik.http.routers.films-router.rule: "Host(`films.{{ DOMAIN }}`)"
       traefik.http.routers.films-router.entrypoints: "https"
       traefik.http.routers.films-router.middlewares: "authentik@docker"
     log_driver: json-file
@@ -40,86 +40,41 @@
     memory: "1g"
     cpus: 1
 
-- name: Start tv container
+- name: Start Huntarr container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    name: tv
-    image: linuxserver/sonarr:4.0.10
-    published_ports: ["8989:8989"]
+    name: huntarr
+    image: huntarr/huntarr:7.6.0
+    published_ports: ["9705:9705"]
     env:
-      PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-    ipc_mode: private
+      TZ: "{{ timezone }}"
+    networks:
+      - name: web
     labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/sonarr-icon.png"
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/plexguide/Huntarr.io/main/frontend/static/logo/512.png" # Placeholder, find actual icon if available
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://tv.{{ domain }}"
+      net.unraid.docker.webui: "https://huntarr.{{ domain }}"
       traefik.enable: "true"
-      traefik.http.routers.tv-router.tls.certresolver: "letsencrypt"
-      traefik.http.services.tv.loadbalancer.server.port: "8989"
-      traefik.http.routers.tv-router.rule: "Host(`tv.{{ domain }}`)"
-      traefik.http.routers.tv-router.entrypoints: "https"
-      traefik.http.routers.tv-router.middlewares: "authentik@docker"
+      traefik.http.services.huntarr.loadbalancer.server.port: "9705"
+      traefik.http.routers.huntarr-router.tls.certresolver: "letsencrypt"
+      traefik.http.routers.huntarr-router.rule: "Host(`huntarr.{{ domain }}`)"
+      traefik.http.routers.huntarr-router.entrypoints: "https"
+      traefik.http.routers.huntarr-router.middlewares: "authentik@docker"
     log_driver: json-file
     log_options:
       max-file: "1"
       max-size: 10m
-    networks:
-      - name: web
     restart_policy: always
     volumes:
-    - "{{ app_data_dir }}/sonarr/dev/rtc:/dev/rtc:ro"
-    - "{{ app_data_dir }}/sonarr:/config"
-    - "{{ dwnlds_dir }}:/downloads"
-    - "{{ media_dir }}/TV Shows:/tv"
-    working_dir: /
+      - "{{ app_data_dir }}/huntarr:/config"
     security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
-    #read_only: true
-    #tmpfs:
-      #- "/run:exec"
     memory: "1g"
     cpus: 1
-
-#- name: Start Huntarr container
-  #community.docker.docker_container:
-    #image_name_mismatch: "recreate"
-    #pull: "always"
-    #name: huntarr
-    #image: huntarr/huntarr:7.6.0
-    #published_ports: ["9705:9705"]
-    #env:
-      #PUID: "{{ PUID }}"
-      #PGID: "{{ PGID }}"
-      #TZ: "{{ timezone }}"
-    #networks:
-      #- name: web
-    #labels:
-      # Placeholder, find actual icon if available
-      #net.unraid.docker.icon: "https://raw.githubusercontent.com/plexguide/Huntarr.io/main/frontend/static/logo/512.png"
-      #net.unraid.docker.managed: "dockerman"
-      #net.unraid.docker.webui: "https://huntarr.{{ domain }}"
-      #traefik.enable: "true"
-      #traefik.http.services.huntarr.loadbalancer.server.port: "9705"
-      #traefik.http.routers.huntarr-router.tls.certresolver: "letsencrypt"
-      #traefik.http.routers.huntarr-router.rule: "Host(`huntarr.{{ domain }}`)"
-      #traefik.http.routers.huntarr-router.entrypoints: "https"
-      #traefik.http.routers.huntarr-router.middlewares: "authentik@docker"
-    #log_driver: json-file
-    #log_options:
-      #max-file: "1"
-      #max-size: 10m
-    #restart_policy: always
-    #volumes:
-      #- "{{ app_data_dir }}/huntarr:/config"
-    #security_opts:
-      #- no-new-privileges:true
-      #- apparmor=docker-default
-    #memory: "1g"
-    #cpus: 1
 
 - name: Start Cleanuperr container
   community.docker.docker_container:

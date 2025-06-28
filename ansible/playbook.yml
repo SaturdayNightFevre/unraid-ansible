@@ -7,19 +7,19 @@
     - runner
   tasks:
     - name: Set Ansible facts from environment variables
-      ansible.builtin.set_fact:
-        email: "{{ lookup('env', 'EMAIL') }}"
-        duck_dns_token: "{{ lookup('env', 'DUCK_DNS_TOKEN') }}"
-        cf_key: "{{ lookup('env', 'CF_KEY') }}"
-        domain: "{{ lookup('env', 'DOMAIN') }}"
-        password_hash: "{{ lookup('env', 'PASSWORD_HASH') }}"
-        password: "{{ lookup('env', 'PASSWORD') }}"
-        openvpn_user: "{{ lookup('env', 'OPENVPN_USER') }}"
-        openvpn_password: "{{ lookup('env', 'OPENVPN_PASSWORD') }}"
-        crowdsec_api: "{{ lookup('env', 'CROWDSEC_API') }}"
-        deluge_password: "{{ lookup('env', 'DELUGE_PASSWORD') }}"
-        sonarr_api_key: "{{ lookup('env', 'SONARR_API_KEY') }}"
-        radarr_api_key: "{{ lookup('env', 'RADARR_API_KEY') }}"
+      set_fact:
+        EMAIL: "{{ lookup('env', 'EMAIL') }}"
+        DUCK_DNS_TOKEN: "{{ lookup('env', 'DUCK_DNS_TOKEN') }}"
+        CF_KEY: "{{ lookup('env', 'CF_KEY') }}"
+        DOMAIN: "{{ lookup('env', 'DOMAIN') }}"
+        PASSWORD_HASH: "{{ lookup('env', 'PASSWORD_HASH') }}"
+        PASSWORD: "{{ lookup('env', 'PASSWORD') }}"
+        OPENVPN_USER: "{{ lookup('env', 'OPENVPN_USER') }}"
+        OPENVPN_PASSWORD: "{{ lookup('env', 'OPENVPN_PASSWORD') }}"
+        CROWDSEC_API: "{{ lookup('env', 'CROWDSEC_API') }}"
+        DELUGE_PASSWORD: "{{ lookup('env', 'DELUGE_PASSWORD') }}"
+        SONARR_API_KEY: "{{ lookup('env', 'SONARR_API_KEY') }}"
+        RADARR_API_KEY: "{{ lookup('env', 'RADARR_API_KEY') }}"
 
 - name: Ensure Docker and Networks
   hosts: johnflix
@@ -34,14 +34,14 @@
   become: false
   pre_tasks:
     - name: Loading environment variables
-      ansible.builtin.set_fact:
-        email: "{{ hostvars['localhost'].email }}"
-        duck_dns_token: "{{ hostvars['localhost'].duck_dns_token }}"
-        cf_key: "{{ hostvars['localhost'].cf_key }}"
-        domain: "{{ hostvars['localhost'].domain }}"
-        password_hash: "{{ hostvars['localhost'].password_hash }}"
-        password: "{{ hostvars['localhost'].password }}"
-        crowdsec_api: "{{ hostvars['localhost'].crowdsec_api }}"
+      set_fact:
+        EMAIL: "{{ hostvars['localhost'].EMAIL }}"
+        DUCK_DNS_TOKEN: "{{ hostvars['localhost'].DUCK_DNS_TOKEN }}"
+        CF_KEY: "{{ hostvars['localhost'].CF_KEY }}"
+        DOMAIN: "{{ hostvars['localhost'].DOMAIN }}"
+        PASSWORD_HASH: "{{ hostvars['localhost'].PASSWORD_HASH}}"
+        PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"
+        CROWDSEC_API: "{{ hostvars['localhost'].CROWDSEC_API }}"
   roles:
     - database
     - security
@@ -53,13 +53,13 @@
   become: false
   pre_tasks:
     - name: Loading environment variables
-      ansible.builtin.set_fact:
-        email: "{{ hostvars['localhost'].email }}"
-        duck_dns_token: "{{ hostvars['localhost'].duck_dns_token }}"
-        cf_key: "{{ hostvars['localhost'].cf_key }}"
-        domain: "{{ hostvars['localhost'].domain }}"
-        password_hash: "{{ hostvars['localhost'].password_hash }}"
-        password: "{{ hostvars['localhost'].password }}"
+      set_fact:
+        EMAIL: "{{ hostvars['localhost'].EMAIL }}"
+        DUCK_DNS_TOKEN: "{{ hostvars['localhost'].DUCK_DNS_TOKEN }}"
+        CF_KEY: "{{ hostvars['localhost'].CF_KEY }}"
+        DOMAIN: "{{ hostvars['localhost'].DOMAIN }}"
+        PASSWORD_HASH: "{{ hostvars['localhost'].PASSWORD_HASH}}"
+        PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"
   roles:
     - web
   vars_files:
@@ -70,11 +70,11 @@
   become: false
   pre_tasks:
     - name: Loading environment variables
-      ansible.builtin.set_fact:
-        openvpn_user: "{{ hostvars['localhost'].openvpn_user }}"
-        openvpn_password: "{{ hostvars['localhost'].openvpn_password }}"
+      set_fact:
+        OPENVPN_USER: "{{ hostvars['localhost'].OPENVPN_USER }}"
+        OPENVPN_PASSWORD: "{{ hostvars['localhost'].OPENVPN_PASSWORD }}"
   roles:
-    - downloads
+   - downloads
   vars_files:
     - vars.yml
 
@@ -83,15 +83,15 @@
   become: false
   gather_facts: false
   roles:
-    - arrs_4k
+    - 4k-arrs
     - arrs
     - plex
   vars_files:
     - vars.yml
   pre_tasks:
-    - name: Loading environment variables
-      ansible.builtin.set_fact:
-        password: "{{ hostvars['localhost'].password }}"
-        deluge_password: "{{ hostvars['localhost'].deluge_password }}"
-        sonarr_api_key: "{{ hostvars['localhost'].sonarr_api_key }}"
-        radarr_api_key: "{{ hostvars['localhost'].radarr_api_key }}"
+  - name: Loading environment variables
+    set_fact:
+      PASSWORD: "{{ hostvars['localhost'].PASSWORD}}"
+      DELUGE_PASSWORD: "{{ hostvars['localhost'].DELUGE_PASSWORD}}"
+      SONARR_API_KEY: "{{ hostvars['localhost'].SONARR_API_KEY}}"
+      RADARR_API_KEY: "{{ hostvars['localhost'].RADARR_API_KEY}}"

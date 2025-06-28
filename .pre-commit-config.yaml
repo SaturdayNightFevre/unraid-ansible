@@ -11,26 +11,114 @@ repos:
       - id: trailing-whitespace
       - id: check-merge-conflict
 
-  ## YAML linting for non-template files
-  #- repo: https://github.com/adrienverge/yamllint.git
-    #rev: v1.35.1
-    #hooks:
-      #- id: yamllint
-        #name: Lint YAML files
-        #exclude: '\.j2$'  # Skip Jinja2 templates
-        #args: [--strict, --config-data, '{extends: relaxed, rules: {line-length: {max: 120}}}']
+  # YAML linting for non-template files
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        name: Lint YAML files
+        exclude: '\.j2$'  # Skip Jinja2 templates
+        args: [--strict, --config-data, '{extends: relaxed, rules: {line-length: {max: 120}}}']
 
   # Ansible linting
-  #- repo: https://github.com/ansible/ansible-lint
-    #rev: v24.6.0
-    #hooks:
-      #- id: ansible-lint
-        #name: Lint Ansible playbooks
-        #files: \.(yml|yaml)$
-        #exclude: '\.j2$'  # Skip templates, ansible-lint will check them separately
-        #args: ['--skip-list=yaml[comments]']
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v24.6.0
+    hooks:
+      - id: ansible-lint
+        name: Lint Ansible playbooks
+        files: \.(yml|yaml)$
+        exclude: '\.j2$'  # Skip templates, ansible-lint will check them separately
 
-  #- repo: https://github.com/aristanetworks/j2lint.git
-    #rev: v1.2.0
-    #hooks:
-      #- id: j2lint
+  # Custom hook for Jinja2 template validation
+  - repo: local
+    hooks:
+      - id: validate-jinja2-templates
+        name: Validate Jinja2 templates
+        entry: python3
+        language: system
+        files: '\.j2$'
+        args:
+          - -c
+          - |
+            import sys
+            import jinja2
+            import yaml
+            
+            # Test variables for rendering templates
+            test_vars = {
+                'local_ip': '192.168.1.10',
+                'DOMAIN': 'example.com',
+                'domain': 'example.com',
+                'subnet': '192.168.1.0/24',
+                'wg_subnet': '10.253.0.0/24',
+                'CROWDSEC_API': 'dummy_api_key',
+                'EMAIL': 'test@example.com',
+                'CF_KEY': 'dummy_cf_key',
+                'DUCK_DNS_TOKEN': 'dummy_duck_token',
+                'PASSWORD_HASH': 'dummy_hash',
+                'PASSWORD': 'dummy_password',
+                'authentik_db_password': 'dummy_auth_password',
+                'AUTHENTIK_SECRET_KEY': 'dummy_secret_key',
+                'AUTHENTIK_VERSION': '2025.4'
+            }
+            
+            for template_file in sys.argv[1:]:
+                print(f"Validating template: {template_file}")
+                
+                try:
+                    # Load and render template
+                    with open(template_file, 'r') as f:
+                        template_content = f.read()
+                    
+                    template = jinja2.Template(template_content)
+                    rendered = template.render(**test_vars)
+                    
+                    # For YAML templates, validate the rendered YAML
+                    if template_file.endswith('.yml.j2') or template_file.endswith('.yaml.j2') or 'traefik' in template_file:
+                        try:
+                            parsed_yaml = yaml.safe_load(rendered)
+                            
+                            # Check for common Traefik config issues
+                            if isinstance(parsed_yaml, dict) and 'http' in parsed_yaml and 'middlewares' in parsed_yaml['http']:
+                                middlewares = parsed_yaml['http']['middlewares']
+                                for mw_name, mw_config in middlewares.items():
+                                    if isinstance(mw_config, dict) and 'rateLimit' in mw_config:
+                                        rate_limit = mw_config['rateLimit']
+                                        # Check for ipStrategy misconfiguration
+                                        if 'ipStrategy' in rate_limit and 'sourceCriterion' in rate_limit:
+                                            if not isinstance(rate_limit['sourceCriterion'], dict) or 'ipStrategy' not in rate_limit['sourceCriterion']:
+                                                print(f"❌ Potential ipStrategy nesting issue in {template_file}, middleware '{mw_name}'")
+                                                print("   ipStrategy should be nested under sourceCriterion, not at the same level")
+                                                sys.exit(1)
+                                        
+                                        # Check for empty sourceCriterion
+                                        if 'sourceCriterion' in rate_limit and not rate_limit['sourceCriterion']:
+                                            print(f"❌ Empty sourceCriterion in {template_file}, middleware '{mw_name}'")
+                                            print("   Remove sourceCriterion or provide a value")
+                                            sys.exit(1)
+                            
+                            print(f"✅ Template renders to valid YAML: {template_file}")
+                            
+                        except yaml.YAMLError as ye:
+                            print(f"❌ Rendered YAML invalid in {template_file}: {ye}")
+                            print("Rendered content:")
+                            print(rendered)
+                            sys.exit(1)
+                    else:
+                        print(f"✅ Template syntax valid: {template_file}")
+                    
+                except jinja2.TemplateError as e:
+                    print(f"❌ Jinja2 template error in {template_file}: {e}")
+                    sys.exit(1)
+                except Exception as e:
+                    print(f"❌ Error processing {template_file}: {e}")
+                    sys.exit(1)
+
+  # Secrets detection
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        name: Detect secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: \.secrets\.baseline$

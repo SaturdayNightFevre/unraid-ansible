@@ -20,7 +20,7 @@
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-      TZ: "{{ timezone }}"
+      TZ: "{{timezone}}"
       DOCKER_MODS: "linuxserver/mods:universal-calibre"
       OAUTHLIB_RELAX_TOKEN_SCOPE: "1"
     labels:
@@ -70,7 +70,7 @@
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-      TZ: "{{ timezone }}"
+      TZ: "{{timezone}}"
     volumes:
       - "{{ app_data_dir }}/readarr/:/config"
       - "{{ media_dir }}/Books/Calibre Library:/books"
@@ -109,7 +109,7 @@
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-      TZ: "{{ timezone }}"
+      TZ: "{{timezone}}"
     volumes:
       - "{{ app_data_dir }}/calibre/config:/config"
       - "{{ app_data_dir }}/calibre/upload:/uploads"
@@ -137,3 +137,4 @@
       #- "/run:exec"
     memory: "1g"
     cpus: 1
+

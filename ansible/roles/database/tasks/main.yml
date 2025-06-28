@@ -1,6 +1,6 @@
 ---
 - name: Set application database variables
-  ansible.builtin.set_fact:
+  set_fact:
     applications:
       - name: "authentik"
         db_name: "authentik"
@@ -16,6 +16,7 @@
     pull: "always"
     name: redis
     image: docker.io/library/redis:alpine
+    command: --save 60 1 --loglevel warning
     restart_policy: "unless-stopped"
     labels:
       net.unraid.docker.icon: "https://raw.githubusercontent.com/juusujanar/unraid-templates/master/img/Redis-logo.png"
@@ -65,7 +66,7 @@
       TZ: "{{ timezone }}"
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-      POSTGRES_PASSWORD: "{{ password }}"
+      POSTGRES_PASSWORD: "{{ PASSWORD }}"
       POSTGRES_USER: "{{ postgres_admin_user }}"
     ports:
       - "5432:5432"
@@ -76,39 +77,31 @@
 
 # 2. Wait for PostgreSQL to be ready
 - name: Wait for PostgreSQL to be ready
-  ansible.builtin.wait_for:
+  wait_for:
     host: localhost
     port: 5432
     delay: 10
     timeout: 60
 
 ## 3. Wait for Redis to be ready (adding this step)
-- name: Wait for Redis to be ready
-  ansible.builtin.wait_for:
-    host: localhost
-    port: 6379
-    delay: 5
-    timeout: 30
+#- name: Wait for Redis to be ready
+#wait_for:
+#host: localhost
+#port: 6379
+#delay: 5
+#timeout: 30
 
 # 4. Create databases and users for each application
 - name: Create application databases and users
-  ansible.builtin.include_tasks: create_db.yml
+  include_tasks: create_db.yml
   loop: "{{ applications }}"
   loop_control:
     loop_var: app
 
 # 5. Register connection strings for applications to use
 - name: Set application connection strings
-  ansible.builtin.set_fact:
-    app_db_connections: >
-      {{ app_db_connections | default({}) | combine({
-        item.name: 'postgresql://' + item.db_user + ':' + item.db_password + '@postgres:5432/' + item.db_name
-      }) }}
-    app_redis_connections: >
-      {{
-        app_redis_connections | default({}) | combine({item.name: 'redis://redis:6379/0'})
-        if item.redis_enabled | default(false)
-        else app_redis_connections | default({})
-      }}
+  set_fact:
+    app_db_connections: "{{ app_db_connections | default({}) | combine({item.name: 'postgresql://' + item.db_user + ':' + item.db_password + '@postgres:5432/' + item.db_name}) }}"
+    app_redis_connections: "{{ app_redis_connections | default({}) | combine({item.name: 'redis://redis:6379/0'}) if item.redis_enabled | default(false) else app_redis_connections | default({}) }}"
   loop: "{{ applications }}"
   no_log: true # Hide sensitive info from logs

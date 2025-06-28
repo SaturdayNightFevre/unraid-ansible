@@ -21,8 +21,8 @@
       - "{{ app_data_dir }}/gluetun:/gluetun"
     env:
       VPN_SERVICE_PROVIDER: "private internet access"
-      OPENVPN_USER: "{{ openvpn_user }}"
-      OPENVPN_PASSWORD: "{{ openvpn_password }}"
+      OPENVPN_USER: "{{ OPENVPN_USER }}"
+      OPENVPN_PASSWORD: "{{ OPENVPN_PASSWORD }}"
       SERVER_REGIONS: "Netherlands"
       VPN_PORT_FORWARDING: "on"
       FIREWALL_OUTBOUND_SUBNETS: "{{ subnet }}"
@@ -64,7 +64,7 @@
     env:
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-      TZ: "{{ timezone }}"
+      TZ:  "{{ timezone }}"
       DELUGE_LOGLEVEL: "debug"   # Optional
     volumes:
       - "{{ app_data_dir }}/deluge:/config"
