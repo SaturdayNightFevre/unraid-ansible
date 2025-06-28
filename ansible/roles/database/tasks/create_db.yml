@@ -3,7 +3,7 @@
   community.postgresql.postgresql_db:
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
-    login_password: "{{ PASSWORD }}"
+    login_password: "{{ password }}"
     name: "{{ app.db_name }}"
     state: present
 
@@ -11,7 +11,7 @@
   community.postgresql.postgresql_user:
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
-    login_password: "{{ PASSWORD }}"
+    login_password: "{{ password }}"
     name: "{{ app.db_user }}"
     password: "{{ app.db_password }}"
     state: present
@@ -20,7 +20,7 @@
   community.postgresql.postgresql_privs:
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
-    login_password: "{{ PASSWORD }}"
+    login_password: "{{ password }}"
     login_db: "{{ app.db_name }}"
     role: "{{ app.db_user }}"
     type: database
@@ -31,7 +31,7 @@
   community.postgresql.postgresql_privs:
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
-    login_password: "{{ PASSWORD }}"
+    login_password: "{{ password }}"
     login_db: "{{ app.db_name }}"
     role: "{{ app.db_user }}"
     type: schema
@@ -43,7 +43,7 @@
   community.postgresql.postgresql_query:
     login_host: localhost
     login_user: "{{ postgres_admin_user }}"
-    login_password: "{{ PASSWORD }}"
+    login_password: "{{ password }}"
     login_db: "{{ app.db_name }}"
     query: |
       ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO "{{ app.db_user }}";
