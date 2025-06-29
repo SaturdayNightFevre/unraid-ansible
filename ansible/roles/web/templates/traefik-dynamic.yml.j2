@@ -17,7 +17,7 @@ http:
           crowdsecAppsecHost: {{ local_ip }}:7422
           crowdsecAppsecFailureBlock: true
           crowdsecAppsecUnreachableBlock: true
-          crowdsecLapiKey: {{ crowdsec_api_key | default(CROWDSEC_API) }}
+          crowdsecLapiKey: {{ CROWDSEC_API }}
           crowdsecLapiHost: {{ local_ip }}:9876
           crowdsecLapiScheme: http
           crowdsecLapiTLSInsecureVerify: false
