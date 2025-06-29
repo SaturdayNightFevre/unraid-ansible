@@ -58,7 +58,9 @@ http:
       tls:
         certResolver: letsencrypt
       middlewares:
-        - secure@file
+          - default-hsts
+          - ratelimit
+          - authentik@docker
     homeassistant-app-auth:
       rule: "Host(`homeassistant.{{ domain }}`) && ( (PathPrefix(`/auth/`)) && !(PathPrefix(`/auth/token`)) )"
       service: homeassistant
@@ -66,7 +68,9 @@ http:
       entryPoints:
         - https
       middlewares:
-        - secure@file
+          - default-hsts
+          - ratelimit
+          - authentik@docker
 
   services:
     homeassistant:
