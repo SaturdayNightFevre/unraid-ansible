@@ -5,6 +5,7 @@ http:
         middlewares:
           - default-hsts
           - ratelimit
+          - crowdsec@file
           - authentik@docker
     crowdsec:
       plugin:
@@ -16,7 +17,7 @@ http:
           crowdsecAppsecHost: {{ local_ip }}:7422
           crowdsecAppsecFailureBlock: true
           crowdsecAppsecUnreachableBlock: true
-          crowdsecLapiKey: {{ CROWDSEC_API }}
+          crowdsecLapiKey: {{ crowdsec_api_key | default(CROWDSEC_API) }}
           crowdsecLapiHost: {{ local_ip }}:9876
           crowdsecLapiScheme: http
           crowdsecLapiTLSInsecureVerify: false
@@ -56,6 +57,8 @@ http:
       service: homeassistant
       tls:
         certResolver: letsencrypt
+      middlewares:
+        - secure@file
     homeassistant-app-auth:
       rule: "Host(`homeassistant.{{ domain }}`) && ( (PathPrefix(`/auth/`)) && !(PathPrefix(`/auth/token`)) )"
       service: homeassistant
@@ -63,9 +66,7 @@ http:
       entryPoints:
         - https
       middlewares:
-        - authentik@docker
-        - default-hsts
-        - ratelimit
+        - secure@file
 
   services:
     homeassistant:

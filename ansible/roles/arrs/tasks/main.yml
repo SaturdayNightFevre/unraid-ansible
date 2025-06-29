@@ -40,160 +40,205 @@
     memory: "1g"
     cpus: 1
 
-- name: Start Huntarr container
+
+- name: Start tv container
   community.docker.docker_container:
     image_name_mismatch: "recreate"
     pull: "always"
-    name: huntarr
-    image: huntarr/huntarr:7.6.0
-    published_ports: ["9705:9705"]
+    name: tv
+    image: linuxserver/sonarr:4.0.10
+    published_ports: ["8989:8989"]
     env:
+      PATH: /lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       PUID: "{{ PUID }}"
       PGID: "{{ PGID }}"
-      TZ: "{{ timezone }}"
-    networks:
-      - name: web
+    ipc_mode: private
     labels:
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/plexguide/Huntarr.io/main/frontend/static/logo/512.png" # Placeholder, find actual icon if available
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/sonarr-icon.png"
       net.unraid.docker.managed: "dockerman"
-      net.unraid.docker.webui: "https://huntarr.{{ domain }}"
+      net.unraid.docker.webui: "https://tv.{{ domain }}"
       traefik.enable: "true"
-      traefik.http.services.huntarr.loadbalancer.server.port: "9705"
-      traefik.http.routers.huntarr-router.tls.certresolver: "letsencrypt"
-      traefik.http.routers.huntarr-router.rule: "Host(`huntarr.{{ domain }}`)"
-      traefik.http.routers.huntarr-router.entrypoints: "https"
-      traefik.http.routers.huntarr-router.middlewares: "authentik@docker"
+      traefik.http.routers.tv-router.tls.certresolver: "letsencrypt"
+      traefik.http.services.tv.loadbalancer.server.port: "8989"
+      traefik.http.routers.tv-router.rule: "Host(`tv.{{ domain }}`)"
+      traefik.http.routers.tv-router.entrypoints: "https"
+      traefik.http.routers.tv-router.middlewares: "authentik@docker"
     log_driver: json-file
     log_options:
       max-file: "1"
       max-size: 10m
+    networks:
+      - name: web
     restart_policy: always
     volumes:
-      - "{{ app_data_dir }}/huntarr:/config"
+    - "{{ app_data_dir }}/sonarr/dev/rtc:/dev/rtc:ro"
+    - "{{ app_data_dir }}/sonarr:/config"
+    - "{{ dwnlds_dir }}:/downloads"
+    - "{{ media_dir }}/TV Shows:/tv"
+    working_dir: /
     security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
+    #read_only: true
+    #tmpfs:
+      #- "/run:exec"
     memory: "1g"
     cpus: 1
 
-- name: Start Cleanuperr container
-  community.docker.docker_container:
-    name: cleanuperr
-    image: ghcr.io/flmorg/cleanuperr:1.6.8
-    # Changed restart_policy from 'no' to 'unless-stopped' for better reliability.
-    # 'always' could cause issues if the container fails to start repeatedly.
-    restart_policy: unless-stopped
-    network_mode: bridge
-    env:
-      # General / Host Information
-      HOST_OS: "Unraid"
-      HOST_HOSTNAME: "johnflix"
-      HOST_CONTAINERNAME: "cleanuperr"
-      TZ: "{{ timezone }}"
-      DRY_RUN: "true"
-      HTTP_TIMEOUT: "100"
-      HTTP_MAX_RETRIES: "0"
-      LOGGING__LOGLEVEL: "Information"
-      LOGGING__FILE__ENABLED: "false"
-      LOGGING__FILE__PATH: "/var/logs"
-      LOGGING__ENHANCED: "true"
-      PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-
-      # Application Specific (Cleanuperr)
-      APP_UID: "1654"
-      ASPNETCORE_HTTP_PORTS: "8080"
-      DOTNET_RUNNING_IN_CONTAINER: "true"
-      DOTNET_VERSION: "9.0.4"
-      ASPNET_VERSION: "9.0.4"
-      DOTNET_USE_POLLING_FILE_WATCHER: "true"
-
-      # Notifiarr Integration
-      NOTIFIARR__ON_DOWNLOAD_CLEANED: "false"
-      NOTIFIARR__ON_CATEGORY_CHANGED: "false"
-      NOTIFIARR__ON_STALLED_STRIKE: "false"
-      NOTIFIARR__ON_IMPORT_FAILED_STRIKE: "false"
-      NOTIFIARR__ON_QUEUE_ITEM_DELETED: "false"
-      NOTIFIARR__ON_SLOW_STRIKE: "false"
-      NOTIFIARR__API_KEY: ""
-      NOTIFIARR__CHANNEL_ID: ""
-
-      # Apprise Integration
-      APPRISE__ON_IMPORT_FAILED_STRIKE: "false"
-      APPRISE__URL: ""
-      APPRISE__ON_SLOW_STRIKE: "false"
-      APPRISE__KEY: ""
-      APPRISE__ON_DOWNLOAD_CLEANED: "false"
-      APPRISE__ON_STALLED_STRIKE: "false"
-      APPRISE__ON_CATEGORY_CHANGED: "false"
-      APPRISE__ON_QUEUE_ITEM_DELETED: "false"
-
-      # Queue Cleaner Configuration
-      QUEUECLEANER__DOWNLOADING_METADATA_MAX_STRIKES: "8"
-      QUEUECLEANER__SLOW_MAX_STRIKES: "10"
-      QUEUECLEANER__SLOW_MIN_SPEED: "15KB"
-      QUEUECLEANER__RUNSEQUENTIALLY: "true"
-      QUEUECLEANER__IMPORT_FAILED_IGNORE_PATTERNS__0: ""
-      QUEUECLEANER__ENABLED: "true"
-      QUEUECLEANER__SLOW_MAX_TIME: "0"
-      QUEUECLEANER__IMPORT_FAILED_MAX_STRIKES: "0"
-      QUEUECLEANER__IMPORT_FAILED_DELETE_PRIVATE: "false"
-      QUEUECLEANER__STALLED_MAX_STRIKES: "15"
-      QUEUECLEANER__STALLED_DELETE_PRIVATE: "false"
-      QUEUECLEANER__SLOW_DELETE_PRIVATE: "false"
-      QUEUECLEANER__SLOW_IGNORE_PRIVATE: "false"
-      QUEUECLEANER__SLOW_IGNORE_ABOVE_SIZE: ""
-      QUEUECLEANER__IMPORT_FAILED_IGNORE_PRIVATE: "false"
-      QUEUECLEANER__STALLED_RESET_STRIKES_ON_PROGRESS: "true"
-      QUEUECLEANER__STALLED_IGNORE_PRIVATE: "false"
-      QUEUECLEANER__SLOW_RESET_STRIKES_ON_PROGRESS: "false"
-      #QUEUECLEANER__IGNORED_DOWNLOADS_PATH: ""
-      TRIGGERS__QUEUECLEANER: "0 0/5 * * * ?"
-
-      # Download Cleaner Configuration
-      DOWNLOAD_CLIENT: "deluge"
-      DOWNLOADCLEANER__CATEGORIES__0__MAX_SEED_TIME: "-1"
-      DOWNLOADCLEANER__UNLINKED_IGNORED_ROOT_DIR: ""
-      DOWNLOADCLEANER__ENABLED: "true"
-      DOWNLOADCLEANER__DELETE_PRIVATE: "false"
-      DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH: ""
-      DOWNLOADCLEANER__CATEGORIES__0__NAME: ""
-      DOWNLOADCLEANER__CATEGORIES__0__MAX_RATIO: "-1"
-      DOWNLOADCLEANER__CATEGORIES__0__MIN_SEED_TIME: "0"
-      DOWNLOADCLEANER__UNLINKED_CATEGORIES__0: ""
-      DOWNLOADCLEANER__UNLINKED_TARGET_CATEGORY: "cleanuperr-unlinked"
-      TRIGGERS__DOWNLOADCLEANER: "0 0 * * * ?"
-
-      # Content Blocker Configuration
-      CONTENTBLOCKER__IGNORE_PRIVATE: "false"
-      CONTENTBLOCKER__ENABLED: "true"
-      CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH: ""
-      CONTENTBLOCKER__DELETE_PRIVATE: "false"
-      TRIGGERS__CONTENTBLOCKER: "0 0/5 * * * ?"
-
-      # Download Client (qBittorrent, Transmission, Deluge) Configuration
-      DELUGE__URL_BASE: ""
-      DELUGE__URL: "http://{{ local_ip }}:8112"
-      DELUGE__PASSWORD: "{{ DELUGE_PASSWORD }}"
-
-      # Arr Apps (Sonarr, Radarr, Lidarr) Configuration
-      SONARR__INSTANCES__0__APIKEY: "{{ SONARR_API_KEY }}"
-      SONARR__INSTANCES__0__URL: "http://{{ local_ip }}:8989"
-      SONARR__SEARCHTYPE: "Episode"
-      SONARR__BLOCK__TYPE: "blacklist"
-      SONARR__BLOCK__PATH: ""
-      SONARR__ENABLED: "true"
-
-      RADARR__BLOCK__TYPE: "blacklist"
-      RADARR__INSTANCES__0__APIKEY: "{{ RADARR_API_KEY }}"
-      RADARR__INSTANCES__0__URL: "http://{{ local_ip }}:7878"
-      RADARR__ENABLED: "true"
-      RADARR__BLOCK__PATH: ""
-
-    published_ports:
-      - "8080:8080"
-    volumes:
-      - "{{ app_data_dir }}/cleanuperr:/config"
-    labels:
-      traefik.enable: "false"
-      net.unraid.docker.icon: "https://raw.githubusercontent.com/flmorg/unraid/refs/heads/main/templates/img/cleanuperr.png"
-      net.unraid.docker.managed: "dockerman"
+#- name: Start Huntarr container
+  #community.docker.docker_container:
+    #image_name_mismatch: "recreate"
+    #pull: "always"
+    #name: huntarr
+    #image: huntarr/huntarr:7.6.0
+    #published_ports: ["9705:9705"]
+    #env:
+      #PUID: "{{ PUID }}"
+      #PGID: "{{ PGID }}"
+      #TZ: "{{ timezone }}"
+    #networks:
+      #- name: web
+    #labels:
+      #net.unraid.docker.icon: "https://raw.githubusercontent.com/plexguide/Huntarr.io/main/frontend/static/logo/512.png" # Placeholder, find actual icon if available
+      #net.unraid.docker.managed: "dockerman"
+      #net.unraid.docker.webui: "https://huntarr.{{ domain }}"
+      #traefik.enable: "true"
+      #traefik.http.services.huntarr.loadbalancer.server.port: "9705"
+      #traefik.http.routers.huntarr-router.tls.certresolver: "letsencrypt"
+      #traefik.http.routers.huntarr-router.rule: "Host(`huntarr.{{ domain }}`)"
+      #traefik.http.routers.huntarr-router.entrypoints: "https"
+      #traefik.http.routers.huntarr-router.middlewares: "authentik@docker"
+    #log_driver: json-file
+    #log_options:
+      #max-file: "1"
+      #max-size: 10m
+    #restart_policy: always
+    #volumes:
+      #- "{{ app_data_dir }}/huntarr:/config"
+    #security_opts:
+      #- no-new-privileges:true
+      #- apparmor=docker-default
+    #memory: "1g"
+    #cpus: 1
+#
+#- name: Start Cleanuperr container
+  #community.docker.docker_container:
+    #name: cleanuperr
+    #image: ghcr.io/flmorg/cleanuperr:1.6.8
+    ## Changed restart_policy from 'no' to 'unless-stopped' for better reliability.
+    ## 'always' could cause issues if the container fails to start repeatedly.
+    #restart_policy: unless-stopped
+    #network_mode: bridge
+    #env:
+      ## General / Host Information
+      #HOST_OS: "Unraid"
+      #HOST_HOSTNAME: "johnflix"
+      #HOST_CONTAINERNAME: "cleanuperr"
+      #TZ: "{{ timezone }}"
+      #DRY_RUN: "true"
+      #HTTP_TIMEOUT: "100"
+      #HTTP_MAX_RETRIES: "0"
+      #LOGGING__LOGLEVEL: "Information"
+      #LOGGING__FILE__ENABLED: "false"
+      #LOGGING__FILE__PATH: "/var/logs"
+      #LOGGING__ENHANCED: "true"
+      #PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+#
+      ## Application Specific (Cleanuperr)
+      #APP_UID: "1654"
+      #ASPNETCORE_HTTP_PORTS: "8080"
+      #DOTNET_RUNNING_IN_CONTAINER: "true"
+      #DOTNET_VERSION: "9.0.4"
+      #ASPNET_VERSION: "9.0.4"
+      #DOTNET_USE_POLLING_FILE_WATCHER: "true"
+#
+      ## Notifiarr Integration
+      #NOTIFIARR__ON_DOWNLOAD_CLEANED: "false"
+      #NOTIFIARR__ON_CATEGORY_CHANGED: "false"
+      #NOTIFIARR__ON_STALLED_STRIKE: "false"
+      #NOTIFIARR__ON_IMPORT_FAILED_STRIKE: "false"
+      #NOTIFIARR__ON_QUEUE_ITEM_DELETED: "false"
+      #NOTIFIARR__ON_SLOW_STRIKE: "false"
+      #NOTIFIARR__API_KEY: ""
+      #NOTIFIARR__CHANNEL_ID: ""
+#
+      ## Apprise Integration
+      #APPRISE__ON_IMPORT_FAILED_STRIKE: "false"
+      #APPRISE__URL: ""
+      #APPRISE__ON_SLOW_STRIKE: "false"
+      #APPRISE__KEY: ""
+      #APPRISE__ON_DOWNLOAD_CLEANED: "false"
+      #APPRISE__ON_STALLED_STRIKE: "false"
+      #APPRISE__ON_CATEGORY_CHANGED: "false"
+      #APPRISE__ON_QUEUE_ITEM_DELETED: "false"
+#
+      ## Queue Cleaner Configuration
+      #QUEUECLEANER__DOWNLOADING_METADATA_MAX_STRIKES: "8"
+      #QUEUECLEANER__SLOW_MAX_STRIKES: "10"
+      #QUEUECLEANER__SLOW_MIN_SPEED: "15KB"
+      #QUEUECLEANER__RUNSEQUENTIALLY: "true"
+      #QUEUECLEANER__IMPORT_FAILED_IGNORE_PATTERNS__0: ""
+      #QUEUECLEANER__ENABLED: "true"
+      #QUEUECLEANER__SLOW_MAX_TIME: "0"
+      #QUEUECLEANER__IMPORT_FAILED_MAX_STRIKES: "0"
+      #QUEUECLEANER__IMPORT_FAILED_DELETE_PRIVATE: "false"
+      #QUEUECLEANER__STALLED_MAX_STRIKES: "15"
+      #QUEUECLEANER__STALLED_DELETE_PRIVATE: "false"
+      #QUEUECLEANER__SLOW_DELETE_PRIVATE: "false"
+      #QUEUECLEANER__SLOW_IGNORE_PRIVATE: "false"
+      #QUEUECLEANER__SLOW_IGNORE_ABOVE_SIZE: ""
+      #QUEUECLEANER__IMPORT_FAILED_IGNORE_PRIVATE: "false"
+      #QUEUECLEANER__STALLED_RESET_STRIKES_ON_PROGRESS: "true"
+      #QUEUECLEANER__STALLED_IGNORE_PRIVATE: "false"
+      #QUEUECLEANER__SLOW_RESET_STRIKES_ON_PROGRESS: "false"
+      ##QUEUECLEANER__IGNORED_DOWNLOADS_PATH: ""
+      #TRIGGERS__QUEUECLEANER: "0 0/5 * * * ?"
+#
+      ## Download Cleaner Configuration
+      #DOWNLOAD_CLIENT: "deluge"
+      #DOWNLOADCLEANER__CATEGORIES__0__MAX_SEED_TIME: "-1"
+      #DOWNLOADCLEANER__UNLINKED_IGNORED_ROOT_DIR: ""
+      #DOWNLOADCLEANER__ENABLED: "true"
+      #DOWNLOADCLEANER__DELETE_PRIVATE: "false"
+      #DOWNLOADCLEANER__IGNORED_DOWNLOADS_PATH: ""
+      #DOWNLOADCLEANER__CATEGORIES__0__NAME: ""
+      #DOWNLOADCLEANER__CATEGORIES__0__MAX_RATIO: "-1"
+      #DOWNLOADCLEANER__CATEGORIES__0__MIN_SEED_TIME: "0"
+      #DOWNLOADCLEANER__UNLINKED_CATEGORIES__0: ""
+      #DOWNLOADCLEANER__UNLINKED_TARGET_CATEGORY: "cleanuperr-unlinked"
+      #TRIGGERS__DOWNLOADCLEANER: "0 0 * * * ?"
+#
+      ## Content Blocker Configuration
+      #CONTENTBLOCKER__IGNORE_PRIVATE: "false"
+      #CONTENTBLOCKER__ENABLED: "true"
+      #CONTENTBLOCKER__IGNORED_DOWNLOADS_PATH: ""
+      #CONTENTBLOCKER__DELETE_PRIVATE: "false"
+      #TRIGGERS__CONTENTBLOCKER: "0 0/5 * * * ?"
+#
+      ## Download Client (qBittorrent, Transmission, Deluge) Configuration
+      #DELUGE__URL_BASE: ""
+      #DELUGE__URL: "http://{{ local_ip }}:8112"
+      #DELUGE__PASSWORD: "{{ DELUGE_PASSWORD }}"
+#
+      ## Arr Apps (Sonarr, Radarr, Lidarr) Configuration
+      #SONARR__INSTANCES__0__APIKEY: "{{ SONARR_API_KEY }}"
+      #SONARR__INSTANCES__0__URL: "http://{{ local_ip }}:8989"
+      #SONARR__SEARCHTYPE: "Episode"
+      #SONARR__BLOCK__TYPE: "blacklist"
+      #SONARR__BLOCK__PATH: ""
+      #SONARR__ENABLED: "true"
+#
+      #RADARR__BLOCK__TYPE: "blacklist"
+      #RADARR__INSTANCES__0__APIKEY: "{{ RADARR_API_KEY }}"
+      #RADARR__INSTANCES__0__URL: "http://{{ local_ip }}:7878"
+      #RADARR__ENABLED: "true"
+      #RADARR__BLOCK__PATH: ""
+#
+    #published_ports:
+      #- "8080:8080"
+    #volumes:
+      #- "{{ app_data_dir }}/cleanuperr:/config"
+    #labels:
+      #traefik.enable: "false"
+      #net.unraid.docker.icon: "https://raw.githubusercontent.com/flmorg/unraid/refs/heads/main/templates/img/cleanuperr.png"
+      #net.unraid.docker.managed: "dockerman"

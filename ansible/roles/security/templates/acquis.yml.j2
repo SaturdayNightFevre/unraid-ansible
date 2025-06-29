@@ -1,18 +1,36 @@
-#filenames:
- #- /var/log/auth.log
- #- /var/log/syslog
-#labels:
-  #type: syslog
-#---
+# Traefik reverse proxy logs
 poll_without_inotify: false
 filenames:
   - /var/log/traefik/*.log
 labels:
   type: traefik
 ---
+# AppSec WAF component
 listen_addr: 0.0.0.0:7422
 appsec_config: crowdsecurity/appsec-default
 name: myAppSecComponent
 source: appsec
 labels:
   type: appsec
+---
+# System logs (if available on host)
+# Note: Uncomment these if you mount host logs into the container
+#filenames:
+#  - /var/log/auth.log
+#  - /var/log/secure
+#labels:
+#  type: syslog
+#---
+# SSH logs (if available on host)
+#filenames:
+#  - /var/log/auth.log
+#labels:
+#  type: syslog
+#---
+# Docker container logs (if needed)
+# Note: You can add specific container log monitoring here
+#source: docker
+#container_name:
+#  - "important-container-name"
+#labels:
+#  type: docker
