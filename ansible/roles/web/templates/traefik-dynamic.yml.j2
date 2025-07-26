@@ -10,23 +10,22 @@ http:
     crowdsec:
       plugin:
         bouncer:
-          enabled: true
-          defaultDecisionSeconds: 60
-          crowdsecMode: live
-          crowdsecAppsecEnabled: true # <--- here you can enable appsec waf
-          crowdsecAppsecHost: {{ local_ip }}:7422
-          crowdsecAppsecFailureBlock: true
-          crowdsecAppsecUnreachableBlock: true
-          crowdsecLapiKey: {{ CROWDSEC_API }}
-          crowdsecLapiHost: {{ local_ip }}:9876
-          crowdsecLapiScheme: http
-          crowdsecLapiTLSInsecureVerify: false
-          forwardedHeadersTrustedIPs:
-            # private class ranges
+          Enabled: true
+          DefaultDecisionSeconds: 60
+          CrowdsecMode: live
+          CrowdsecAppsecEnabled: true
+          CrowdsecAppsecHost: {{ local_ip }}:7422
+          CrowdsecAppsecFailureBlock: true
+          CrowdsecAppsecUnreachableBlock: true
+          CrowdsecLapiKey: {{ CROWDSEC_API }}
+          CrowdsecLapiHost: {{ local_ip }}:9876
+          CrowdsecLapiScheme: http
+          CrowdsecLapiTLSInsecureVerify: false
+          ForwardedHeadersTrustedIPs:
             - {{ wg_subnet }}
             - {{ subnet }}
             - 172.16.0.0/12
-          clientTrustedIPs:
+          ClientTrustedIPs:
             - {{ wg_subnet }}
             - {{ subnet }}
             - 172.16.0.0/12
