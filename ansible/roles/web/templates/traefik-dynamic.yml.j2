@@ -9,7 +9,7 @@ http:
           - authentik@docker
     crowdsec:
       plugin:
-        bouncer:
+        crowdsec-bouncer-traefik-plugin:
           Enabled: true
           DefaultDecisionSeconds: 60
           CrowdsecMode: live

@@ -72,6 +72,12 @@
     security_opts:
       - no-new-privileges:true
       - apparmor=docker-default
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8112/", "--connect-timeout", "10", "--max-time", "10"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 60s
     labels:
       net.unraid.docker.icon: "https://deluge-torrent.org/images/deluge_logo.png"
       net.unraid.docker.managed: "dockerman"
