@@ -112,3 +112,38 @@
       net.unraid.docker.icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/prowlarr-banner.png"
       net.unraid.docker.managed: "dockerman"
       net.unraid.docker.webui: "https://torrents.{{ domain }}"
+
+- name: Start FlareSolverr container
+  community.docker.docker_container:
+    name: flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    restart_policy: always
+    networks:
+      - name: web
+    ports:
+      - "8191:8191"
+    env:
+      LOG_LEVEL: "info"
+      LOG_HTML: "false"
+      CAPTCHA_SOLVER: "none"
+      TZ: "{{ timezone }}"
+    security_opts:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8191/", "--connect-timeout", "5"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    labels:
+      net.unraid.docker.icon: "https://raw.githubusercontent.com/FlareSolverr/FlareSolverr/master/resources/flaresolverr_logo.png"
+      net.unraid.docker.managed: "dockerman"
+      net.unraid.docker.webui: "https://flaresolverr.{{ domain }}"
+      traefik.enable: "true"
+      traefik.http.routers.flaresolverr.rule: "Host(`flaresolverr.{{ domain }}`)"
+      traefik.http.routers.flaresolverr.entrypoints: "https"
+      traefik.http.routers.flaresolverr.middlewares: "authentik@docker"
+      traefik.http.routers.flaresolverr.tls.certresolver: "letsencrypt"
+      traefik.http.services.flaresolverr.loadbalancer.server.port: "8191"
+      traefik.docker.network: "web"
