@@ -10,22 +10,17 @@ http:
     crowdsec:
       plugin:
         crowdsec-bouncer-traefik-plugin:
-          Enabled: true
-          DefaultDecisionSeconds: 60
-          CrowdsecMode: live
-          CrowdsecAppsecEnabled: true
-          CrowdsecAppsecHost: {{ local_ip }}:7422
-          CrowdsecAppsecFailureBlock: true
-          CrowdsecAppsecUnreachableBlock: true
-          CrowdsecLapiKey: {{ CROWDSEC_API }}
-          CrowdsecLapiHost: {{ local_ip }}:9876
-          CrowdsecLapiScheme: http
-          CrowdsecLapiTLSInsecureVerify: false
-          ForwardedHeadersTrustedIPs:
+          enabled: true
+          defaultDecisionSeconds: 60
+          crowdsecMode: live
+          crowdsecLapiKey: {{ CROWDSEC_API }}
+          crowdsecLapiHost: {{ local_ip }}:9876
+          crowdsecLapiScheme: http
+          forwardedHeadersTrustedIPs:
             - {{ wg_subnet }}
             - {{ subnet }}
             - 172.16.0.0/12
-          ClientTrustedIPs:
+          clientTrustedIPs:
             - {{ wg_subnet }}
             - {{ subnet }}
             - 172.16.0.0/12

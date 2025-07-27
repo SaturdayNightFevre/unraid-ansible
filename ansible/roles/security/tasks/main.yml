@@ -169,6 +169,7 @@
       PGID: "{{ PGID }}"
       COLLECTIONS: "crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-crs"
       CUSTOM_HOSTNAME: "johnflix-crowdsec"
+      CROWDSEC_API_TRUSTED_IPS: "127.0.0.1,::1,{{ subnet }},{{ wg_subnet }},172.16.0.0/12"
     volumes:
       # crowdsec container data
       - "{{ app_data_dir }}/crowdsec/data:/var/lib/crowdsec/data"
